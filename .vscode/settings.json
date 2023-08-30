@@ -1,0 +1,6 @@
+{
+    "diffEditor.renderIndicators": true,
+    "editor.guides.bracketPairs": "active",
+    "dart.previewFlutterUiGuides": true,
+    "dart.previewFlutterUiGuidesCustomTracking": true
+}
