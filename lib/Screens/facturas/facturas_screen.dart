@@ -217,8 +217,15 @@ class _FacturasScreenState extends State<FacturasScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            _facturas[index].cliente=='' ? 'Ticket Electronico' : _facturas[index].cliente, 
+                      _facturas[index].cliente=='' ?        const Text('Ticket Electronico' ,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green,
+                            ),
+                          ):
+                           Text(
+                           _facturas[index].cliente, 
                             style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fuelred_mobile/Screens/Sinpes/lista_sinpes_screen.dart';
 import 'package:fuelred_mobile/Screens/Transfers/transfer_screen.dart';
+import 'package:fuelred_mobile/components/color_button.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/models/all_fact.dart';
+import 'package:fuelred_mobile/models/cliente.dart';
+import 'package:fuelred_mobile/models/sinpe.dart';
+import 'package:fuelred_mobile/models/transferencia.dart';
 
 class FormPago extends StatefulWidget {
   final AllFact factura;
@@ -33,6 +38,7 @@ class _FormPagoState extends State<FormPago> {
   var dollarController = TextEditingController();
   var chequeController = TextEditingController();
   var cuponController = TextEditingController();
+   var sinpeController = TextEditingController();
   
   @override
   void initState() {
@@ -84,6 +90,8 @@ class _FormPagoState extends State<FormPago> {
           const SizedBox(height: 10,),                
           _showCash(),                  
           const SizedBox(height: 10,),
+            _showSinpe(),                  
+          const SizedBox(height: 10,),
           _showDav(),
           const SizedBox(height: 10,),
           _showScotia(),   
@@ -98,14 +106,18 @@ class _FormPagoState extends State<FormPago> {
           const SizedBox(height: 10,), 
           _showCupones(),    
            const SizedBox(height: 10,), 
-          
-         
+           ColorButton(
+            color: Colors.blueAccent,
+             ancho: 120,
+              text: 'Refrescar',
+              press: ()=> goRefresh(),
+              ),
+           const SizedBox(height: 10,), 
+                   
        ],
      ),
    );
   }
-
-
 
   Widget _showCash() {
     return
@@ -723,7 +735,7 @@ class _FormPagoState extends State<FormPago> {
 
   Widget _showTransfers() {
       if(widget.factura.formPago.transfer.totalTransfer > 0){
-        transferController.text=  widget.factura.formPago.transfer.totalTransfer.toInt().toString(); 
+        transferController.text = widget.factura.formPago.transfer.totalTransfer.toInt().toString(); 
       }
     return
       Container(
@@ -756,6 +768,52 @@ class _FormPagoState extends State<FormPago> {
                   ),
                   child: const Image(
                     image: AssetImage('assets/transferencia.png'),
+                  
+                  )
+                ),
+              )
+              ),
+            ),
+          ],
+        ),
+      );
+  }
+
+  Widget _showSinpe() {
+      if(widget.factura.formPago.totalSinpe > 0){
+        sinpeController.text = widget.factura.formPago.totalSinpe.toInt().toString(); 
+      }
+    return
+      Container(
+        padding: const EdgeInsets.only(left: 50.0, right: 50),
+        child: Row(
+          children: [
+            Flexible(
+              child: TextField(  
+                readOnly: true, 
+                controller: sinpeController,    
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  hintText: 'Seleccione El Sinpe',
+                  labelText: 'Sinpes',            
+                          
+                ),          
+              ),
+            ),
+            SizedBox(
+            width: 60,
+            child: GestureDetector(
+              onTap: _goSinpes,
+              child: AspectRatio(
+                aspectRatio: 1.02,
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: kSecondaryColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: const Image(
+                    image: AssetImage('assets/sinpe.png'),
                   
                   )
                 ),
@@ -1053,8 +1111,64 @@ class _FormPagoState extends State<FormPago> {
       if(widget.factura.formPago.totalSctia>0){
         sctiaController.text= widget.factura.formPago.totalSctia.toInt().toString();
       }
+        if(widget.factura.formPago.totalSinpe>0){
+        sctiaController.text= widget.factura.formPago.totalSctia.toInt().toString();
+      }
     
     });
   }
+
+  void _goSinpes() {
+    sinpeController.text='';
+    setState(() {
+       widget.factura.setSaldo();         
+       widget.onSaldoChanged(widget.factura.formPago.saldo);
+      
+    });
+   
+    Navigator.push(context,
+      MaterialPageRoute(
+        builder: (context) => ListaSinpesScreen(
+          factura: widget.factura,         
+          ruta: widget.ruta,
+        )));
+  }
+  
+  goRefresh() {
+    setState(() {
+      widget.factura.formPago.totalBac=0;
+      widget.factura.formPago.totalBn=0;
+      widget.factura.formPago.totalCheques=0;
+      widget.factura.formPago.totalCupones=0;
+      widget.factura.formPago.totalDav=0;
+      widget.factura.formPago.totalDollars=0;
+      widget.factura.formPago.totalEfectivo=0;
+      widget.factura.formPago.totalPuntos=0;
+      widget.factura.formPago.totalSctia=0;
+      widget.factura.formPago.transfer.totalTransfer=0;
+      widget.factura.formPago.totalSinpe=0;
+      widget.factura.formPago.transfer= Transferencia(cliente: Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: ''), transfers: [], monto: 0, totalTransfer: 0);
+      
+      widget.factura.clientePuntos=Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: '');
+      widget.factura.formPago.sinpe = Sinpe(numFact: '', fecha: DateTime.now(), id: 0, idCierre: 0, activo: 0, monto: 0, nombreEmpleado: '', nota: '', numComprobante: '');
+      widget.factura.setSaldo(); 
+      widget.onSaldoChanged(widget.factura.formPago.saldo);
+
+      sinpeController.text='';
+      cashController.text='';
+      dollarController.text='';
+      chequeController.text='';
+      cuponController.text='';
+      pointsController.text='';
+      transferController.text='';
+      bacController.text='';
+      bnController.text='';
+      davController.text='';
+      sctiaController.text='';
+      
+    });
+  }
+ 
+
 
 }

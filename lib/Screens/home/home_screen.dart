@@ -5,6 +5,7 @@
 import 'dart:async';
 
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fuelred_mobile/Screens/Sinpes/sinpes_screen.dart';
 import 'package:fuelred_mobile/Screens/cart/cart_new.dart';
 import 'package:fuelred_mobile/Screens/clientes/clientes_screen.dart';
 import 'package:fuelred_mobile/Screens/facturas/facturas_screen.dart';
@@ -56,8 +57,9 @@ class _HomeScreenState extends State<HomeScreen> {
   String _search = ''; 
   // ignore: non_constant_identifier_names
   List<Product> backup_products = []; 
+  // ignore: non_constant_identifier_names
   List<Product> backup_transacciones = [];
-  int _lastTr = 0;
+  
   Timer _timer = Timer.periodic(const Duration(seconds: 1), (timer) {});
 
   @override
@@ -463,6 +465,20 @@ return  Padding(
               },
             ),
 
+              ListTile(
+              textColor:kColorMenu,
+              leading: const Icon(Icons.arrow_back_ios_new, color:  kColorMenu,),
+              title: const Text('Sinpes'),
+              onTap: () { 
+                 Navigator.push(
+                   context, 
+                   MaterialPageRoute(
+                     builder: (context) => SinpesScreen(all: widget.factura)
+                   )
+                 );
+              },
+            ),
+
             ListTile(
                  textColor:kColorMenu,
               leading: const Icon(Icons.list_alt_outlined, color: kColorMenu,),
@@ -511,10 +527,12 @@ return  Padding(
   }
 
  void _orderTransactions() {
+  if (widget.factura.transacciones.isEmpty) return;
   widget.factura.transacciones.sort(((b, a) => a.transaccion.compareTo(b.transaccion)));
+  
     setState(() {
       backup_products = widget.factura.productos;
-      _lastTr = widget.factura.transacciones.first.transaccion;
+      
     });
   }
   
@@ -548,7 +566,20 @@ return  Padding(
             ),
           ),
           const SizedBox(height: 5),              
-          
+             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,               
+              children: [
+                Text(
+                  "#: ${product.transaccion.toString()}",
+                  style: TextStyle(
+                    fontSize: getProportionateScreenWidth(16),
+                    fontWeight: FontWeight.normal,
+                    color: kColorMenu,
+                  ),
+                ),                             
+              ],
+            ),
+                  
                  
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,               
@@ -599,22 +630,21 @@ return  Padding(
       if (rsponseTransacciones.isSuccess){
         backup_transacciones.clear();
         backup_transacciones = rsponseTransacciones.result;
+        if (backup_transacciones.isEmpty) return;
         backup_transacciones.sort(((b, a) => a.transaccion.compareTo(b.transaccion)));
-       if(backup_transacciones.first.transaccion > _lastTr){
+       if(backup_transacciones.first.transaccion > widget.factura.lasTr){
          setState(() {
           for (var item in backup_transacciones) {
-              if(item.transaccion > _lastTr){
+              if(item.transaccion > widget.factura.lasTr){
                 widget.factura.transacciones.add(item);
               }
           }
            
-          _lastTr = backup_transacciones.first.transaccion;
+          widget.factura.lasTr = backup_transacciones.first.transaccion;
           _orderTransactions();
          });         
         }
-      }
-
-     
+      }     
     }
 
   void _updateProducts() async {
@@ -669,15 +699,12 @@ return  Padding(
     });
   }
 
-  addToCart(Product product) {
-      widget.factura.cart.products.add(product);
-      widget.factura.transacciones.remove(product);
-
+  addToCart(Product product) {     
       setState(() {
-        widget.factura.transacciones;
-        widget.factura.cart.products;
-       
+        widget.factura.cart.products.add(product);
+        widget.factura.transacciones.remove(product);       
       });   
+      goCart();
   }
    
   void _filter() {

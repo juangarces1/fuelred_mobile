@@ -1,4 +1,5 @@
 import 'package:fuelred_mobile/models/cliente.dart';
+import 'package:fuelred_mobile/models/sinpe.dart';
 import 'package:fuelred_mobile/models/transferencia.dart';
 
 
@@ -13,6 +14,7 @@ class Paid {
   double totalCupones = 0; 
   double totalPuntos = 0; 
   double totalTransfer = 0;
+  double totalSinpe = 0;
   double saldo = 0;
   String codigoTipoID = '';  
   String email = ''; 
@@ -26,6 +28,17 @@ class Paid {
       puntos: 0,
        codigo: '',
         telefono: '',
+    );
+    Sinpe sinpe = Sinpe(
+      id: 0,
+      numComprobante: '',
+      nota: '',
+      idCierre: 0,
+      nombreEmpleado: '',
+      fecha: DateTime.now(),
+      numFact: '',
+      activo: 0,
+      monto: 0,
     );
   Transferencia transfer = Transferencia(cliente: Cliente(
       nombre: "",
@@ -54,6 +67,9 @@ class Paid {
     required this.transfer,
     required this.showTotal,
     required this.showFact,
+    required this.totalSinpe,
+    required this.sinpe,
+
   });
 
   Paid.fromJson(Map<String, dynamic> json) {  
@@ -69,6 +85,8 @@ class Paid {
     saldo = json['saldo'];
     clientePaid= Cliente.fromJson(json['clientePaid']);
     transfer= Transferencia.fromJson(json['transfer']);
+    sinpe = Sinpe.fromJson(json['sinpe']);
+    totalSinpe = json['totalSinpe'];
   }
 
   Map<String, dynamic> toJson() {
@@ -85,6 +103,8 @@ class Paid {
     data['saldo'] = saldo;
     data['clientePaid'] = clientePaid.toJson();
     data['totalTransfer'] = transfer.toJson();
+    data['sinpe'] = sinpe.toJson();
+    data['totalSinpe'] = totalSinpe;
     return data;
   }
 

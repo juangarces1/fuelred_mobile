@@ -5,6 +5,7 @@ import 'package:fuelred_mobile/models/cliente.dart';
 import 'package:fuelred_mobile/models/empleado.dart';
 import 'package:fuelred_mobile/models/paid.dart';
 import 'package:fuelred_mobile/models/product.dart';
+import 'package:fuelred_mobile/models/sinpe.dart';
 import 'package:fuelred_mobile/models/transferencia.dart';
 
 class AllFact {
@@ -13,6 +14,7 @@ class AllFact {
    List<Product> productos =[];
    String? placa;
    String? kms;
+   int lasTr=0;
    String? observaciones;
    List<String> placas=[];
    CierreActivo cierreActivo = CierreActivo(
@@ -76,6 +78,18 @@ class AllFact {
         totalPuntos: 0,
         totalTransfer: 0,
         saldo: 0,
+        totalSinpe: 0,
+        sinpe: Sinpe(
+          id: 0,
+          monto: 0,
+          numComprobante: '',
+          nota: '',
+          idCierre: 0,
+          nombreEmpleado: '',
+          fecha: DateTime.now(),
+          numFact: '',
+          activo: 0,
+        ),
         clientePaid:   Cliente(
             nombre: "",
             documento: "",
@@ -96,7 +110,8 @@ class AllFact {
             ),
             transfers: [],
             monto: 0,
-            totalTransfer: 0));
+            totalTransfer: 0),
+  );
 
    void setSaldo(){
     
@@ -111,7 +126,8 @@ class AllFact {
          -formPago.totalCheques
          -formPago.totalCupones
          -formPago.totalPuntos
-         -formPago.totalTransfer;
+         -formPago.totalTransfer
+         -formPago.totalSinpe;
    } 
    
       

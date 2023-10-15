@@ -146,16 +146,14 @@ class TransferScreen extends StatefulWidget {
            child:   Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.end,
-             children: [
-            
+             children: [          
    
              Text('Transferencias(${widget.factura.formPago.transfer.transfers.length})',
               style: const TextStyle(color: kPrimaryColor, fontSize: 14, fontWeight: FontWeight.bold),),
               
              Text('Saldo: ${NumberFormat("###,000", "en_US").format(widget.factura.formPago.saldo)}',
               style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),),
-              
-               
+                             
              ],
            ),
          )
@@ -564,7 +562,7 @@ class TransferScreen extends StatefulWidget {
           widget.factura.setSaldo();
       }); 
 
-     if(widget.ruta=='factura'){
+     if(widget.ruta=='Contado'){
         Navigator.push(context,  
           MaterialPageRoute(
           builder: (context) => CheaOutScreen(

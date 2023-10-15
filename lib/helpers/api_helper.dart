@@ -11,6 +11,7 @@ import 'package:fuelred_mobile/models/money.dart';
 import 'package:fuelred_mobile/models/pedder_view_model.dart';
 import 'package:fuelred_mobile/models/product.dart';
 import 'package:fuelred_mobile/models/response.dart';
+import 'package:fuelred_mobile/models/sinpe.dart';
 import 'package:fuelred_mobile/models/tranferview.dart';
 import 'package:fuelred_mobile/models/transaccion.dart';
 import 'package:fuelred_mobile/models/transparcial.dart';
@@ -269,6 +270,29 @@ static Future<Response> getCashBacks(int cierre) async {
       }
      }
      return Response(isSuccess: true, result: cashbacks);    
+ }
+
+ static Future<Response> getSinpes(int cierre) async {
+    var url = Uri.parse('${Constans.apiUrl}/api/Sinpes/$cierre');
+    var response = await http.get(
+      url,
+      headers: {
+        'content-type' : 'application/json',
+        'accept' : 'application/json',
+      },        
+    );
+    var body = response.body;
+    if (response.statusCode >= 400) {
+      return Response(isSuccess: false, message: body);
+    }
+    List<Sinpe> sinpes =[];
+    var decodedJson = jsonDecode(body);
+     if(decodedJson != null){
+      for (var item in decodedJson){
+        sinpes.add(Sinpe.fromJson(item));
+      }
+     }
+     return Response(isSuccess: true, result: sinpes);    
  }
 
 static Future<Response> getDepositos(int cierre) async {

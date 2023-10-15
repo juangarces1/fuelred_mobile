@@ -264,6 +264,14 @@ class _LoginScreenState extends State<LoginScreen> {
     factura.transacciones=transacciones;
     factura.productos=productos;
     
+    //ordenamos las transacciones de mayor a menor y adjudicamos la ultima transaccion
+    if(factura.transacciones.isNotEmpty){
+     factura.transacciones.sort(((b, a) => a.transaccion.compareTo(b.transaccion)));
+     factura.lasTr=factura.transacciones.first.transaccion;
+    }
+
+    
+    
     goHome(factura);
   }
 

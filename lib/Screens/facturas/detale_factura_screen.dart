@@ -103,6 +103,29 @@ class _DetalleFacturaScreenState extends State<DetalleFacturaScreen> {
                   ],
                 ),
                 const SizedBox(height: 5,),
+                
+                  Row(                        
+                  children: [                          
+                    const Text(
+                      'Email: ', 
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFFE5E8EC),
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        widget.factura.email??'', 
+                        style: const TextStyle(
+                          fontSize: 14,                      
+                          color: Color(0xFFE5E8EC),
+                        ),
+                      ),
+                    ),
+                    
+                  ],
+                ),
+                const SizedBox(height: 5,),
                 Row(
                   
                   children: [
