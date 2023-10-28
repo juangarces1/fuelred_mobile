@@ -12,7 +12,7 @@ import '../sizeconfig.dart';
 class ProductCard extends StatelessWidget {
   const ProductCard({
     Key? key,
-    this.width = 140,
+    this.width = 100,
     this.aspectRetio = 0.7,
     required this.product,
     required this.factura, 

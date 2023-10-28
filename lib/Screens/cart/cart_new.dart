@@ -200,6 +200,10 @@ class _CartScreenState extends State<CartNew> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                  
+               // showClient1(context),
+                ShowClient(factura: widget.factura, ruta: 'Cart',),
+                SizedBox(height: getProportionateScreenHeight(10)),
                 Row(
                   // ignore: prefer_const_literals_to_create_immutables
                   children: [
@@ -225,9 +229,7 @@ class _CartScreenState extends State<CartNew> {
 
                   ],
                 ),
-                 SizedBox(height: getProportionateScreenHeight(10)),
-               // showClient1(context),
-                ShowClient(factura: widget.factura, ruta: 'Cart',),
+               
                 SizedBox(height: getProportionateScreenHeight(10)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -627,9 +629,9 @@ class _CartScreenState extends State<CartNew> {
                       width: 80,
                     ),                         
                     ) : Image(
-                        image: product.detalle =='Comb Super' ?  const AssetImage('assets/super.png') : 
-                              product.detalle=='Comb Regular' ? const AssetImage('assets/regular.png') : 
-                              product.detalle=='Comb Exonerado' ? const AssetImage('assets/exonerado.png') :
+                        image: product.detalle =='Super' ?  const AssetImage('assets/super.png') : 
+                              product.detalle=='Regular' ? const AssetImage('assets/regular.png') : 
+                              product.detalle=='Exonerado' ? const AssetImage('assets/exonerado.png') :
                               const AssetImage('assets/diesel.png'),
                     ),
               ),

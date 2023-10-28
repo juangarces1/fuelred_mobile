@@ -45,9 +45,9 @@ class _CartCardState extends State<CartCard> {
                             width: 80,
                           ),                         
                         ) : Image(
-                            image: widget.product.detalle =='Comb Super' ?  const AssetImage('assets/super.png') : 
-                                  widget.product.detalle=='Comb Regular' ? const AssetImage('assets/regular.png') : 
-                                  widget.product.detalle=='Comb Exonerado' ? const AssetImage('assets/exonerado.png') :
+                            image: widget.product.detalle =='Super' ?  const AssetImage('assets/super.png') : 
+                                  widget.product.detalle=='Regular' ? const AssetImage('assets/regular.png') : 
+                                  widget.product.detalle=='Exonerado' ? const AssetImage('assets/exonerado.png') :
                                   const AssetImage('assets/diesel.png'),
                         ),
               ),

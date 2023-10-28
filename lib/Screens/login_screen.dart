@@ -7,9 +7,8 @@ import 'package:fuelred_mobile/models/cierreactivo.dart';
 import 'package:fuelred_mobile/models/product.dart';
 import 'package:fuelred_mobile/models/response.dart';
 import 'package:fuelred_mobile/sizeconfig.dart';
-
+import 'package:pdf/widgets.dart' as pw;
 import 'home/home_screen.dart';
-
 
 
 class LoginScreen extends StatefulWidget {
@@ -111,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                          ],
                        ),
                      ),
-                    )
+                    ),                  
                ]),
              ),
            )
@@ -125,6 +124,21 @@ class _LoginScreenState extends State<LoginScreen> {
     );
     
   }
+
+
+pw.Document createTicket() {
+  final pdf = pw.Document();
+
+  pdf.addPage(
+    pw.Page(
+      build: (pw.Context context) => pw.Center(
+        child: pw.Text('Hola Mundo', style: const pw.TextStyle(fontSize: 40)),
+      ),
+    ),
+  );
+
+  return pdf;
+}
 
   Widget _showLogo() {
     return const Row(
@@ -229,11 +243,9 @@ class _LoginScreenState extends State<LoginScreen> {
           );
         }  
        return;
-     }
-    
+     }    
     
     CierreActivo cierreActivo  = response.result;
-
 
     Response rsponseTransacciones = await ApiHelper.getTransaccionesAsProduct(cierreActivo.cierreFinal.idzona);
 
@@ -255,9 +267,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
      for (var item in productos) {
       item.images.add(item.imageUrl);     
-    }
-
-    
+    }    
 
     AllFact factura = AllFact();
     factura.cierreActivo=cierreActivo;
@@ -268,9 +278,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if(factura.transacciones.isNotEmpty){
      factura.transacciones.sort(((b, a) => a.transaccion.compareTo(b.transaccion)));
      factura.lasTr=factura.transacciones.first.transaccion;
-    }
-
-    
+    }    
     
     goHome(factura);
   }

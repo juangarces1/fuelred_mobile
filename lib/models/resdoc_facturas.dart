@@ -3,7 +3,7 @@ import 'package:fuelred_mobile/models/product.dart';
 
 // ignore: camel_case_types
 class resdoc_facturas {
-   String cliente='';
+  String cliente='';
   String nFactura='';
   String? codigoCliente;
   String? descripCliente;
@@ -15,7 +15,7 @@ class resdoc_facturas {
   String? observaciones;
   String? clave;
   double? totalGravado;
-  double totalFactura = 0;
+  double? totalFactura;
   double? totalImpuesto;
   double? totalDescuento;
   double? totalExento;
@@ -23,6 +23,10 @@ class resdoc_facturas {
   int? plazo;
   String? employeeID;
   List<Product> detalles = [];
+  double? montoFactura;
+  String? usuario;
+  String? identificacion;
+   String? telefono;
 
   resdoc_facturas(
   {    
@@ -38,14 +42,19 @@ class resdoc_facturas {
     this.observaciones,
     this.clave,
     this.totalGravado,
-    required this.totalFactura,
+    this.totalFactura,
     this.totalImpuesto,
     this.totalDescuento,
     this.totalExento,
     this.kilometraje,        
     this.plazo,
     this.employeeID,
-    required this.detalles
+    required this.detalles,
+    this.montoFactura,
+    this.usuario,
+    this.identificacion,
+    this.telefono,
+    
   });
 
   resdoc_facturas.fromJson(Map<String, dynamic> json) {
@@ -74,6 +83,9 @@ class resdoc_facturas {
         detalles.add(Product.fromJson(d));
       });
     }
+    montoFactura = json['montoFactura'];
+    identificacion = json['cedulaCliente'];
+    telefono = json['telefono01Cliente'];
     
   }
 
@@ -97,6 +109,12 @@ class resdoc_facturas {
     data['kilometraje'] = kilometraje;   
     data['plazo'] = plazo;
     data['msgDetalle1'] = employeeID;
+    data['detalles'] = detalles.map((d) => d.toJson()).toList();
+    data['montoFactura'] = montoFactura;
+    data['usuario'] = usuario;
+    data['identificacion'] = identificacion;
+    data['telefono'] = telefono;
+
     return data;
   }
 }

@@ -553,9 +553,9 @@ return  Padding(
             child: Material(                
               color: kColorFondoOscuro,
               child: Ink.image(                        
-                image: product.detalle =='Comb Super' ?  const AssetImage('assets/super.png') : 
-                  product.detalle=='Comb Regular' ? const AssetImage('assets/regular.png') : 
-                  product.detalle=='Comb Exonerado' ? const AssetImage('assets/exonerado.png') :
+                image: product.detalle =='Super' ?  const AssetImage('assets/super.png') : 
+                  product.detalle=='Regular' ? const AssetImage('assets/regular.png') : 
+                  product.detalle=='Exonerado' ? const AssetImage('assets/exonerado.png') :
                   const AssetImage('assets/diesel.png'),
                   fit: BoxFit.cover,
                   child: InkWell(

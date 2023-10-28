@@ -178,9 +178,7 @@ static Future<Response> getTransacciones(int? zona) async {
      return Response(isSuccess: true, result: transacciones);    
  }
 
- 
-
-  static Future<Response> getPeddlersByCierre(int? cierre) async {
+static Future<Response> getPeddlersByCierre(int? cierre) async {
     var url = Uri.parse('${Constans.apiUrl}/api/Peddler/$cierre');
     var response = await http.get(
       url,
@@ -592,7 +590,7 @@ static Future<Response> post(String controller, Map<String, dynamic> request) as
     if(response.statusCode >= 400){
       return Response(isSuccess: false, message: response.body);
     }     
-     return Response(isSuccess: true, result: response.body);
+     return Response(isSuccess: true, result: response.body, );
   }
 
   static Future<Response> postNoRequest(String controller) async {        

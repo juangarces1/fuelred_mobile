@@ -1,19 +1,27 @@
+import 'dart:convert';
+
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fuelred_mobile/Screens/cart/cart_new.dart';
 import 'package:fuelred_mobile/Screens/cart/components/custom_appBar_cart.dart';
 import 'package:fuelred_mobile/Screens/clientes/cliente_credito_screen.dart';
+import 'package:fuelred_mobile/Screens/home/home_screen.dart';
+import 'package:fuelred_mobile/clases/impresion.dart';
 import 'package:fuelred_mobile/components/loader_component.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/models/all_fact.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fuelred_mobile/models/cliente.dart';
+import 'package:fuelred_mobile/models/resdoc_facturas.dart';
+import 'package:fuelred_mobile/models/sinpe.dart';
+import 'package:fuelred_mobile/models/transferencia.dart';
 import 'package:intl/intl.dart';
 import '../../components/default_button.dart';
 import '../../helpers/api_helper.dart';
 import '../../models/response.dart';
 import '../../sizeconfig.dart';
-import '../login_screen.dart';
+
 
 class ProceeeCreditScreen extends StatefulWidget {
   final AllFact factura;
@@ -335,38 +343,87 @@ class _ProceeeCreditScreen extends State<ProceeeCreditScreen> {
         return;
      }
 
-     Fluttertoast.showToast(
-            msg: "Factura Creada Correctamente",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.CENTER,
-            timeInSecForIosWeb: 1,
-            backgroundColor: const Color.fromARGB(255, 20, 91, 22),
-            textColor: Colors.white,
-            fontSize: 16.0
-          ); 
-       
-    Future.delayed(const Duration(milliseconds: 2000), () {
-        Navigator.pushReplacement(context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginScreen())
-        );   
-
-    });  
+     var decodedJson = jsonDecode(response.result);
+       resdoc_facturas resdocFactura = resdoc_facturas.fromJson(decodedJson);   
+       resdocFactura.usuario = '${widget.factura.cierreActivo.usuario.nombre} ${widget.factura.cierreActivo.usuario.apellido1}';
+    
+   
+      resetFactura();
+      // ask the user if wants to print the factura
+       if (mounted) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text('Factura Creada Exitosamente'),
+                content:  const Text('Desea imprimir la factura?'),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text('Si'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Impresion.printFacturaContado(resdocFactura, 'CREDITO', 'FACTURA');
+                      _goHomeSuccess();
+                    },
+                  ),
+                  TextButton(
+                    child: const Text('No'),
+                    onPressed: () => _goHomeSuccess(),
+                  ),
+                ],
+              );
+            },
+          );
+        }        
   }
 
   void goCart() async {
     setState(() {
-     widget.factura.formPago.showTotal=false;
-     widget.factura.formPago.showFact=true;
-   });
+        widget.factura.formPago.showTotal=false;
+        widget.factura.formPago.showFact=true;
+    });
+    
     Navigator.push(context,  
-        MaterialPageRoute(
-          builder: (context) => CartNew(
-          factura: widget.factura,
-           
-          )
-    )
-  );    
+          MaterialPageRoute(
+            builder: (context) => CartNew(
+            factura: widget.factura,
+            
+            )
+      )
+    );    
+  }
+
+  Future<void> _goHomeSuccess() async {  
+    Navigator.push(context,  
+     MaterialPageRoute(
+        builder: (context) => HomeScreen(
+           factura: widget.factura,
+         )
+        )
+      );        
+    }
+
+   resetFactura() {
+    setState(() {
+      widget.factura.cart.products.clear();
+      widget.factura.formPago.totalBac=0;
+      widget.factura.formPago.totalBn=0;
+      widget.factura.formPago.totalCheques=0;
+      widget.factura.formPago.totalCupones=0;
+      widget.factura.formPago.totalDav=0;
+      widget.factura.formPago.totalDollars=0;
+      widget.factura.formPago.totalEfectivo=0;
+      widget.factura.formPago.totalPuntos=0;
+      widget.factura.formPago.totalSctia=0;
+      widget.factura.formPago.transfer.totalTransfer=0;
+      widget.factura.formPago.totalSinpe=0;
+      widget.factura.formPago.transfer= Transferencia(cliente: Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: ''), transfers: [], monto: 0, totalTransfer: 0);
+      widget.factura.clienteFactura=Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: '');
+      widget.factura.clientePuntos=Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: '');
+      widget.factura.formPago.sinpe = Sinpe(numFact: '', fecha: DateTime.now(), id: 0, idCierre: 0, activo: 0, monto: 0, nombreEmpleado: '', nota: '', numComprobante: '');
+      widget.factura.setSaldo(); 
+      
+    });
   }
 
 }

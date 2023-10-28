@@ -1,6 +1,7 @@
 
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fuelred_mobile/Screens/facturas/detale_factura_screen.dart';
+import 'package:fuelred_mobile/clases/impresion.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/helpers/api_helper.dart';
 import 'package:flutter/material.dart';
@@ -138,17 +139,16 @@ class _FacturasScreenState extends State<FacturasScreen> {
       
 
     });  
-     double aux=0;
+    double aux=0;
+    
     for(var i=0; i<_facturas.length; i++){
       if(_facturas[i].tipoDocumento=="00003"){
-          aux +=  _facturas[i].totalFactura;
+          aux +=  _facturas[i].totalFactura??0;
       }         
     }
 
-      setState(() {
-      _saldo = aux;
-      
-
+    setState(() {
+      _saldo = aux;      
     }); 
 
   }
@@ -157,7 +157,8 @@ class _FacturasScreenState extends State<FacturasScreen> {
     return _facturas.isEmpty 
       ? _noContent()
       : _getListView();
-  }
+   }
+   
    Widget _noContent() {
     return Center(
       child: Container(
@@ -174,7 +175,7 @@ class _FacturasScreenState extends State<FacturasScreen> {
         ),
       ),
     );
-  }
+   }
 
   _getListView() {
       return RefreshIndicator(
@@ -286,7 +287,16 @@ class _FacturasScreenState extends State<FacturasScreen> {
                                   size: 20,
                                   color: Colors.white,),
                                 ),
-
+                              MaterialButton( 
+                                onPressed: () => _printFactura(_facturas[index]),                                    
+                                color: Colors.blueGrey,
+                                padding: const EdgeInsets.all(5),
+                                shape: const CircleBorder(),
+                                child:    const Icon( 
+                                  Icons.print_outlined,
+                                  size: 20,
+                                  color: Colors.white,),
+                                ),
                                   MaterialButton( 
                                 onPressed: () => _showConfirm(_facturas[index].nFactura),                                    
                                 color: kPrimaryColor,
@@ -296,12 +306,7 @@ class _FacturasScreenState extends State<FacturasScreen> {
                                   Icons.arrow_back,
                                   size: 20,
                                   color: Colors.white,),
-                                ),
-                                
-                                
-                                
-
-                              
+                                ),                                   
                               ],
                             ),
                           ),
@@ -421,14 +426,14 @@ class _FacturasScreenState extends State<FacturasScreen> {
 
   _goInfoFactura(resdoc_facturas e) {
      Navigator.push(
-                    context, 
-                    MaterialPageRoute(
-                        builder: (context) => DetalleFacturaScreen(factura: e,)
-                    )
-                  );
+        context, 
+        MaterialPageRoute(
+            builder: (context) => DetalleFacturaScreen(factura: e,)
+        )
+      );
   }
 
- Future<void> _goDevolucion(String num) async {
+  Future<void> _goDevolucion(String num) async {
     Navigator.of(context).pop();
     var n = int.parse(num);
     if(n  >6000000000 && n < 6999999999){
@@ -509,6 +514,11 @@ class _FacturasScreenState extends State<FacturasScreen> {
 
 
   }
-
-
+  
+  _printFactura(resdoc_facturas e) {
+    e.usuario ='${widget.factura.cierreActivo.usuario.nombre} ${widget.factura.cierreActivo.usuario.apellido1}'; 
+    String tipoDocumento = e.cliente=='' ? 'TICKET' : 'FACTURA';
+    String tipoPago = e.plazo==0 ? 'CONTADO' : 'CREDITO';
+    Impresion.printFacturaContado(e, tipoPago , tipoDocumento);
+  }
 }
