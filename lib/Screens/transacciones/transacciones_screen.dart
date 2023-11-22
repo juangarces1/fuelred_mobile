@@ -41,6 +41,7 @@ class _TransaccionesScreenState extends State<TransaccionesScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+           foregroundColor: Colors.white,
           backgroundColor: kBlueColorLogo,
           title: const Text('Transacciones', style: TextStyle(color: Colors.white),),
           

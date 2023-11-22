@@ -21,20 +21,23 @@ class _DetalleFacturaScreenState extends State<DetalleFacturaScreen> {
   final bool _showLoader = false;  
   @override
   Widget build(BuildContext context) {
-    return   Scaffold(
-      appBar: AppBar(
-        backgroundColor: kBlueColorLogo,
-        title: Text(widget.factura.nFactura, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: Colors.white),),
-      ),
-      body: Container(
-        color: kColorFondoOscuro,
-        child: Center(
-          child: _showLoader 
-            ? const LoaderComponent(text: 'Por favor espere...',) 
-            : _getContent(),
+    return   SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          foregroundColor: Colors.white,
+          backgroundColor: kBlueColorLogo,
+          title: Text(widget.factura.nFactura, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: Colors.white),),
         ),
-      ),      
-     
+        body: Container(
+          color: kColorFondoOscuro,
+          child: Center(
+            child: _showLoader 
+              ? const LoaderComponent(text: 'Por favor espere...',) 
+              : _getContent(),
+          ),
+        ),      
+       
+      ),
     );
   }
 

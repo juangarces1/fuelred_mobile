@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/models/cliente.dart';
+import 'package:fuelred_mobile/sizeconfig.dart';
 
 
 class ShowAlertCliente {
@@ -30,7 +32,26 @@ class ShowAlertCliente {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
-            children: <Widget> [              
+            children: <Widget> [  
+              Center(
+                child: Container(
+                    padding: const EdgeInsets.all(10),
+                    height: getProportionateScreenWidth(40),
+                    width: getProportionateScreenWidth(40),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color:  kPrimaryText,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                          
+                  // ignore: deprecated_member_use
+                  child: SvgPicture.asset("assets/User Icon.svg",
+                  // ignore: deprecated_member_use
+                  color:  client.nombre == '' ? Colors.white : kPrimaryColor, ),
+                  ),
+              ),    
+              const SizedBox(height: 20,),    
                 Text(
                  'Nombre: ${client.nombre}',
                 style: const TextStyle(

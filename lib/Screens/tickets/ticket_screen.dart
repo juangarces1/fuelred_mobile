@@ -1,25 +1,25 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fuelred_mobile/Screens/cart/cart_new.dart';
 import 'package:fuelred_mobile/Screens/home/home_screen.dart';
 import 'package:fuelred_mobile/clases/impresion.dart';
+import 'package:fuelred_mobile/components/boton_flotante.dart';
+import 'package:fuelred_mobile/components/client_points.dart';
 import 'package:fuelred_mobile/components/color_button.dart';
 import 'package:fuelred_mobile/components/form_pago.dart';
 import 'package:fuelred_mobile/components/loader_component.dart';
+import 'package:fuelred_mobile/helpers/factura_helper.dart';
 import 'package:fuelred_mobile/models/all_fact.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:fuelred_mobile/models/cliente.dart';
 import 'package:fuelred_mobile/models/resdoc_facturas.dart';
-import 'package:fuelred_mobile/models/sinpe.dart';
-import 'package:fuelred_mobile/models/transferencia.dart';
 import 'package:intl/intl.dart';
+
 import '../../constans.dart';
 import '../../helpers/api_helper.dart';
 import '../../models/response.dart';
 import '../../sizeconfig.dart';
-import '../clientes/cliente_frec_screen.dart';
 
 
 // ignore: must_be_immutable
@@ -39,7 +39,13 @@ class _TicketScreenState extends State<TicketScreen> {
   bool medioShowError = false;
   String mediodError ='';
   var obser = TextEditingController();
-  double _saldo = 0; 
+  double _saldo = 0;
+  final GlobalKey<FormPagoState> formPagoKey = GlobalKey();
+  final ScrollController _scrollController = ScrollController();
+
+  void callGoRefresh() {
+    formPagoKey.currentState?.goRefresh();
+  }
 
   @override
   void initState() {
@@ -56,17 +62,22 @@ class _TicketScreenState extends State<TicketScreen> {
           preferredSize: const Size.fromHeight(70),
           child: appBar1(),
         ),
-        body: SafeArea(
-          child: Container(
-            color: kColorFondoOscuro,
-            child: Stack(
-              children: <Widget>[
-                SingleChildScrollView(
+        body: Container(
+          color: kColorFondoOscuro,
+          child: Stack(
+            children: <Widget>[
+              RefreshIndicator(
+                onRefresh: () async {
+                  callGoRefresh();
+                },
+                child: SingleChildScrollView(
+                   controller: _scrollController,
                   child:  Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[  
-                     _showClientPoint(),                     
+                      ClientPoints(factura: widget.factura, ruta: 'Ticket'),                      
                      FormPago(
+                      key: formPagoKey,
                       factura: widget.factura,
                       fontColor: Colors.green,
                       onSaldoChanged:  _updateSaldo,
@@ -76,12 +87,13 @@ class _TicketScreenState extends State<TicketScreen> {
                        signUpForm(), 
                     ],
                   ),
-                ),     
-                _showLoader ? const LoaderComponent(text: "Creando Ticket...") : Container(),     
-              ],
-            ),
+                ),
+              ),     
+              _showLoader ? const LoaderComponent(text: "Creando Ticket...") : Container(),     
+            ],
           ),
-        )
+        ),
+        floatingActionButton: FloatingButtonWithModal(factura: widget.factura,),
       ),
     );    
   }
@@ -167,7 +179,7 @@ class _TicketScreenState extends State<TicketScreen> {
       resdoc_facturas resdocFactura = resdoc_facturas.fromJson(decodedJson);   
       resdocFactura.usuario = '${widget.factura.cierreActivo.usuario.nombre} ${widget.factura.cierreActivo.usuario.apellido1}';
        
-      resetFactura();
+      resetFactura(widget.factura);
       // ask the user if wants to print the factura
        if (mounted) {
           showDialog(
@@ -181,7 +193,7 @@ class _TicketScreenState extends State<TicketScreen> {
                     child: const Text('Si'),
                     onPressed: () {
                       Navigator.of(context).pop();
-                      Impresion.printFacturaContado(resdocFactura, 'CONTADO', 'TICKET');
+                      Impresion.printFactura(resdocFactura, 'CONTADO', 'TICKET');
                       _goHomeSuccess();
                     },
                   ),
@@ -194,58 +206,9 @@ class _TicketScreenState extends State<TicketScreen> {
             },
           );
         } 
-     
   }
 
-  Widget _showClientPoint() {
-    return
-    InkWell(
-      onTap: () => Navigator.push(context,  MaterialPageRoute(
-                    builder: (context) => ClientesFrecScreen(
-                      factura: widget.factura,                     
-                      ruta: 'Ticket',
-                    )
-                    )),
-      child: Container(
-        color: kColorFondoOscuro,
-        height: 70,
-        child: Padding(
-          padding: const EdgeInsets.only(left: 20.0, right: 5),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [                   
-              Container(
-                padding: const EdgeInsets.all(10),
-                height: getProportionateScreenWidth(50),
-                width: getProportionateScreenWidth(50),
-                decoration: BoxDecoration(
-                  color: kContrateFondoOscuro,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                // ignore: deprecated_member_use
-                child: SvgPicture.asset("assets/User Icon.svg", color:  widget.factura.formPago.clientePaid.nombre == "" ? kTextColor : kPrimaryColor,),
-              ),
-              const SizedBox(width: 10,),               
-              Expanded(
-                child: Text(
-                  widget.factura.formPago.clientePaid.nombre == "" 
-                  ? 'Seleccione Cliente Frecuente' 
-                  : '${widget.factura.formPago.clientePaid.nombre}(${widget.factura.formPago.clientePaid.puntos})',               
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                     color:Colors.white,
-                  )),
-              ),
-             
-              
-            ],
-          ),
-        ),
-      ),
-    );     
-  }
+ 
  
   Widget appBar1() {
    return SafeArea(    
@@ -360,7 +323,7 @@ class _TicketScreenState extends State<TicketScreen> {
            gradient: const LinearGradient(
              colors: [Colors.green, Color.fromARGB(255, 255, 255, 255)],
              begin: Alignment.centerRight,
-             end:  Alignment(0.9, 0.0),
+             end:  Alignment(0.95, 0.0),
              tileMode: TileMode.clamp),
          border: Border.all(
          color: kSecondaryColor,
@@ -410,26 +373,5 @@ class _TicketScreenState extends State<TicketScreen> {
       );        
     }
 
-   resetFactura() {
-    setState(() {
-      widget.factura.cart.products.clear();
-      widget.factura.formPago.totalBac=0;
-      widget.factura.formPago.totalBn=0;
-      widget.factura.formPago.totalCheques=0;
-      widget.factura.formPago.totalCupones=0;
-      widget.factura.formPago.totalDav=0;
-      widget.factura.formPago.totalDollars=0;
-      widget.factura.formPago.totalEfectivo=0;
-      widget.factura.formPago.totalPuntos=0;
-      widget.factura.formPago.totalSctia=0;
-      widget.factura.formPago.transfer.totalTransfer=0;
-      widget.factura.formPago.totalSinpe=0;
-      widget.factura.formPago.transfer= Transferencia(cliente: Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: ''), transfers: [], monto: 0, totalTransfer: 0);
-      widget.factura.clienteFactura=Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: '');
-      widget.factura.clientePuntos=Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: '');
-      widget.factura.formPago.sinpe = Sinpe(numFact: '', fecha: DateTime.now(), id: 0, idCierre: 0, activo: 0, monto: 0, nombreEmpleado: '', nota: '', numComprobante: '');
-      widget.factura.setSaldo(); 
-      
-    });
-  }  
+  
 }

@@ -1,78 +1,68 @@
+import 'package:fuelred_mobile/models/cliente.dart';
+import 'package:fuelred_mobile/models/product.dart';
+
 class PeddlerViewModel {
-  int? id;
-  int? transaccion;
-  int? idcliente;
+  int? id; 
   String? fecha;
   bool? estado;
   int? idcierre;
-  int? cedulaPistero;
-  bool? subir;
+  String? pistero; 
   String? placa;
   String? km;
   String? observaciones;
-  String? chofer;
-  String? numFact;
-  String? cliente;
-  double? cantidad;
-  String? producto;
-  String? orden;
-  
+  String? chofer; 
+  String? orden; 
+  List<Product>? products;
+  Cliente? cliente;
 
   PeddlerViewModel(
-      {this.id,
-      this.transaccion,
-      this.idcliente,
+      {this.id,   
       this.fecha,
       this.estado,
       this.idcierre,
-      this.cedulaPistero,
-      this.subir,
+      this.pistero,      
       this.placa,
       this.km,
       this.observaciones,
-      this.chofer,
-      this.numFact,
-      this.cliente,
-      this.cantidad,     
-      this.producto,
+      this.chofer,     
+      this.cliente,     
       this.orden,
+      this.products,
     });
 
   PeddlerViewModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    transaccion = json['transaccion'];
-    idcliente = json['idcliente'];
+   
     fecha = json['fecha'];
     estado = json['estado'];
     idcierre = json['idcierre'];
-    cedulaPistero = json['cedulaPistero'];
-    subir = json['subir'];
+    pistero = json['pistero'];
     placa = json['placa'];
     km = json['km'];
     observaciones = json['observaciones'];
-    chofer = json['chofer'];
-    numFact = json['numFact'];
-    cliente = json['cliente'];
-    cantidad = json['cantidad'];
-    producto = json['producto'];
-     orden = json['orden'];
+    chofer = json['chofer'];   
+    cliente = Cliente.fromJson(json['cliente']); 
+    orden = json['orden'];
+    products = json['products'] != null
+        ? (json['products'] as List).map((i) => Product.fromJson(i)).toList()
+        : null;
+
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['transaccion'] = transaccion;
-    data['idcliente'] = idcliente;
+    data['id'] = id;   
     data['fecha'] = fecha;
     data['estado'] = estado;
     data['idcierre'] = idcierre;
-    data['cedulaPistero'] = cedulaPistero;
-    data['subir'] = subir;
     data['placa'] = placa;
     data['km'] = km;
     data['observaciones'] = observaciones;
     data['chofer'] = chofer;
-    data['numFact'] = numFact;
+
     return data;
   }
+
+  //make the method to pass form Peddler to PeddlerViewModel
+      
 }

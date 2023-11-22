@@ -32,6 +32,7 @@ class ClientesScreen extends StatefulWidget {
 
 class _ClientesScreenState extends State<ClientesScreen> {
   List<Cliente> _users = [];
+  List<Cliente> _backup = [];
   bool _showLoader = false;
   bool _isFiltered = false;
   String _search = '';
@@ -57,7 +58,7 @@ class _ClientesScreenState extends State<ClientesScreen> {
         body: Center(
           child: _showLoader ? const LoaderComponent(text: 'Cargando...') 
           : Container(
-            color: kColorFondoOscuro,
+            color: kContrateFondoOscuro,
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: _getContent(),
@@ -112,6 +113,7 @@ class _ClientesScreenState extends State<ClientesScreen> {
 
     setState(() {
       _users = response.result;
+      _backup = response.result;
     });
   }
 
@@ -130,6 +132,7 @@ class _ClientesScreenState extends State<ClientesScreen> {
           ? 'No hay Usuarios con ese criterio de búsqueda.'
           : 'No hay Usuarios registradas.',
           style: const TextStyle(
+            color: Colors.white,
             fontSize: 16,
             fontWeight: FontWeight.bold
           ),
@@ -138,12 +141,21 @@ class _ClientesScreenState extends State<ClientesScreen> {
     );
   }
 
-   Widget _getListView() {
-    return RefreshIndicator(
-      onRefresh: _getUsers,
-      child: ListView(
-          children: _users.map((e) {
-            return Card(
+  Widget _getListView() {
+    return ListView.separated(
+       
+          scrollDirection: Axis.vertical,                  
+          itemCount: _users.length,
+          separatorBuilder: (context, _) => const SizedBox(height: 5,),
+          itemBuilder: (context, indice) => cardCLiente(_users[indice]),
+          
+      );
+                         
+  
+  }
+ 
+  Widget cardCLiente(Cliente e) {
+    return  Card(
               color: kContrateFondoOscuro,
                shadowColor: kPrimaryColor,
               elevation: 8,
@@ -200,9 +212,6 @@ class _ClientesScreenState extends State<ClientesScreen> {
               ),
             ),
           );
-        }).toList(),
-      ),
-    );
   }
   
    Future  _showFilter() => showDialog(
@@ -212,7 +221,7 @@ class _ClientesScreenState extends State<ClientesScreen> {
          shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
-          title: const Text('Seleccione el Campo'),
+          title: const Center(child: Text('Buscar Por...')),
          
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -270,8 +279,8 @@ class _ClientesScreenState extends State<ClientesScreen> {
    void _removeFilter() {
     setState(() {
       _isFiltered = false;
+      _users = _backup;
     });
-    _getUsers();
   }
 
   void _filter() {
@@ -332,7 +341,7 @@ class _ClientesScreenState extends State<ClientesScreen> {
             vertical: getProportionateScreenHeight(5)
             ),
        child: Row( 
-         mainAxisAlignment: MainAxisAlignment.spaceBetween,         
+         mainAxisAlignment: MainAxisAlignment.start,         
          children: [
            SizedBox(
              height: getProportionateScreenHeight(45),
@@ -355,12 +364,13 @@ class _ClientesScreenState extends State<ClientesScreen> {
                ),
              ),
            ),
-            const SizedBox(width: 10,),
+            const SizedBox(width: 20,),
            const Text('Cliente Contado', style: TextStyle(
              fontSize: 24,
              fontWeight: FontWeight.bold,
              color: kPrimaryColor,
            ),),
+           const Spacer(),
                _isFiltered
            ?  IconButton(
                onPressed: _removeFilter, 

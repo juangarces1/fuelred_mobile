@@ -11,10 +11,10 @@ class Transferencia {
       codigoTipoID: "",
       email: "",
       puntos: 0,
-       codigo: '',
-        telefono: '',
+      codigo: '',
+      telefono: '',
     ); 
-
+  
     List<TransParcial> transfers = [];
     double monto = 0; 
     double totalTransfer = 0;

@@ -1,20 +1,18 @@
 
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fuelred_mobile/Screens/facturas/detale_factura_screen.dart';
 import 'package:fuelred_mobile/clases/impresion.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/helpers/api_helper.dart';
-import 'package:flutter/material.dart';
 import 'package:fuelred_mobile/models/all_fact.dart';
+import 'package:fuelred_mobile/models/product.dart';
 import 'package:intl/intl.dart';
 
 import '../../components/appbarbottom.dart';
 import '../../components/loader_component.dart';
-
-
 import '../../models/resdoc_facturas.dart';
 import '../../models/response.dart';
-import '../login_screen.dart';
 
 class FacturasScreen extends StatefulWidget {
   final AllFact factura;
@@ -50,40 +48,43 @@ class _FacturasScreenState extends State<FacturasScreen> {
  
   @override
   Widget build(BuildContext context) {
-     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: kBlueColorLogo,
-        title:  Text('Facturas ${widget.tipo}', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
-        actions: <Widget>[
-          _isFiltered
-          ?  IconButton(
-              onPressed: _removeFilter, 
-              icon: const Icon(Icons.filter_none, color: Colors.white,)
-            )
-          :  IconButton(
-              onPressed: _showFilter, 
-              icon: const Icon(Icons.filter_alt, color: Colors.white,)
-            )
-        ],      
-      ),
-      body: Container(
-        color: const Color.fromARGB(255, 70, 72, 77),
-        child: Center(
-          child: _showLoader ? const LoaderComponent(text: 'Por favor espere...') : Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: _getContent(),
-          ),
+     return SafeArea(
+       child: Scaffold(
+        appBar: AppBar(
+           foregroundColor: Colors.white,
+          backgroundColor: kBlueColorLogo,
+          title:  Text('Facturas ${widget.tipo}', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
+          actions: <Widget>[
+            _isFiltered
+            ?  IconButton(
+                onPressed: _removeFilter, 
+                icon: const Icon(Icons.filter_none, color: Colors.white,)
+              )
+            :  IconButton(
+                onPressed: _showFilter, 
+                icon: const Icon(Icons.filter_alt, color: Colors.white,)
+              )
+          ],      
         ),
-      ), 
-
-       
+        body: Container(
+          color: const Color.fromARGB(255, 70, 72, 77),
+          child: Center(
+            child: _showLoader ? const LoaderComponent(text: 'Por favor espere...') : Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _getContent(),
+            ),
+          ),
+        ), 
      
-      bottomNavigationBar: DemoBottomAppBar(
-          fabLocation: _fabLocation,
-          shape: _showNotch ? const CircularNotchedRectangle() : null, 
-          total: _saldo,
-        ),    
-    );
+         
+       
+        bottomNavigationBar: DemoBottomAppBar(
+            fabLocation: _fabLocation,
+            shape: _showNotch ? const CircularNotchedRectangle() : null, 
+            total: _saldo,
+          ),    
+         ),
+     );
   }
 
   
@@ -101,9 +102,6 @@ class _FacturasScreenState extends State<FacturasScreen> {
        response = await ApiHelper.getFacturasCredito(widget.factura.cierreActivo.cierreFinal.idcierre);
     }
    
-    
-   
-
     setState(() {
       _showLoader = false;
     });
@@ -129,15 +127,11 @@ class _FacturasScreenState extends State<FacturasScreen> {
           );
         }        
         return;
-     }
-
-     
+     }   
    
-
     setState(() {
       _facturas = response.result;
       
-
     });  
     double aux=0;
     
@@ -146,11 +140,9 @@ class _FacturasScreenState extends State<FacturasScreen> {
           aux +=  _facturas[i].totalFactura??0;
       }         
     }
-
     setState(() {
       _saldo = aux;      
     }); 
-
   }
 
    Widget _getContent() {
@@ -218,21 +210,43 @@ class _FacturasScreenState extends State<FacturasScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                      _facturas[index].cliente=='' ?        const Text('Ticket Electronico' ,
+
+                          _facturas[index].isFactura ?  const Text(
+                            'Factura Electrónica', 
                             style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.green,
-                            ),
-                          ):
-                           Text(
-                           _facturas[index].cliente, 
-                            style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: kPrimaryColor,
                             ),
-                          ),
+                          ) 
+                          
+                          : _facturas[index].isTicket ?  const Text(
+                            'Ticket Electrónico', 
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: kPrimaryColor,
+                            ),
+                          ) :
+                          _facturas[index].isDevolucion ?  const Text(
+                            'Nota de Credito', 
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: kPrimaryColor,
+                            ),
+                          ) 
+                          
+                          : const SizedBox(height: 0,),
+                      
+                        _facturas[index].isTicket == false ?   Text(
+                           _facturas[index].cliente, 
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: kBlueColorLogo,
+                            ),
+                          ) : const SizedBox(height: 0,),
                           const SizedBox(height: 5,),
                           Text(
                             'Numero: ${_facturas[index].nFactura}', 
@@ -267,7 +281,7 @@ class _FacturasScreenState extends State<FacturasScreen> {
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: kTextColorBlack,
+                              color: kPrimaryColor,
                             ),
                           ),
                           const SizedBox(height: 5,),
@@ -298,7 +312,7 @@ class _FacturasScreenState extends State<FacturasScreen> {
                                   color: Colors.white,),
                                 ),
                                   MaterialButton( 
-                                onPressed: () => _showConfirm(_facturas[index].nFactura),                                    
+                                onPressed: () => _showConfirm(_facturas[index]),                                    
                                 color: kPrimaryColor,
                                 padding: const EdgeInsets.all(5),
                                 shape: const CircleBorder(),
@@ -321,7 +335,6 @@ class _FacturasScreenState extends State<FacturasScreen> {
         ),
     );
   }
-
   
   void _showFilter() {
     showDialog(
@@ -364,45 +377,37 @@ class _FacturasScreenState extends State<FacturasScreen> {
       });
   }
 
-   void _showConfirm(String numfact) {
-    showDialog(
-      context: context, 
-      builder: (context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+  void _showConfirm(resdoc_facturas fact) async {
+   
+    final confirmed = await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Nota Credito'),
+        content: Text('¿Estás seguro de que deseas realizar una Nota de Credito al  Documento  # ${fact.nFactura}? '),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('No'),
           ),
-          title: const Text('Devolucion Factura'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-               Text('Desea realizar la devolucion de la factura # $numfact?'),
-              const SizedBox(height: 10,),
-             
-            ],
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Si'),
           ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(), 
-              child: const Text('Cancelar')
-            ),
-            TextButton(
-              onPressed: () => _goDevolucion(numfact), 
-              child: const Text('Aceptar')
-            ),
-          ],
-        );
-      });
-  }
+        ],
+      ),
+    );
 
+    if (confirmed == true) {
+      _goDevolucion(fact);
+    }
+  }
+  
   void _removeFilter() {
     setState(() {
       _isFiltered = false;
     });
     _getFacturas();
   }
-
- 
 
   void _filter() {
     if (_search.isEmpty) {
@@ -433,11 +438,9 @@ class _FacturasScreenState extends State<FacturasScreen> {
       );
   }
 
-  Future<void> _goDevolucion(String num) async {
-    Navigator.of(context).pop();
-    var n = int.parse(num);
-    if(n  >6000000000 && n < 6999999999){
-       
+  Future<void> _goDevolucion(resdoc_facturas fact) async {    
+   
+    if(fact.isDevolucion){       
         if (mounted) {         
           showDialog(
             context: context,
@@ -457,16 +460,14 @@ class _FacturasScreenState extends State<FacturasScreen> {
             },
           );
         }        
-        return;
-     
-       
-       
+        return; 
     }
+
     setState(() {
       _showLoader = true;
     });  
 
-      Response response = await ApiHelper.postNoRequest('Api/Facturacion/Devolucion/$num');  
+      Response response = await ApiHelper.postNoRequest('Api/Facturacion/Devolucion/${fact.nFactura}');  
 
       setState(() {
        _showLoader = false;
@@ -500,16 +501,55 @@ class _FacturasScreenState extends State<FacturasScreen> {
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
+          backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 16.0
         );
     
+    setState(() {
+      for (var prod in fact.detalles) {       
+          if(prod.unidad=="L"){
+              widget.factura.transacciones.add(prod);
+          } else {
+              Product art = widget.factura.productos
+              .firstWhere((element) => element.codigoArticulo == prod.codigoArticulo, orElse:
+               () => Product(
+                codigoArticulo: prod.codigoArticulo,
+                detalle: prod.detalle,
+                precioUnit: prod.precioUnit,
+                cantidad: 0,
+                unidad: prod.unidad,
+                tipoArticulo: "",
+                montoTotal: 0,
+                descuento: 0,
+                nDescuento: 0,
+                subtotal: 0,
+                tasaImp: 0,
+                impMonto: 0,
+                taxid: 0,
+                rateid: 0,
+                factor: 0,
+                precioCompra: 0,
+                codigoCabys: "",
+                transaccion: 0,
+                dispensador: 0,
+                imageUrl: "",
+                inventario: 0,
+                images: [],
+                colors: [],
+                total: 0));
+
+             if (art.cantidad != 0){
+               art.inventario = art.inventario +  prod.cantidad.toInt();
+             }  
+          }
+         
+        
+        }
+    });
+
     Future.delayed(const Duration(milliseconds: 2000), () {
-        Navigator.pushReplacement(context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginScreen())
-        );
+       _getFacturas();
     });  //  
 
 
@@ -517,8 +557,19 @@ class _FacturasScreenState extends State<FacturasScreen> {
   
   _printFactura(resdoc_facturas e) {
     e.usuario ='${widget.factura.cierreActivo.usuario.nombre} ${widget.factura.cierreActivo.usuario.apellido1}'; 
-    String tipoDocumento = e.cliente=='' ? 'TICKET' : 'FACTURA';
+    String tipoDocumento = e.isFactura ? 'FACTURA' : 'TICKET';
+    e.isDevolucion ? tipoDocumento = 'NOTA DE CREDITO' : tipoDocumento = tipoDocumento;
     String tipoPago = e.plazo==0 ? 'CONTADO' : 'CREDITO';
-    Impresion.printFacturaContado(e, tipoPago , tipoDocumento);
+   //navigate to print factura screen
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(builder: (context) => PrintFacturaScreen(
+    //     factura: e,
+    //     tipoDocumento: tipoDocumento,
+    //     tipoCliente: tipoPago,
+    //   )),
+    // );
+
+   Impresion.printFactura(e, tipoDocumento , tipoPago);
   }
 }

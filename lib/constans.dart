@@ -1,8 +1,9 @@
 import 'package:fuelred_mobile/sizeconfig.dart';
 import 'package:flutter/material.dart';
 
-// const String   imagenesUrl = 'http://200.91.130.215:9091/photos'; 
-const String   imagenesUrl = 'http://192.168.1.165:8081/photos'; 
+//const String imagenesUrl = 'http://200.91.130.215:9091/photos'; 
+//const String imagenesUrl = 'http://192.168.1.3:9091/photos';  
+const String imagenesUrl = 'http://192.168.1.165:8081/photos'; 
 const kRegularColor =  Color(0xFFec1c24);
 const kSuperColor =Color(0xFFb634b8);
 const kDieselColor =Color(0xFF1dbd4a);
@@ -13,6 +14,7 @@ const kTextColorBlack = Colors.black87;
 const kTextColorWhite= Color.fromARGB(204, 236, 231, 231);
 const kColorMenu= Color.fromARGB(251, 251, 245, 245);
 const kGradientHome = LinearGradient(colors: [kPrimaryColor, kBlueColorLogo ]);
+const kGradientHomeReverse = LinearGradient(colors: [kBlueColorLogo, kPrimaryColor ]);
 
 const kPrimaryGradientColor = LinearGradient(
   begin: Alignment.topLeft,
@@ -59,15 +61,22 @@ const String kAddressNullError = "Please Enter your address";
 
 final otpInputDecoration = InputDecoration(
   contentPadding:
-      EdgeInsets.symmetric(vertical: getProportionateScreenWidth(15)),
-  border: outlineInputBorder(),
-  focusedBorder: outlineInputBorder(),
-  enabledBorder: outlineInputBorder(),
+      const EdgeInsets.all(30),
+  border: outlineInputBorderColor(),
+  focusedBorder: outlineInputBorderColor(),
+  enabledBorder: outlineInputBorderColor(),
 );
 
 OutlineInputBorder outlineInputBorder() {
   return OutlineInputBorder(
     borderRadius: BorderRadius.circular(getProportionateScreenWidth(15)),
     borderSide: const BorderSide(color: kTextColor),
+  );
+}
+
+OutlineInputBorder outlineInputBorderColor() {
+  return OutlineInputBorder(
+    borderRadius: BorderRadius.circular(getProportionateScreenWidth(15)),
+    borderSide: const BorderSide(color: kPrimaryColor),
   );
 }

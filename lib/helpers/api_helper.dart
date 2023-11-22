@@ -1,4 +1,6 @@
 import 'dart:convert';
+
+import 'package:fuelred_mobile/models/ad,min/transferfull.dart';
 import 'package:fuelred_mobile/models/bank.dart';
 import 'package:fuelred_mobile/models/cashback.dart';
 import 'package:fuelred_mobile/models/cierreactivo.dart';
@@ -8,7 +10,7 @@ import 'package:fuelred_mobile/models/clientecredito.dart';
 import 'package:fuelred_mobile/models/datafono.dart';
 import 'package:fuelred_mobile/models/deposito.dart';
 import 'package:fuelred_mobile/models/money.dart';
-import 'package:fuelred_mobile/models/pedder_view_model.dart';
+import 'package:fuelred_mobile/models/peddler.dart';
 import 'package:fuelred_mobile/models/product.dart';
 import 'package:fuelred_mobile/models/response.dart';
 import 'package:fuelred_mobile/models/sinpe.dart';
@@ -16,7 +18,9 @@ import 'package:fuelred_mobile/models/tranferview.dart';
 import 'package:fuelred_mobile/models/transaccion.dart';
 import 'package:fuelred_mobile/models/transparcial.dart';
 import 'package:fuelred_mobile/models/viatico.dart';
+import 'package:fuelred_mobile/modelsAdmin/cuenta_banco.dart';
 import 'package:http/http.dart' as http;
+
 import '../models/resdoc_facturas.dart';
 import 'constans.dart';
 
@@ -99,6 +103,29 @@ static Future<Response> getTransacciones(int? zona) async {
       }
      }
      return Response(isSuccess: true, result: transacciones);    
+ }
+
+ static Future<Response> getCuentasBancos() async {
+    var url = Uri.parse('${Constans.apiUrl}/api/Otros/GetCuentasBancos');
+    var response = await http.get(
+      url,
+      headers: {
+        'content-type' : 'application/json',
+        'accept' : 'application/json',
+      },        
+    );
+    var body = response.body;
+    if (response.statusCode >= 400) {
+      return Response(isSuccess: false, message: body);
+    }
+    List<CuentaBanco> cuentaBancos =[];
+    var decodedJson = jsonDecode(body);
+     if(decodedJson != null){
+      for (var item in decodedJson){
+        cuentaBancos.add(CuentaBanco.fromJson(item));
+      }
+     }
+     return Response(isSuccess: true, result: cuentaBancos);    
  }
 
  static Future<Response> getFacturasByCierre(int? cierre) async {
@@ -191,11 +218,11 @@ static Future<Response> getPeddlersByCierre(int? cierre) async {
     if (response.statusCode >= 400) {
       return Response(isSuccess: false, message: body);
     }
-    List<PeddlerViewModel> peddlers =[];
+    List<Peddler> peddlers =[];
     var decodedJson = jsonDecode(body);
      if(decodedJson != null){
       for (var item in decodedJson){
-        peddlers.add(PeddlerViewModel.fromJson(item));
+        peddlers.add(Peddler.fromJson(item));
       }
      }
      return Response(isSuccess: true, result: peddlers);    
@@ -408,6 +435,29 @@ static Future<Response> getBanks() async {
      return Response(isSuccess: true, result: transfers);    
  }
 
+ static Future<Response> getTransferfull() async {
+    var url = Uri.parse('${Constans.apiUrl}/api/Transferencias/GetTransfersFull');
+    var response = await http.get(
+      url,
+      headers: {
+        'content-type' : 'application/json',
+        'accept' : 'application/json',
+      },        
+    );
+    var body = response.body;
+    if (response.statusCode >= 400) {
+      return Response(isSuccess: false, message: body);
+    }
+    List<TransferFull> transfers =[];
+    var decodedJson = jsonDecode(body);
+     if(decodedJson != null){
+      for (var item in decodedJson){
+        transfers.add(TransferFull.fromJson(item));
+      }
+     }
+     return Response(isSuccess: true, result: transfers);    
+ }
+
   static Future<Response> getTransfesByCierre(int cierre) async {
     var url = Uri.parse('${Constans.apiUrl}/api/Transferencias/GetTransfersByCierre/$cierre');
     var response = await http.get(
@@ -479,6 +529,29 @@ static Future<Response> getBanks() async {
 
   static Future<Response> getClienteContado() async {
    var url = Uri.parse('${Constans.apiUrl}/api/TransaccionesApi/GetClientsContado');
+    var response = await http.get(
+      url,
+      headers: {
+        'content-type' : 'application/json',
+        'accept' : 'application/json',
+      },        
+    );
+    var body = response.body;
+    if (response.statusCode >= 400) {
+      return Response(isSuccess: false, message: body);
+    }
+    List<Cliente> clientes =[];
+    var decodedJson = jsonDecode(body);
+     if(decodedJson != null){
+      for (var item in decodedJson){
+        clientes.add(Cliente.fromJson(item));
+      }
+     }
+     return Response(isSuccess: true, result: clientes);    
+ }
+
+   static Future<Response> getClientesTransfer() async {
+   var url = Uri.parse('${Constans.apiUrl}/api/Otros/GetClientesSanGerardo');
     var response = await http.get(
       url,
       headers: {

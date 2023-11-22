@@ -21,7 +21,7 @@ class ClientPoints extends StatelessWidget {
                     )),
       child: Container(
         color: kColorFondoOscuro,
-        height: 70,
+        height: 60,
         child: Padding(
           padding: const EdgeInsets.only(left: 20.0, right: 5),
           child: Row(
@@ -30,8 +30,8 @@ class ClientPoints extends StatelessWidget {
             children: [                   
               Container(
                 padding: const EdgeInsets.all(10),
-                height: getProportionateScreenWidth(50),
-                width: getProportionateScreenWidth(50),
+                height: getProportionateScreenWidth(40),
+                width: getProportionateScreenWidth(40),
                 decoration: BoxDecoration(
                   color: kContrateFondoOscuro,
                   borderRadius: BorderRadius.circular(10),

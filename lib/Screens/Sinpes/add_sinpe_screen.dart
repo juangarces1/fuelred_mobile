@@ -43,6 +43,7 @@ class _AddSinpeScreenState extends State<AddSinpeScreen> {
       child: Scaffold(     
     
         appBar: AppBar(
+           foregroundColor: Colors.white,
           backgroundColor: kPrimaryColor,
           title: const Text('Nuevo Sinpe', style: TextStyle(color: Colors.white),),
         ),

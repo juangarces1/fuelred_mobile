@@ -47,6 +47,7 @@ class _CashbackScreenState extends State<CashbackScreen> {
       child: Scaffold(     
     
         appBar: AppBar(
+           foregroundColor: Colors.white,
           backgroundColor: kPrimaryColor,
           title: const Text('Nuevo Cashback', style: TextStyle(color: Colors.white),),
         ),

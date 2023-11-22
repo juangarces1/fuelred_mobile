@@ -43,6 +43,7 @@ class _CierreDatafonosScreenState extends State<CierreDatafonosScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+           foregroundColor: Colors.white,
           backgroundColor: kBlueColorLogo,
           title: const Text('Cierres Datafonos', style: TextStyle(color: Colors.white),),
           
@@ -182,7 +183,7 @@ class _CierreDatafonosScreenState extends State<CierreDatafonosScreen> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: kPrimaryColor,
           onPressed: () => _goAdd(),
-          child: const Icon(Icons.add),
+          child: const Icon(Icons.add, size: 35, color: Colors.white,),
         )
       ),
     );

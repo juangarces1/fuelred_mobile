@@ -1,22 +1,23 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fuelred_mobile/Screens/cart/cart_new.dart';
 import 'package:fuelred_mobile/Screens/cart/components/custom_appBar_cart.dart';
-import 'package:fuelred_mobile/Screens/clientes/cliente_credito_screen.dart';
+import 'package:fuelred_mobile/Screens/credito/select_cliente_credito.dart';
 import 'package:fuelred_mobile/Screens/home/home_screen.dart';
 import 'package:fuelred_mobile/clases/impresion.dart';
+import 'package:fuelred_mobile/components/boton_flotante.dart';
 import 'package:fuelred_mobile/components/loader_component.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/models/all_fact.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:fuelred_mobile/models/cliente.dart';
 import 'package:fuelred_mobile/models/resdoc_facturas.dart';
 import 'package:fuelred_mobile/models/sinpe.dart';
 import 'package:fuelred_mobile/models/transferencia.dart';
 import 'package:intl/intl.dart';
+
 import '../../components/default_button.dart';
 import '../../helpers/api_helper.dart';
 import '../../models/response.dart';
@@ -58,6 +59,7 @@ class _ProceeeCreditScreen extends State<ProceeeCreditScreen> {
           ),
         ),
         body: _body(),
+        floatingActionButton: FloatingButtonWithModal(factura: widget.factura,),
       ),
     );
   }
@@ -76,7 +78,7 @@ class _ProceeeCreditScreen extends State<ProceeeCreditScreen> {
                     SizedBox(height: SizeConfig.screenHeight * 0.02),
                     Text("Factura Credito", style: headingStyleKprimary),
                     SizedBox(height: SizeConfig.screenHeight * 0.04),
-                    showClient(),
+                    SelectClienteCredito(factura: widget.factura, ruta: 'Credito',),
                     signUpForm(),  
                     SizedBox(height: SizeConfig.screenHeight * 0.04),
                     showTotal(), 
@@ -216,59 +218,6 @@ class _ProceeeCreditScreen extends State<ProceeeCreditScreen> {
   );
 }
 
-  Widget showClient() {
-     return  Container(        
-         decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 224, 225, 230),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [  
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-                          ),                 
-            InkWell(           
-              onTap: () => _goClientCredit(),
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                height: getProportionateScreenWidth(40),
-                width: getProportionateScreenWidth(40),
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 199, 201, 207),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              // ignore: deprecated_member_use
-              child: SvgPicture.asset("assets/User Icon.svg", color:  widget.factura.formPago.clientePaid.nombre == '' ? kTextColor : kPrimaryColor,),
-              ),
-            ),
-            const Spacer(),               
-            Expanded(child: Text(widget.factura.formPago.clientePaid.nombre == "" ? "Seleccione Un Cliente": widget.factura.formPago.clientePaid.nombre)),
-            const SizedBox(width: 10),
-            const Icon(
-              Icons.arrow_forward_ios,
-              size: 12,
-              color: kTextColor,
-            ),
-            const SizedBox(width: 10)
-          ],
-        ),
-      );
- }
-  
-  _goClientCredit() {
-       Navigator.push
-       (context,
-           MaterialPageRoute(
-             builder: (context) =>
-               ClientesCreditoScreen(
-                 factura: widget.factura,
-                 
-                  ruta: 'Credito',)
-            )
-        ); 
-  }
-
  Future<void> _goFact()  async{
     if(widget.factura.formPago.clientePaid.nombre=='') {
       Fluttertoast.showToast(
@@ -362,7 +311,7 @@ class _ProceeeCreditScreen extends State<ProceeeCreditScreen> {
                     child: const Text('Si'),
                     onPressed: () {
                       Navigator.of(context).pop();
-                      Impresion.printFacturaContado(resdocFactura, 'CREDITO', 'FACTURA');
+                     Impresion.printFactura(resdocFactura, 'FACTURA', 'CREDITO');
                       _goHomeSuccess();
                     },
                   ),
@@ -420,6 +369,7 @@ class _ProceeeCreditScreen extends State<ProceeeCreditScreen> {
       widget.factura.formPago.transfer= Transferencia(cliente: Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: ''), transfers: [], monto: 0, totalTransfer: 0);
       widget.factura.clienteFactura=Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: '');
       widget.factura.clientePuntos=Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: '');
+      widget.factura.formPago.clientePaid=Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: '');
       widget.factura.formPago.sinpe = Sinpe(numFact: '', fecha: DateTime.now(), id: 0, idCierre: 0, activo: 0, monto: 0, nombreEmpleado: '', nota: '', numComprobante: '');
       widget.factura.setSaldo(); 
       

@@ -74,6 +74,7 @@ class _EntregaEfectivoScreenState extends State<EntregaEfectivoScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+           foregroundColor: Colors.white,
           backgroundColor: kPrimaryColor,
           title: const Text('Nuevo Deposito', style: TextStyle(color: Colors.white),),
         ),

@@ -49,6 +49,7 @@ class _DatafonoScreenState extends State<DatafonoScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+           foregroundColor: Colors.white,
           backgroundColor: kPrimaryColor,
           title: const Text('Nuevo Cierre de Datafono', style: TextStyle(color: Colors.white),),
         ),

@@ -1,9 +1,8 @@
 
-// ignore_for_file: deprecated_member_use
-
-
 import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fuelred_mobile/Screens/Sinpes/sinpes_screen.dart';
 import 'package:fuelred_mobile/Screens/cart/cart_new.dart';
@@ -20,18 +19,14 @@ import 'package:fuelred_mobile/Screens/transacciones/transacciones_screen.dart';
 import 'package:fuelred_mobile/clases/show_alert_cliente.dart';
 import 'package:fuelred_mobile/components/loader_component.dart';
 import 'package:fuelred_mobile/components/product_card.dart';
-
 import 'package:fuelred_mobile/models/all_fact.dart';
 import 'package:fuelred_mobile/models/product.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
+
 import '../../constans.dart';
 import '../../helpers/api_helper.dart';
 import '../../models/response.dart';
 import '../../sizeconfig.dart';
-
-
 import 'components/icon_btn_with_counter.dart';
 
 class HomeScreen extends StatefulWidget {  
@@ -48,7 +43,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> { 
-  final bool _showLoader = false;
+  bool _showLoader = false;
   bool _showLoaderProdcut = false;
   bool _showFilter = false;
   double width = 140;
@@ -60,18 +55,18 @@ class _HomeScreenState extends State<HomeScreen> {
   // ignore: non_constant_identifier_names
   List<Product> backup_transacciones = [];
   
-  Timer _timer = Timer.periodic(const Duration(seconds: 1), (timer) {});
+  // Timer _timer = Timer.periodic(const Duration(seconds: 1), (timer) {});
 
   @override
   void initState() {
     super.initState(); 
     _orderTransactions();
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) => _updateTransactions());
+    // _timer = Timer.periodic(const Duration(seconds: 1), (timer) => _updateTransactions());
   }
 
   @override
   void dispose() {
-    _timer.cancel();
+   // _timer.cancel();
     super.dispose();
   }
   
@@ -79,8 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
  Widget build(BuildContext context) {
      return SafeArea( 
        child: Scaffold(
-        backgroundColor: kColorFondoOscuro,
-         
+        backgroundColor: kColorFondoOscuro,         
         body:  SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -99,35 +93,67 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Bienvenido ${widget.factura.cierreActivo.usuario.nombre} ${widget.factura.cierreActivo.usuario.apellido1}',
+                         Text(
+                          'Cierre: ${widget.factura.cierreActivo.cierreFinal.idcierre}',
                             style:  const TextStyle(
                             fontStyle: FontStyle.normal, 
-                            fontSize: 18,
+                            fontSize: 16,
                             fontWeight: FontWeight.bold, 
                             color: Colors.white
                         )),
-                        const SizedBox(height: 5,),
                         Text(
-                          'Pistero: ${widget.factura.cierreActivo.cajero.nombre} ${widget.factura.cierreActivo.cajero.apellido1}',
+                          'User: ${widget.factura.cierreActivo.usuario.nombre} ${widget.factura.cierreActivo.usuario.apellido1}',
                             style:  const TextStyle(
                             fontStyle: FontStyle.normal, 
-                            fontSize: 18,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold, 
+                            color: Colors.white
+                        )),
+                       
+                       
+                        Text(
+                          'Cajero: ${widget.factura.cierreActivo.cajero.nombre} ${widget.factura.cierreActivo.cajero.apellido1}',
+                            style:  const TextStyle(
+                            fontStyle: FontStyle.normal, 
+                            fontSize: 16,
                             fontWeight: FontWeight.bold, 
                             color: Colors.white
                         )),               
                       ],       
                     ),
-                  IconBtnWithCounter(
+                    const Spacer(),
+                       InkWell(
+                         onTap: () => _showNewCliente(context),
+                         child: Container(
+                           padding: const EdgeInsets.all(10),
+                           height: getProportionateScreenWidth(40),
+                           width: getProportionateScreenWidth(40),
+                           decoration: BoxDecoration(
+                             border: Border.all(
+                               color:  Colors.white,
+                             ),
+                             borderRadius: BorderRadius.circular(10),
+                           ),
+                      
+                         // ignore: deprecated_member_use
+                         child: SvgPicture.asset("assets/User Icon.svg",
+                          // ignore: deprecated_member_use
+                          color:  widget.factura.clienteFactura.nombre == '' ? Colors.white : kPrimaryColor, ),
+                         ),
+                       ),
+
+                     
+                      const SizedBox(width: 10,),
+                    IconBtnWithCounter(
                       svgSrc: "assets/Cart Icon.svg",  
                       numOfitem:  widget.factura.cart.products.length,  
                               
                       press: goCart,                     
                         
                     ), 
-                            ],
-                          ),
-                        )),
+                  ],
+                ),
+              )),
               SizedBox(height: getProportionateScreenHeight(20)),
                           
               widget.factura.transacciones.isNotEmpty ? combustibles(context)
@@ -209,64 +235,64 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 Widget searchBarCartIcon(context){
-return  Padding(
-      padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            width: SizeConfig.screenWidth * 0.6,
-            decoration: BoxDecoration(
-              color: kContrateFondoOscuro,
-              borderRadius: BorderRadius.circular(15),
+return Padding(
+    padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+          width: SizeConfig.screenWidth * 0.6,
+          decoration: BoxDecoration(
+            color: kContrateFondoOscuro,
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: TextField(
+            // ignore: avoid_print
+            controller: TextEditingController(text: _search),
+            onChanged: (value) => _search = value,
+            decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(
+                    horizontal: getProportionateScreenWidth(20),
+                    vertical: getProportionateScreenWidth(9)),
+                border: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                hintText: "Buscar Producto",
             ),
-            child: TextField(
-              // ignore: avoid_print
-              controller: TextEditingController(text: _search),
-              onChanged: (value) => _search = value,
-              decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(
-                      horizontal: getProportionateScreenWidth(20),
-                      vertical: getProportionateScreenWidth(9)),
-                  border: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  hintText: "Buscar Producto",
+          ),
+        ),
+        const SizedBox(width: 10,),
+        InkWell(            
+          borderRadius: BorderRadius.circular(100),
+          onTap: () => _filter(),
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Container(
+                padding: EdgeInsets.all(getProportionateScreenWidth(12)),
+                height: getProportionateScreenWidth(46),
+                width: getProportionateScreenWidth(46),
+                decoration: const BoxDecoration(
+                  color: kContrateFondoOscuro,
+                  shape: BoxShape.circle,
+                ),
+                // ignore: deprecated_member_use
+                child: SvgPicture.asset("assets/Search Icon.svg", color: kTextColorBlack,),
               ),
-            ),
+            ],
           ),
-          const SizedBox(width: 10,),
-          InkWell(
+        ),
+        const Spacer(),
+        _showFilter ?  IconBtnWithCounter(
+          svgSrc: "assets/filter-slash-svgrepo-com.svg",  
+          numOfitem:  widget.factura.productos.length,  
+                  
+          press: removeFilter,                     
             
-              borderRadius: BorderRadius.circular(100),
-              onTap: () => _filter(),
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(getProportionateScreenWidth(12)),
-                    height: getProportionateScreenWidth(46),
-                    width: getProportionateScreenWidth(46),
-                    decoration: const BoxDecoration(
-                      color: kContrateFondoOscuro,
-                      shape: BoxShape.circle,
-                    ),
-                    child:  SvgPicture.asset("assets/Search Icon.svg", color: kTextColorBlack,),
-                  ),
-                ],
-            ),
-          ),
-          const Spacer(),
-          _showFilter ?  IconBtnWithCounter(
-            svgSrc: "assets/filter-slash-svgrepo-com.svg",  
-            numOfitem:  widget.factura.productos.length,  
-                    
-            press: removeFilter,                     
-              
-          ): Container(),
-        ],
-      ),
-    );
+        ) : Container(),
+      ],
+    ),
+  );
  }
 
  void goCart () {
@@ -296,47 +322,54 @@ return  Padding(
  }
 
  Widget combustibles(context){
-  return Column(
-      children: [
-        Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Combustibles(${widget.factura.transacciones.length})",
-                style: TextStyle(
-                  fontSize: getProportionateScreenWidth(18),
-                  color: kContrateFondoOscuro,
+  return Stack(
+    children: [
+      Column(
+          children: [
+            Padding(
+              padding:
+                  EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Combustibles(${widget.factura.transacciones.length})",
+                    style: TextStyle(
+                      fontSize: getProportionateScreenWidth(18),
+                      color: Colors.white,
+                    ),
+                  ),
+                GestureDetector(
+                  onTap: _updateTransactions,
+                  child: const Text(
+                    "Actualizar",
+                    style: TextStyle(color: kContrateFondoOscuro),
+                  ),
                 ),
-              ),
-            GestureDetector(
-              onTap: _updateTransactions,
-              child: const Text(
-                "Actualizar",
-                style: TextStyle(color: kContrateFondoOscuro),
-              ),
+              ],
             ),
-          ],
-        ),
-      ),
-    SizedBox(height: getProportionateScreenWidth(10)),          
-    _showLoader ? const LoaderComponent(text: "Actualizando...",) : 
-          SizedBox(
-            height: getProportionateScreenHeight(200),
-            child: ListView.separated(
-              padding: EdgeInsets.only(left: getProportionateScreenWidth(20)),
-              scrollDirection: Axis.horizontal,                  
-              itemCount: widget.factura.transacciones.length,
-              separatorBuilder: (context, _) => const SizedBox(),
-              itemBuilder: (context, indice) => buildCard(product: widget.factura.transacciones[indice]),
-              
-        ),
           ),
-        SizedBox(width: getProportionateScreenWidth(20)),
+        SizedBox(height: getProportionateScreenWidth(10)),          
+        _showLoader ? const LoaderComponent(text: "Actualizando...",) : 
+              Container(
+                padding: EdgeInsets.only(left: getProportionateScreenWidth(20)),
+                height: getProportionateScreenHeight(200),
+                child: ListView.separated(
+                 
+                  scrollDirection: Axis.horizontal,                  
+                  itemCount: widget.factura.transacciones.length,
+                  separatorBuilder: (context, _) => const SizedBox(width: 0,),
+                  itemBuilder: (context, indice) => buildCard(product: widget.factura.transacciones[indice]),
+                  
+                      ),
+              ),
+            SizedBox(width: getProportionateScreenWidth(20)),
+        ],
+         ),
+      _showLoader ? const LoaderComponent(text: "Actualizando...",) : Container(),
     ],
-     );
+   
+  );
  }
 
  Widget _getAdminMenu() {
@@ -358,14 +391,7 @@ return  Padding(
                  scale: 5.5,
                  image:  AssetImage('assets/LogoSinFondo.png'))),
                    child: SizedBox()),
-          ),
-             ListTile(
-                textColor:  kColorMenu,
-              leading: const Icon(Icons.person, color:  kColorMenu,),
-              title: const Text('Cliente Contado'),
-              onTap: () => _showNewCliente(context),
-            
-            ),
+          ),           
             ListTile(
                 textColor: kColorMenu,
               leading: const Icon(Icons.arrow_circle_left_outlined, color: kColorMenu,),
@@ -432,7 +458,9 @@ return  Padding(
                    MaterialPageRoute(
                      builder: (context) => PeddlersScreen(factura: widget.factura,)
                    )
-                 );
+                 ).then((value) {
+                      _orderTransactions();
+                  });
               },
             ),
 
@@ -489,7 +517,10 @@ return  Padding(
                    MaterialPageRoute(
                      builder: (context) => FacturasScreen(factura: widget.factura, tipo: 'Contado',)
                    )
-                 );
+                 ).then((value) {
+                      _orderTransactions();
+                      
+                  });
               },
             ),
 
@@ -503,7 +534,9 @@ return  Padding(
                    MaterialPageRoute(
                      builder: (context) => FacturasScreen(factura: widget.factura,  tipo: 'Credito',)
                    )
-                 );
+                 ).then((value) {
+                      _orderTransactions();
+                  });
               },
             ),
 
@@ -542,90 +575,64 @@ return  Padding(
 
   Widget buildCard({
   required Product product
-  }) => SizedBox(
-    width: getProportionateScreenWidth(width),   
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [      
-        Expanded(
-          child: AspectRatio(
-            aspectRatio: 1,
-            child: Material(                
-              color: kColorFondoOscuro,
-              child: Ink.image(                        
-                image: product.detalle =='Super' ?  const AssetImage('assets/super.png') : 
-                  product.detalle=='Regular' ? const AssetImage('assets/regular.png') : 
-                  product.detalle=='Exonerado' ? const AssetImage('assets/exonerado.png') :
-                  const AssetImage('assets/diesel.png'),
-                  fit: BoxFit.cover,
-                  child: InkWell(
-                    onTap: () => addToCart(product),
+  }) => Hero(
+    tag: '${product.transaccion}-${product.codigoArticulo}',
+    child: SizedBox(
+      width: getProportionateScreenWidth(width),   
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [           
+          Expanded(
+            child: AspectRatio(
+              aspectRatio: 1,
+              child: Material(                
+                color: kColorFondoOscuro,
+                child: Ink.image(                        
+                  image: product.detalle =='Super' ?  const AssetImage('assets/super.png') : 
+                    product.detalle=='Regular' ? const AssetImage('assets/regular.png') : 
+                    product.detalle=='Exonerado' ? const AssetImage('assets/exonerado.png') :
+                    const AssetImage('assets/diesel.png'),
+                    fit: BoxFit.cover,
+                    child: InkWell(
+                      onTap: () => addToCart(product),
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(height: 5),              
-             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,               
-              children: [
-                Text(
-                  "#: ${product.transaccion.toString()}",
-                  style: TextStyle(
-                    fontSize: getProportionateScreenWidth(16),
-                    fontWeight: FontWeight.normal,
-                    color: kColorMenu,
-                  ),
-                ),                             
-              ],
-            ),
-                  
-                 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,               
-              children: [
-                Text(
-                  "Disp: ${product.dispensador.toString()}",
-                  style: TextStyle(
-                    fontSize: getProportionateScreenWidth(16),
-                    fontWeight: FontWeight.normal,
-                    color: kColorMenu,
-                  ),
-                ),                             
-              ],
-            ),
-                  
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,               
-        children: [
-          Text(
-            "Cant: ${product.cantidad.toString()}",
+            Text(
+            "Disp: ${product.dispensador.toString()}",
             style: TextStyle(
               fontSize: getProportionateScreenWidth(16),
               fontWeight: FontWeight.normal,
               color: kColorMenu,
             ),
-          ),                             
-        ],
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            "¢${NumberFormat("###,000", "en_US").format(product.total.toInt())}",
-            style:  TextStyle(
-              fontSize: getProportionateScreenWidth(18),
-              fontWeight: FontWeight.w600,
-              color: kPrimaryText,
-            ),
-          ),                                
-        ],
-      )
-    ]),
-);
+          ),       
+               
+        Text(
+          "Cant: ${product.cantidad.toString()}",
+          style: TextStyle(
+            fontSize: getProportionateScreenWidth(16),
+            fontWeight: FontWeight.normal,
+            color: kColorMenu,
+          ),
+        ),
+        Text(
+          "¢${NumberFormat("###,000", "en_US").format(product.total.toInt())}",
+          style:  TextStyle(
+            fontSize: getProportionateScreenWidth(18),
+            fontWeight: FontWeight.w600,
+            color: kPrimaryText,
+          ),
+        )
+      ]),
+  ),
+  );
 
   Future<void> _updateTransactions() async {
-    
+      setState(() {
+        _showLoader=true;
+      });
       Response rsponseTransacciones = await ApiHelper.getTransaccionesAsProduct(widget.factura.cierreActivo.cierreFinal.idzona);     
       if (rsponseTransacciones.isSuccess){
         backup_transacciones.clear();
@@ -644,7 +651,10 @@ return  Padding(
           _orderTransactions();
          });         
         }
-      }     
+      } 
+       setState(() {
+        _showLoader=false;
+      });    
     }
 
   void _updateProducts() async {
@@ -728,7 +738,6 @@ return  Padding(
       
     });   
   }
-
 
  void _showNewCliente(context) {
  ShowAlertCliente.showAlert(context, widget.factura.clienteFactura, _goClientes);

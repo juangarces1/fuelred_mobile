@@ -1,65 +1,69 @@
+import 'package:fuelred_mobile/models/cliente.dart';
+import 'package:fuelred_mobile/models/empleado.dart';
+import 'package:fuelred_mobile/models/product.dart';
+
 class Peddler {
   int? id;
-  int? transaccion;
-  int? idcliente;
+  Cliente? cliente;
   String? fecha;
   bool? estado;
   int? idcierre;
-  int? cedulaPistero;
-  bool? subir;
+  Empleado? pistero;  
   String? placa;
   String? km;
   String? observaciones;
   String? chofer;
   String? numFact;
+  List<Product>? products;
+  String? orden;
   
-
   Peddler(
-      {this.id,
-      this.transaccion,
-      this.idcliente,
+      {this.id,     
+      this.cliente,
       this.fecha,
       this.estado,
       this.idcierre,
-      this.cedulaPistero,
-      this.subir,
+      this.pistero,     
       this.placa,
       this.km,
       this.observaciones,
       this.chofer,
-      this.numFact});
+      this.numFact,
+      this.products,
+      this.orden,
+      });
 
   Peddler.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    transaccion = json['transaccion'];
-    idcliente = json['idcliente'];
+    id = json['id'];    
     fecha = json['fecha'];
     estado = json['estado'];
-    idcierre = json['idcierre'];
-    cedulaPistero = json['cedulaPistero'];
-    subir = json['subir'];
+    idcierre = json['idcierre'];  
+    pistero = Empleado.fromJson(json['pistero']); 
     placa = json['placa'];
-    km = json['km'];
+    km = json['kms'];
     observaciones = json['observaciones'];
     chofer = json['chofer'];
     numFact = json['numFact'];
+    cliente = Cliente.fromJson(json['cliente']);
+    products = json['products'] != null
+        ? (json['products'] as List).map((i) => Product.fromJson(i)).toList()
+        : null;
+    orden = json['orden'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['transaccion'] = transaccion;
-    data['idcliente'] = idcliente;
-    data['fecha'] = fecha;
-    data['estado'] = estado;
-    data['idcierre'] = idcierre;
-    data['cedulaPistero'] = cedulaPistero;
-    data['subir'] = subir;
+    final Map<String, dynamic> data = <String, dynamic>{};   
+    data['idcierre'] = idcierre;  
     data['placa'] = placa;
-    data['km'] = km;
+    data['kms'] = km;
     data['observaciones'] = observaciones;
-    data['chofer'] = chofer;
-    data['numFact'] = numFact;
+    data['chofer'] = chofer;   
+    data['cliente'] = cliente!.toJson();
+    if (products != null) {
+      data['products'] = products!.map((v) => v.toJson()).toList();
+    }
+    data['pistero'] = pistero!.toJson();
+    data['orden'] = orden;
     return data;
   }
 }

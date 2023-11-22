@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fuelred_mobile/Screens/Admin/HomeAdmin/dashboard_screen.dart';
 import 'package:fuelred_mobile/components/loader_component.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/helpers/api_helper.dart';
@@ -7,7 +8,7 @@ import 'package:fuelred_mobile/models/cierreactivo.dart';
 import 'package:fuelred_mobile/models/product.dart';
 import 'package:fuelred_mobile/models/response.dart';
 import 'package:fuelred_mobile/sizeconfig.dart';
-import 'package:pdf/widgets.dart' as pw;
+
 import 'home/home_screen.dart';
 
 
@@ -25,14 +26,12 @@ class _LoginScreenState extends State<LoginScreen> {
   String _zonaError = '';
   bool _zonaShowError = false;
 
-
   String _password = '';
   String _passwordError = '';
   bool _passwordShowError = false;
 
  // bool _rememberme = true;
   bool _passwordShow = false;
-
   bool _showLoader = false;
 
   @override
@@ -41,10 +40,9 @@ class _LoginScreenState extends State<LoginScreen> {
     double con1 = MediaQuery.of(context).size.height / 2;
     double con2 = MediaQuery.of(context).size.height / 6;
     return  Scaffold(
-      body: Stack(
-          
+      body: Stack(          
           children: <Widget>[
-             Container(             
+            Container(             
             color: kBlueColorLogo,
            ),
            Container( 
@@ -52,14 +50,13 @@ class _LoginScreenState extends State<LoginScreen> {
             color: kPrimaryColor,
            ),
           
-          ListView(
-            
-             children:  <Widget>[
+          ListView(            
+            children:  <Widget>[
             SizedBox(height: con2,),
               _showLogo(),
            const SizedBox(height: 20,),
            Padding(
-             padding: const EdgeInsets.all(30),
+             padding: const EdgeInsets.only(top: 20, left: 50, right: 50),
              child: Container(
                decoration: BoxDecoration(
                  color: Colors.white,
@@ -106,18 +103,22 @@ class _LoginScreenState extends State<LoginScreen> {
                              fontWeight: FontWeight.bold,
                              color: Colors.white
                            ),),
-                           )
+                           ),
+                        
                          ],
+
                        ),
                      ),
-                    ),                  
+                    ),    
+                    //make a button to print 
+                        
+                    
                ]),
              ),
            )
              ],
            )   ,
-    
-            
+ 
             _showLoader ? const LoaderComponent(text: 'Por favor espere...') : Container(),
           ],
         ),
@@ -126,19 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
 
-pw.Document createTicket() {
-  final pdf = pw.Document();
 
-  pdf.addPage(
-    pw.Page(
-      build: (pw.Context context) => pw.Center(
-        child: pw.Text('Hola Mundo', style: const pw.TextStyle(fontSize: 40)),
-      ),
-    ),
-  );
-
-  return pdf;
-}
 
   Widget _showLogo() {
     return const Row(
@@ -184,7 +173,7 @@ pw.Document createTicket() {
         keyboardType: TextInputType.number,
         obscureText: !_passwordShow,
         decoration: InputDecoration(
-          hintText: 'Ingresa tu Cedula...',
+          hintText: 'Ingrese la Cedula',
           labelText: 'Cedula',
           errorText: _passwordShowError ? _passwordError : null,        
           suffixIcon: IconButton(
@@ -221,8 +210,11 @@ pw.Document createTicket() {
     });   
    
     Response response = await ApiHelper.getCierreActivo(int.parse(_zona), int.parse(_password));
-  
+     
    if (!response.isSuccess) {
+          setState(() {
+            _showLoader = false;
+          });
         if (mounted) {       
           showDialog(
             context: context,
@@ -243,9 +235,16 @@ pw.Document createTicket() {
           );
         }  
        return;
-     }    
+     }   
+
+      
     
     CierreActivo cierreActivo  = response.result;
+
+    if (cierreActivo.usuario.tipoempleado=="Admin"){
+      goAdminMenu(cierreActivo);
+      return;
+    }
 
     Response rsponseTransacciones = await ApiHelper.getTransaccionesAsProduct(cierreActivo.cierreFinal.idzona);
 
@@ -328,6 +327,19 @@ pw.Document createTicket() {
     setState(() { });
     return isValid;
   }
+  
+  void goAdminMenu(CierreActivo cierreActivo) {
+    Navigator.pushReplacement(
+      context, 
+      MaterialPageRoute(
+        builder: (context) => const DashboardScreen()
+      )
+    );
+  }
+  
+  
+
+ 
 
 
 }

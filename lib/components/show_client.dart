@@ -26,6 +26,7 @@ class _ShowClientState extends State<ShowClient> {
   Widget build(BuildContext context) {
     return Container(
        padding:  widget.padding ?? const EdgeInsets.all(0),
+       decoration: BoxDecoration(border: Border.all(color: Colors.white), borderRadius: BorderRadius.circular(10)),
       child: InkWell(
         onTap: () => _showNewCliente(context),
         child: Container(        
@@ -39,7 +40,7 @@ class _ShowClientState extends State<ShowClient> {
           ),),
           
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,        
             children: [                   
               Container(
@@ -60,14 +61,14 @@ class _ShowClientState extends State<ShowClient> {
                   : kPrimaryColor,),
                   
               ),
-              const SizedBox(width: 5,),        
+              const SizedBox(width: 10,),        
               Flexible(
                 child: Text(
                   widget.factura.clienteFactura.nombre == "" ? "Seleccione Un Cliente": widget.factura.clienteFactura.nombre ,
                     style:  const TextStyle(
                     color: kContrateFondoOscuro),),
               ),
-              const SizedBox(width: 10),
+              
              
             ],
           ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../constans.dart';
 import '../../../sizeconfig.dart';
 
 
@@ -21,21 +20,23 @@ class IconBtnWithCounter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      borderRadius: BorderRadius.circular(100),
+     
       onTap: press,
       child: Stack(
         clipBehavior: Clip.none,
         children: [
           Container(
             padding: EdgeInsets.all(getProportionateScreenWidth(12)),
-            height: getProportionateScreenWidth(46),
-            width: getProportionateScreenWidth(46),
-            decoration: const BoxDecoration(
-              color: kContrateFondoOscuro,
-              shape: BoxShape.circle,
+            height: getProportionateScreenWidth(40),
+            width: getProportionateScreenWidth(40),
+            decoration:  BoxDecoration(
+             
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(width: 1.5, color: Colors.white),
             ),
             // ignore: deprecated_member_use
-            child: SvgPicture.asset(svgSrc, color: kTextColorBlack,),
+            child: SvgPicture.asset(svgSrc, color: Colors.white,),
           ),
           if (numOfitem != 0)
             Positioned(

@@ -25,13 +25,18 @@ class Cliente {
     documento = json['documento'];   
     codigoTipoID = json['codigoTipoID'];
     email = json['email'];
-    puntos = json['puntos']; 
+    puntos = json['puntos'];
+    if (json['codigo'] != null) {
+       codigo = json['codigo']; 
+    }
+     
     if (json['telefono'] != null) {
       telefono = json['telefono'];
     }
     else {
       telefono = '';
     }
+
     
   }
 

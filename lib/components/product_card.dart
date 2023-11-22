@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
 import 'package:fuelred_mobile/Screens/Details/product_screen.dart';
 import 'package:fuelred_mobile/models/all_fact.dart';
-
 import 'package:fuelred_mobile/models/product.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import '../constans.dart';
 import '../sizeconfig.dart';
 

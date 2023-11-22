@@ -1,9 +1,11 @@
 
-import 'package:fuelred_mobile/constans.dart';
-import 'package:fuelred_mobile/models/all_fact.dart';
-import 'package:fuelred_mobile/models/pedder_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fuelred_mobile/clases/impresion.dart';
+import 'package:fuelred_mobile/constans.dart';
+import 'package:fuelred_mobile/models/all_fact.dart';
+import 'package:fuelred_mobile/models/peddler.dart';
 
 import '../../components/loader_component.dart';
 import '../../helpers/api_helper.dart';
@@ -19,7 +21,7 @@ class PeddlersScreen extends StatefulWidget {
 }
 
 class _PeddlersScreenState extends State<PeddlersScreen> {
-  List<PeddlerViewModel> peddlers = [];
+  List<Peddler> peddlers = [];
   bool showLoader = false;
   late double total=0;
 
@@ -36,9 +38,9 @@ class _PeddlersScreenState extends State<PeddlersScreen> {
    @override
   Widget build(BuildContext context) {
      return SafeArea(
-       child: Scaffold(
-     
+       child: Scaffold(     
         appBar: AppBar(
+           foregroundColor: Colors.white,
           backgroundColor: kBlueColorLogo,
           title: const Text('Peddlers', style: TextStyle(color: Colors.white),),
           
@@ -60,19 +62,34 @@ class _PeddlersScreenState extends State<PeddlersScreen> {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
                 child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                child: Dismissible(            
+                child: Dismissible(  
+                  resizeDuration: null,          
                   key: Key(item),
                   direction: DismissDirection.endToStart,
-                  onDismissed: (direction) {              
-                  _goDelete(peddlers[index].id ?? 0);        
-                  setState(() {
-                        peddlers.removeAt(index);
-                        total=0;                   
-                        for (var element in peddlers) {
-                          total+=element.cantidad??0;
-                        } 
-                  });     
-                  },
+                  onDismissed: (direction) async {
+                    final confirmed = await showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: const Text('Eliminar Peddler'),
+                          content: const Text('¿Estás seguro de que deseas eliminar este Peddler?'),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(false),
+                              child: const Text('Cancelar'),
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(true),
+                              child: const Text('Eliminar'),
+                            ),
+                          ],
+                        ),
+                      );
+
+                      if (confirmed == true) {
+                        _goDelete(peddlers[index]);
+                      }
+                   },
+                      
                   background: Container(              
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     decoration: BoxDecoration(
@@ -87,59 +104,98 @@ class _PeddlersScreenState extends State<PeddlersScreen> {
                     ),
                   ),
                   child: Row(
-                    children: [
-                      SizedBox(
-                        width: 88,
-                        child: AspectRatio(
-                          aspectRatio: 0.88,
-                          child: Container(
-                            padding: EdgeInsets.all(getProportionateScreenWidth(10)),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFF5F6F9),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child:  const Image(
-                                        image: AssetImage('assets/cbs.png'),
-                                    ),
-                          ),
-                        ),
-                      ),                         
-                      const SizedBox(width: 20),
+                    children: [    
                       Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                             Text(
-                              'Cliente: ${peddlers[index].cliente}',
-                              style: const TextStyle(color: Colors.black, fontSize: 16),
-                              maxLines: 2,
-                            ),
-                       
-                            Text.rich(
-                              TextSpan(
-                                text: 'Producto: ${peddlers[index].producto}',
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                               Text(
+                                'Cliente: ${peddlers[index].cliente!.nombre}',
                                 style: const TextStyle(
-                                    fontWeight: FontWeight.w600, color: kPrimaryColor),
-                                                          
+                                      fontWeight: FontWeight.w600, color: Colors.black, fontSize: 16),
+                                maxLines: 2,
                               ),
-                            ),
-                             Text.rich(
-                              TextSpan(
-                                text: 'Cantidad: ${peddlers[index].cantidad}',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w600, color: kPrimaryColor),
-                                                          
+                                               
+                              Text.rich(
+                                TextSpan(
+                                  text: 'Producto: ${peddlers[index].products![0].detalle}',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w600, color: kPrimaryColor),
+                                                            
+                                ),
                               ),
-                            ),
-                             Text.rich(
-                              TextSpan(
-                                text: 'Orden: ${peddlers[index].orden}',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w600, color: kPrimaryColor),
-                                                          
+                                 Text.rich(
+                                TextSpan(
+                                  text: 'Transaccion #: ${peddlers[index].products![0].transaccion}',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w600, color: kBlueColorLogo),
+                                                            
+                                ),
                               ),
-                            )
-                          ],
+                               Text.rich(
+                                TextSpan(
+                                  text: 'Cantidad: ${peddlers[index].products![0].cantidad}',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w600, color: Colors.black),
+                                                            
+                                ),
+                              ),
+                               Text.rich(
+                                TextSpan(
+                                  text: 'Orden: ${peddlers[index].orden}',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w600, color: Colors.black),
+                                                            
+                                ),
+                              ),
+                               Text.rich(
+                                TextSpan(
+                                  text: 'Chofer: ${peddlers[index].chofer}',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w600, color: kPrimaryColor),
+                                                            
+                                ),
+                              ),
+                               Text.rich(
+                                TextSpan(
+                                  text: 'Observaciones: ${peddlers[index].observaciones}',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w600, color: Colors.black),
+                                                            
+                                ),
+                              ),
+                               Text.rich(
+                                TextSpan(
+                                  text: 'Km: ${peddlers[index].km}',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w600, color: Colors.black),
+                                                            
+                                ),
+                              ),
+                               Text.rich(
+                                TextSpan(
+                                  text: 'Placa: ${peddlers[index].placa}',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w600, color: kBlueColorLogo),
+                                                            
+                                ),
+                              ),
+                               Center(
+                                 child: MaterialButton( 
+                                    onPressed: () => _printPeddler(peddlers[index]),                                    
+                                    color: Colors.blueGrey,
+                                    padding: const EdgeInsets.all(5),
+                                    shape: const CircleBorder(),
+                                    child:    const Icon( 
+                                      Icons.print_outlined,
+                                      size: 20,
+                                      color: Colors.white,),
+                                    ),
+                               ),
+                            ],
+                          ),
                         ),
                       )
                     ],
@@ -157,14 +213,14 @@ class _PeddlersScreenState extends State<PeddlersScreen> {
 
   }
 
-   Future<void> _goDelete(int id) async {
+   Future<void> _goDelete(Peddler ped) async {
 
      setState(() {
       showLoader = true;
     });
 
     
-    Response response = await ApiHelper.delete('/api/Peddler/',id.toString());
+    Response response = await ApiHelper.delete('/api/Peddler/',ped.id.toString());
 
     setState(() {
       showLoader = false;
@@ -192,6 +248,23 @@ class _PeddlersScreenState extends State<PeddlersScreen> {
         }  
        return;
      }
+
+     //show floataost whit a mesage pf success
+     Fluttertoast.showToast(
+        msg: "Peddler eliminado con exito",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 16.0
+      ); 
+
+    setState(() {
+      peddlers.remove(ped); 
+      widget.factura.transacciones.add(ped.products![0]); 
+                           
+    }); 
     
   }
 
@@ -231,11 +304,14 @@ class _PeddlersScreenState extends State<PeddlersScreen> {
      }
 
     setState(() {
-      total=0;
+     
       peddlers=response.result;
-      for (var element in peddlers) {
-        total+=element.cantidad??0;
-      } 
-    });
+     
+    }
+    );
+  }
+  
+  _printPeddler(Peddler peddler) {
+    Impresion.printPeddler(peddler, context);
   }
 }

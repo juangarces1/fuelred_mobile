@@ -1,23 +1,25 @@
-
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:fuelred_mobile/Screens/cart/cart_new.dart';
-import 'package:fuelred_mobile/Screens/clientes/cliente_credito_screen.dart';
-import 'package:fuelred_mobile/models/all_fact.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:fuelred_mobile/Screens/cart/cart_new.dart';
+import 'package:fuelred_mobile/Screens/credito/select_cliente_credito.dart';
+import 'package:fuelred_mobile/Screens/home/home_screen.dart';
+import 'package:fuelred_mobile/clases/impresion.dart';
+import 'package:fuelred_mobile/components/boton_flotante.dart';
+import 'package:fuelred_mobile/models/all_fact.dart';
+import 'package:fuelred_mobile/models/cliente.dart';
+import 'package:fuelred_mobile/models/peddler.dart';
+import 'package:fuelred_mobile/models/sinpe.dart';
+import 'package:fuelred_mobile/models/transferencia.dart';
 import 'package:intl/intl.dart';
 
 import '../../components/default_button.dart';
 import '../../components/loader_component.dart';
 import '../../constans.dart';
 import '../../helpers/api_helper.dart';
-
 import '../../models/response.dart';
 import '../../sizeconfig.dart';
-
 import '../cart/components/custom_appBar_cart.dart';
-import '../login_screen.dart';
+
 
 class PeddlersAddScreen extends StatefulWidget {
   final AllFact factura;
@@ -63,6 +65,7 @@ class _PeddlersAddScreenState extends State<PeddlersAddScreen> {
         ),
       ),
       body: _body(),
+      floatingActionButton: FloatingButtonWithModal(factura: widget.factura,)
     );
   }
 
@@ -107,23 +110,17 @@ class _PeddlersAddScreenState extends State<PeddlersAddScreen> {
   }
 
   Widget signUpForm() {
-
      return Form(
       key: _formKey,
       child: Column(
         children: [
-          showClient(),
-        
-        
+          SelectClienteCredito(factura: widget.factura, ruta: 'Credito'),
           showPlaca(), 
-             showkms(),   
-             showOrden(),
-             showChofer(),     
-         
-           showObser(),         
-        
-         
-         
+          showkms(),   
+          showOrden(),
+          showChofer(), 
+          showObser(),         
+            
         ],
       ),
     );
@@ -147,45 +144,7 @@ class _PeddlersAddScreenState extends State<PeddlersAddScreen> {
     return list;
   }
 
-   Widget showClient() {
-    return 
-      Container(
-        
-         decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 224, 225, 230),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-        child: Row(
-          children: [  
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-                          ),                 
-            InkWell(   
-              onTap: () => _goClientCredit(),        
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                height: getProportionateScreenWidth(40),
-                width: getProportionateScreenWidth(40),
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 199, 201, 207),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              // ignore: deprecated_member_use
-              child: SvgPicture.asset("assets/User Icon.svg", color:  widget.factura.formPago.clientePaid.nombre == '' ? kTextColor : kPrimaryColor,),
-              ),
-            ),
-            const Spacer(),               
-            Expanded(child: Text(widget.factura.formPago.clientePaid.nombre == "" ? "Seleccione Un Cliente": widget.factura.formPago.clientePaid.nombre)),
-            const SizedBox(width: 10),
-            const Icon(
-              Icons.arrow_forward_ios,
-              size: 12,
-              color: kTextColor,
-            )
-          ],
-        ),
-      );
- }
+  
 
   bool _validateFields() {
     bool isValid = true;  
@@ -230,28 +189,12 @@ class _PeddlersAddScreenState extends State<PeddlersAddScreen> {
      else {
       placaTypeIdShowError=false;
     }  
-
-
-
-    
-
+   
     setState(() { });
     return isValid;
   }
 
-
-  _goClientCredit() {
-       Navigator.push
-       (context,
-           MaterialPageRoute(
-             builder: (context) =>
-               ClientesCreditoScreen(
-                 factura: widget.factura,                 
-                  ruta: 'Credito',)
-            )
-        ); 
-  }
-
+  
   Widget showPlaca() {
     return Container(
          padding: const EdgeInsets.all(10),
@@ -313,44 +256,43 @@ class _PeddlersAddScreenState extends State<PeddlersAddScreen> {
  }
 
   Widget showChofer() {
-    return Container(
-          padding: const EdgeInsets.all(10),
-          child: TextField(
-            controller: ch,      
-            keyboardType: TextInputType.text,            
-            decoration:  InputDecoration(  
-              hintText: 'Ingresa el nombre...',           
-              labelText: 'Chofer',         
-              errorText: chShowError ? chError : null,                
-              suffixIcon: const Icon(Icons.traffic_outlined,
-            
-            ),
-            )  
-          ),
-        );
+  return Container(
+    padding: const EdgeInsets.all(10),
+    child: TextField(
+      controller: ch,      
+      keyboardType: TextInputType.text,            
+      decoration:  InputDecoration(  
+        hintText: 'Ingresa el nombre...',           
+        labelText: 'Chofer',         
+        errorText: chShowError ? chError : null,                
+        suffixIcon: const Icon(Icons.traffic_outlined,
+      
+      ),
+      )  
+    ),
+  );
  }
 
   Widget showOrden() {
-    return Container(
-          padding: const EdgeInsets.all(10),
-          child: TextField(
-            controller: or,      
-            keyboardType: TextInputType.text,            
-            decoration:  InputDecoration(  
-              hintText: 'Ingresa el numero...',           
-              labelText: 'Orden',         
-              errorText: orShowError ? orError : null,                
-              suffixIcon: const Icon(Icons.numbers_outlined),
-            
-            ),
-            
-          ),
-        );
-  }
-
+  return Container(
+    padding: const EdgeInsets.all(10),
+    child: TextField(
+      controller: or,      
+      keyboardType: TextInputType.text,            
+      decoration:  InputDecoration(  
+        hintText: 'Ingresa el numero...',           
+        labelText: 'Orden',         
+        errorText: orShowError ? orError : null,                
+        suffixIcon: const Icon(Icons.numbers_outlined),
+      
+      ),
+      
+    ),
+  );
+ }
 
   Widget showTotal() {
- return SafeArea(
+  return SafeArea(
   child: Padding(
     padding:
         EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
@@ -384,37 +326,35 @@ class _PeddlersAddScreenState extends State<PeddlersAddScreen> {
   );
 }
 
- 
- Future<void> _goPeddler() async{
-  if(!_validateFields()){
-     return;
-  }
+  Future<void> _goPeddler() async{
+    if(!_validateFields()){
+      return;
+    }
+    setState(() {
+      _showLoader=true;
+    });
 
-  setState(() {
-    _showLoader=true;
-  });
+    Peddler request = Peddler(              
+      chofer: ch.text,
+      cliente: widget.factura.formPago.clientePaid,                      
+      fecha: DateTime.now().toString(),
+      id: 0,
+      idcierre: widget.factura.cierreActivo.cierreFinal.idcierre,                       
+      km: kms.text,                       
+      observaciones: obser.text,
+      orden: or.text,
+      placa: placa,                       
+      products:  widget.factura.cart.products,
+      pistero: widget.factura.cierreActivo.usuario,
+    );
 
-   Map<String, dynamic> request = 
-      {
-        'products': widget.factura.cart.products.map((e) => e.toApiProducJson()).toList(),
-        'idCierre' : widget.factura.cierreActivo.cierreFinal.idcierre,
-        'cedualaUsuario' : widget.factura.cierreActivo.usuario.cedulaEmpleado.toString(),
-        'cedulaClienteFactura' : widget.factura.clienteFactura.documento,       
-        'clientePaid' : widget.factura.formPago.clientePaid.toJson(),       
-        'kms': kms.text,
-        'observaciones' : obser.text.isEmpty ? ' ' : obser.text,
-        'placa' : placa,  
-        'chofer' : ch.text,  
-        'Orden' : or.text, 
-      };
+    Response response = await ApiHelper.post('Api/Peddler/PostPeddler', request.toJson());
+    
+    setState(() {
+        _showLoader = false;
+    });
 
-   Response response = await ApiHelper.post('Api/Peddler/',request);
-  
-   setState(() {
-      _showLoader = false;
-   });
-
-     if (!response.isSuccess) {
+    if (!response.isSuccess) {
         if (mounted) {       
           showDialog(
             context: context,
@@ -434,26 +374,70 @@ class _PeddlersAddScreenState extends State<PeddlersAddScreen> {
             },
           );
         }  
-       return;
-     }
+      return;
+    }
+    resetFactura();
+    // ask the user if wants to print the factura
+    if (mounted) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Peddler Creado Exitosamente'),
+              content:  const Text('Desea imprimir el Peddler?'),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Si'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                   
+                    Impresion.printPeddler(request, context);
+                    _goHomeSuccess();
+                  },
+                ),
+                TextButton(
+                  child: const Text('No'),
+                  onPressed: () => _goHomeSuccess(),
+              ),
+            ],
+          );
+        },
+      );
+    } 
+  }
     
-     Fluttertoast.showToast(
-            msg: "Peddler(s) Creado(s)\nCorrectamente",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.CENTER,
-            timeInSecForIosWeb: 1,
-            backgroundColor: const Color.fromARGB(255, 20, 91, 22),
-            textColor: Colors.white,
-            fontSize: 16.0
-          ); 
+  Future<void> _goHomeSuccess() async {  
+    Navigator.push(context,  
+     MaterialPageRoute(
+        builder: (context) => HomeScreen(
+           factura: widget.factura,
+         )
+        )
+      );        
+    }
+
+  resetFactura() {
+    setState(() {
+      widget.factura.cart.products.clear();
+      widget.factura.formPago.totalBac=0;
+      widget.factura.formPago.totalBn=0;
+      widget.factura.formPago.totalCheques=0;
+      widget.factura.formPago.totalCupones=0;
+      widget.factura.formPago.totalDav=0;
+      widget.factura.formPago.totalDollars=0;
+      widget.factura.formPago.totalEfectivo=0;
+      widget.factura.formPago.totalPuntos=0;
+      widget.factura.formPago.totalSctia=0;
+      widget.factura.formPago.transfer.totalTransfer=0;
+      widget.factura.formPago.totalSinpe=0;
+      widget.factura.formPago.transfer= Transferencia(cliente: Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: ''), transfers: [], monto: 0, totalTransfer: 0);
+      widget.factura.clienteFactura=Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: '');
+      widget.factura.clientePuntos=Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: '');
+      widget.factura.formPago.clientePaid=Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: '');
+      widget.factura.formPago.sinpe = Sinpe(numFact: '', fecha: DateTime.now(), id: 0, idCierre: 0, activo: 0, monto: 0, nombreEmpleado: '', nota: '', numComprobante: '');
+      widget.factura.setSaldo(); 
       
-    Future.delayed(const Duration(milliseconds: 2000), () {
-        Navigator.pushReplacement(context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginScreen())
-        );   
+    });
+  }
 
-    });  
-
- }
 }

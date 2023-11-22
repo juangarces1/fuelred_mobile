@@ -26,7 +26,11 @@ class resdoc_facturas {
   double? montoFactura;
   String? usuario;
   String? identificacion;
-   String? telefono;
+  String? telefono;
+  bool isDevolucion = false;
+  bool isFactura = false;
+  bool  isTicket = false;
+  bool isCredito = false;
 
   resdoc_facturas(
   {    
@@ -55,7 +59,21 @@ class resdoc_facturas {
     this.identificacion,
     this.telefono,
     
-  });
+  }){
+  // Asignar valores a isDevolucion, isFactura e isTicket basados en el valor de nFactura
+  if (nFactura.startsWith('6')) {
+    isDevolucion = true;
+  } else if (nFactura.startsWith('7') || nFactura.startsWith('8')) {
+    isFactura = true;
+  } else if (nFactura.startsWith('2') || nFactura.startsWith('9')) {
+    isTicket = true;
+  }
+  if(plazo! > 0){
+    isCredito = true;
+  }
+}
+  
+  
 
   resdoc_facturas.fromJson(Map<String, dynamic> json) {
     cliente = json['descripCliente'];
@@ -86,8 +104,18 @@ class resdoc_facturas {
     montoFactura = json['montoFactura'];
     identificacion = json['cedulaCliente'];
     telefono = json['telefono01Cliente'];
+    if (nFactura.startsWith('6')) {
+      isDevolucion = true;
+    } else if (nFactura.startsWith('7') || nFactura.startsWith('8')) {
+      isFactura = true;
+    } else if (nFactura.startsWith('2') || nFactura.startsWith('9')) {
+      isTicket = true;
+    }
+    if(plazo! > 0){
+      isCredito = true;
+    }
     
-  }
+  } 
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};

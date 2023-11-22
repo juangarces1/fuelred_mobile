@@ -50,8 +50,8 @@ class Body extends StatelessWidget {
                         padding: EdgeInsets.only(
                           left: SizeConfig.screenWidth * 0.20,
                           right: SizeConfig.screenWidth * 0.20,
-                          bottom: getProportionateScreenWidth(15),
-                          top: getProportionateScreenWidth(15),
+                          bottom: getProportionateScreenWidth(1),
+                          top: getProportionateScreenWidth(1),
                         ),
                         child: DefaultButton(
                           text: "Agregar",

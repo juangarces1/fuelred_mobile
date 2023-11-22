@@ -1,20 +1,18 @@
 
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fuelred_mobile/Screens/credito/select_cliente_credito.dart';
 import 'package:fuelred_mobile/Screens/manejoCierre/viaticos_screen.dart';
 import 'package:fuelred_mobile/components/default_button.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/models/all_fact.dart';
-
 import 'package:fuelred_mobile/models/cliente.dart';
 import 'package:fuelred_mobile/models/viatico.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../../components/loader_component.dart';
 import '../../helpers/api_helper.dart';
 import '../../models/response.dart';
 import '../../sizeconfig.dart';
-import '../clientes/cliente_credito_screen.dart';
 
 class AddViaticoScreen extends StatefulWidget {
 final AllFact factura;
@@ -52,6 +50,7 @@ class _AddViaticoScreenState extends State<AddViaticoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+         foregroundColor: Colors.white,
         backgroundColor: kPrimaryColor,
         title: const Text('Nuevo Viatico', style: TextStyle(color: Colors.white),),
       ),
@@ -64,7 +63,11 @@ class _AddViaticoScreenState extends State<AddViaticoScreen> {
                 children: <Widget>[
               
                    SizedBox(height: SizeConfig.screenHeight * 0.04), 
-                 showClient(),
+                 SelectClienteCredito(
+                  factura: widget.factura, 
+                  ruta: 'Viatico',
+                  padding: const EdgeInsets.only(left: 30 , right: 30),
+                   ),
                       SizedBox(height: SizeConfig.screenHeight * 0.04), 
                  showPlaca(),
                   SizedBox(height: SizeConfig.screenHeight * 0.04),
@@ -91,54 +94,54 @@ class _AddViaticoScreenState extends State<AddViaticoScreen> {
     );
   }
 
-   _goClientCredit() {
-       Navigator.push
-       (context,
-           MaterialPageRoute(
-             builder: (context) =>
-               ClientesCreditoScreen(
-                 factura: widget.factura,
+//    _goClientCredit() {
+//        Navigator.push
+//        (context,
+//            MaterialPageRoute(
+//              builder: (context) =>
+//                ClientesCreditoScreen(
+//                  factura: widget.factura,
                   
-                  ruta: 'Viatico',)
-            )
-        ); 
-  }
+//                   ruta: 'Viatico',)
+//             )
+//         ); 
+//   }
 
-    Widget showClient() {
-    return 
-      Padding(
-        padding: const EdgeInsets.only(left: 30 , right: 30),
-        child: Row(
-          children: [                   
-            InkWell(
-              onTap: () => _goClientCredit(),
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                height: getProportionateScreenWidth(40),
-                width: getProportionateScreenWidth(40),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF5F6F9),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              child: SvgPicture.asset(
-                "assets/User Icon.svg", 
-                // ignore: deprecated_member_use
-                color:  widget.factura.formPago.clientePaid.nombre == '' ? kTextColor 
-                : kPrimaryColor,),
-              ),
-            ),
-            const Spacer(),               
-            Text(widget.factura.formPago.clientePaid.nombre == "" ? "Seleccione Un Cliente": widget.factura.formPago.clientePaid.nombre),
-            const SizedBox(width: 10),
-            const Icon(
-              Icons.arrow_forward_ios,
-              size: 12,
-              color: kTextColor,
-            )
-          ],
-        ),
-      );
- }
+//     Widget showClient() {
+//     return 
+//       Padding(
+//         padding: const EdgeInsets.only(left: 30 , right: 30),
+//         child: Row(
+//           children: [                   
+//             InkWell(
+//               onTap: () => _goClientCredit(),
+//               child: Container(
+//                 padding: const EdgeInsets.all(10),
+//                 height: getProportionateScreenWidth(40),
+//                 width: getProportionateScreenWidth(40),
+//                 decoration: BoxDecoration(
+//                   color: const Color(0xFFF5F6F9),
+//                   borderRadius: BorderRadius.circular(10),
+//                 ),
+//               child: SvgPicture.asset(
+//                 "assets/User Icon.svg", 
+//                 // ignore: deprecated_member_use
+//                 color:  widget.factura.formPago.clientePaid.nombre == '' ? kTextColor 
+//                 : kPrimaryColor,),
+//               ),
+//             ),
+//             const Spacer(),               
+//             Text(widget.factura.formPago.clientePaid.nombre == "" ? "Seleccione Un Cliente": widget.factura.formPago.clientePaid.nombre),
+//             const SizedBox(width: 10),
+//             const Icon(
+//               Icons.arrow_forward_ios,
+//               size: 12,
+//               color: kTextColor,
+//             )
+//           ],
+//         ),
+//       );
+//  }
 
   Widget showPlaca() {
     return Container(

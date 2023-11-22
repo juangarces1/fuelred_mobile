@@ -26,68 +26,64 @@ class CustomAppBarCart extends StatefulWidget {
 
 class _CustomAppBarCartState extends State<CustomAppBarCart> {
   // AppBar().preferredSize.height provide us the height that appy on our app bar
-  Size get preferredSize => Size.fromHeight(AppBar().preferredSize.height);
+ // Size get preferredSize => const Size.fromHeight(70);
 
  
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-         color: const Color.fromARGB(255, 144, 144, 145),
+    return Container(
+       color: Colors.black38,// const Color.fromARGB(255, 144, 144, 145),
 
-
-
-        child: Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10), vertical: getProportionateScreenHeight(5)),
-          child: Row(
-            children: [
-              SizedBox(
-                height: getProportionateScreenHeight(45),
-                width: getProportionateScreenWidth(45),
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(60),
-                    ),
-                   
-                    backgroundColor:  Colors.white,
-                    padding: EdgeInsets.zero,
+      child: Padding(
+        padding:
+            EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20), vertical: getProportionateScreenHeight(10)),
+        child: Row(
+          children: [
+            SizedBox(
+              height: getProportionateScreenHeight(40),
+              width: getProportionateScreenWidth(40),
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(60),
                   ),
-                  onPressed: widget.press as void Function()?,             
-                                            
-                  child: SvgPicture.asset(
-                    "assets/Back ICon.svg",
-                    height: 15,
-                    // ignore: deprecated_member_use
-                    color: kPrimaryColor,
-                  ),
+                 
+                  backgroundColor:  Colors.white,
+                  padding: EdgeInsets.zero,
+                ),
+                onPressed: widget.press as void Function()?,             
+                                          
+                child: SvgPicture.asset(
+                  "assets/Back ICon.svg",
+                  height: 15,
+                  // ignore: deprecated_member_use
+                  color: kPrimaryColor,
                 ),
               ),
-              const Spacer(),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      "Productos(${widget.factura.cart.products.length.toString()})",
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                      ),
+            ),
+            const Spacer(),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Row(
+                children: [
+                  Text(
+                    "Productos(${widget.factura.cart.products.length.toString()})",
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
                     ),
-                    const SizedBox(width: 5),
-                    
-                  ],
-                ),
-              )
-            ],
-          ),
+                  ),
+                  const SizedBox(width: 5),
+                  
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );

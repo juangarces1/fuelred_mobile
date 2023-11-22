@@ -38,6 +38,7 @@ class _TransferenciasScreenState extends State<TransferenciasScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+           foregroundColor: Colors.white,
           backgroundColor: kBlueColorLogo,
           title: const Text('Transferencias', style: TextStyle(color: Colors.white),),
          

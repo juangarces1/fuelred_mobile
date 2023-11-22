@@ -39,6 +39,7 @@ class _ViaticosScreenState extends State<ViaticosScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+           foregroundColor: Colors.white,
           backgroundColor: kBlueColorLogo,
           title: const Text('Viaticos', style: TextStyle(color: Colors.white),),
           
@@ -123,7 +124,7 @@ class _ViaticosScreenState extends State<ViaticosScreen> {
                             const SizedBox(height: 10),
                             Text.rich(
                               TextSpan(
-                                text: 'Monto : ¢  ${NumberFormat("###,000", "en_US").format(viaticos[index].monto)}',
+                                text: 'Monto : ¢  ${NumberFormat("###,###", "en_US").format(viaticos[index].monto)}',
                                 style: const TextStyle(
                                     fontWeight: FontWeight.w600, color: kPrimaryColor),
                                                           
@@ -156,7 +157,7 @@ class _ViaticosScreenState extends State<ViaticosScreen> {
                 icon: const Icon(Icons.menu),
                 onPressed: () {},
               ),
-              Text('Total: ¢${NumberFormat("###,000", "en_US").format(total)}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),),
+              Text('Total: ¢${NumberFormat("###,###", "en_US").format(total)}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),),
     
                ],          
              ),
@@ -166,7 +167,7 @@ class _ViaticosScreenState extends State<ViaticosScreen> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: kPrimaryColor,
           onPressed: () => _goAdd(),
-          child: const Icon(Icons.add),
+          child: const Icon(Icons.add, color:  Colors.white, size: 35,),
         )
       ),
     );

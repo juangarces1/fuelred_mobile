@@ -36,6 +36,7 @@ class _SinpesScreenState extends State<SinpesScreen> {
       child: Scaffold(
     
         appBar: AppBar(
+           foregroundColor: Colors.white,
           backgroundColor: kBlueColorLogo,
           title: const Text('Sinpes', style: TextStyle(color: Colors.white),),
           
@@ -177,7 +178,7 @@ class _SinpesScreenState extends State<SinpesScreen> {
           backgroundColor: kPrimaryColor,
           onPressed: () => _goAdd(),
           
-          child: const Icon(Icons.add),
+          child: const Icon(Icons.add, color: Colors.white,size: 30,),
           
         ),
       

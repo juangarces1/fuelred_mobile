@@ -12,10 +12,10 @@ class LoaderComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(      
         child: Container(          
-          width: 210,
-          height: 150,
+          width: 180,
+          height: 120,
           decoration: BoxDecoration(
-            color:  kColorFondoOscuro,
+            color:  kBlueColorLogo,
             borderRadius: BorderRadius.circular(10),
             border:  Border.all(color: kPrimaryColor),
           ),
@@ -26,7 +26,7 @@ class LoaderComponent extends StatelessWidget {
                 color: kContrateFondoOscuro,
               ),
               const SizedBox(height: 20,),
-              Text(text, style: const TextStyle(fontSize: 18, color: kContrateFondoOscuro),),
+              Text(text, style: const TextStyle(fontSize: 16, color: kContrateFondoOscuro),),
             ],
           ),
         ),

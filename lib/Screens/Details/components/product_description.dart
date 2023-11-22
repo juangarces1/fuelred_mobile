@@ -22,9 +22,11 @@ class ProductDescription extends StatelessWidget {
         Padding(
           padding:
               EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-          child: Text(
-            product.detalle,
-            style: const TextStyle(color: kContrateFondoOscuro, fontSize: 20, fontWeight: FontWeight.bold),
+          child: Center(
+            child: Text(
+              product.detalle,
+              style: const TextStyle(color: kContrateFondoOscuro, fontSize: 22, fontWeight: FontWeight.bold),
+            ),
           ),
         ),
         

@@ -27,7 +27,7 @@ class _ProductImagesState extends State<ProductImages> {
         SizedBox(
           width: getProportionateScreenWidth(238),
           child: AspectRatio(
-            aspectRatio: 0.7,
+            aspectRatio:0.7,
             child: Container(
                padding: EdgeInsets.all(getProportionateScreenWidth(10)),
                   decoration: BoxDecoration(
@@ -40,13 +40,13 @@ class _ProductImagesState extends State<ProductImages> {
                           imageUrl: '$imagenesUrl/${widget.product.imageUrl}',
                           errorWidget: (context, url, error) => const Icon(Icons.error),
                           fit: BoxFit.cover,
-                          height: 80,
-                          width: 80,
+                          height: 70,
+                          width: 70,
                           placeholder: (context, url) => const Image(
                             image: AssetImage('assets/Logo.png'),
                             fit: BoxFit.cover,
-                            height: 80,
-                            width: 80,
+                            height: 70,
+                            width: 70,
                           ),                         
                         ),
               ),

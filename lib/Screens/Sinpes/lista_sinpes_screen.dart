@@ -148,13 +148,13 @@ class _ListaSinpesScreenState extends State<ListaSinpesScreen> {
   _goAdd(Sinpe sinpe) {
          
      //show tast to say the saldo is not riagth
-      if(sinpe.monto != widget.factura.formPago.saldo){
+      if(sinpe.monto > widget.factura.formPago.saldo){
         showDialog(
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
                   title: const Text('Error'),
-                  content:  const Text('El monto del sinpe no es igual al saldo de la factura'),
+                  content:  const Text('El monto del sinpe no puede ser mayor que el saldo de la factura'),
                   actions: <Widget>[
                     TextButton(
                       child: const Text('Aceptar'),
