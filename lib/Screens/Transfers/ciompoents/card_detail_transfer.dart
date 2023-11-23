@@ -49,7 +49,7 @@ class CardDetailTransfer extends StatelessWidget {
                                 style: const TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
-                                   color: kBlueColorLogo
+                                   color: kPrimaryColor
                                 ),
                               ),
                            
@@ -67,7 +67,7 @@ class CardDetailTransfer extends StatelessWidget {
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                   color: kPrimaryText
+                                   color: kBlueColorLogo
                                 ),
                               ),
                             ],

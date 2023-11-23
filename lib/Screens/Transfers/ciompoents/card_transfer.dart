@@ -109,7 +109,7 @@ class _CardTransferState extends State<CardTransfer> {
     if(widget.showDetail){    
       if(e.descuentos!.isEmpty){
          Fluttertoast.showToast(
-            msg: "La cantidad es superior al saldo, por favor vuelva a ingresarla",
+            msg: "No hay descuentos registrados.",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
             timeInSecForIosWeb: 1,

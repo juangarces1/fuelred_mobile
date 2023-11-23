@@ -18,6 +18,7 @@ import 'package:fuelred_mobile/models/tranferview.dart';
 import 'package:fuelred_mobile/models/transaccion.dart';
 import 'package:fuelred_mobile/models/transparcial.dart';
 import 'package:fuelred_mobile/models/viatico.dart';
+import 'package:fuelred_mobile/modelsAdmin/SalesModels/sales_data.dart';
 import 'package:fuelred_mobile/modelsAdmin/cuenta_banco.dart';
 import 'package:http/http.dart' as http;
 
@@ -548,6 +549,27 @@ static Future<Response> getBanks() async {
       }
      }
      return Response(isSuccess: true, result: clientes);    
+ }
+
+ static Future<Response> getSales() async {
+   var url = Uri.parse('${Constans.apiUrl}/api/Sales/');
+    var response = await http.get(
+      url,
+      headers: {
+        'content-type' : 'application/json',
+        'accept' : 'application/json',
+      },        
+    );
+    var body = response.body;
+    if (response.statusCode >= 400) {
+      return Response(isSuccess: false, message: body);
+    }
+    SalesData? data;
+    var decodedJson = jsonDecode(body);
+     if(decodedJson != null){
+      data = SalesData.fromJson(decodedJson);
+     }
+     return Response(isSuccess: true, result: data);    
  }
 
    static Future<Response> getClientesTransfer() async {

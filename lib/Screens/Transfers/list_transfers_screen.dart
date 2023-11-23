@@ -21,10 +21,16 @@ class ListTransferScreen extends StatefulWidget {
 
  class _ListTransferScreenState extends State<ListTransferScreen> {
   List<TransferFull> _transfers =[];
+   // Controlador para el TextField de búsqueda
+  final TextEditingController _searchController = TextEditingController();
+
+  // Lista para almacenar las transferencias filtradas
+  List<TransferFull> _filteredTransfers = [];
+   List<TransferFull> _backupLits = [];
  
  
   bool _showLoader = false;
-  final bool _isFiltered = false;
+  bool _isFiltered = false;
   bool showTransfer = true;
 
 
@@ -32,8 +38,70 @@ class ListTransferScreen extends StatefulWidget {
   void initState() {
     super.initState();
     _getTransfers();
-   // setUpTransfer();
+    
+
+    // Agrega un listener al controlador para actualizar _filteredTransfers
+    // cada vez que el usuario cambie la consulta de búsqueda
+    _searchController.addListener(_searchTransfers);
   }
+
+   @override
+  void dispose() {
+    // No olvides deshacerte del controlador cuando ya no lo necesites
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _searchTransfers() {
+    String query = _searchController.text;
+
+    // Filtra las transferencias basándote en la consulta de búsqueda
+    _filteredTransfers = _transfers.where((transfer) {
+      return transfer.cliente!.toLowerCase().contains(query.toLowerCase());
+    }).toList();
+
+    // Actualiza el estado para reflejar los cambios en la UI
+    setState(() {
+      _transfers = _filteredTransfers;
+       _isFiltered = query.isNotEmpty;
+    });
+  }
+
+  void _showSearchDialog() {
+  if (_isFiltered) {
+    // Si la lista está filtrada, restablece la lista y el icono
+    setState(() {
+      _transfers = _backupLits;
+      _isFiltered = false;
+      _searchController.clear();
+    });
+  } else {
+    // Si la lista no está filtrada, muestra el diálogo de búsqueda
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Buscar por cliente'),
+          content: TextField(
+            controller: _searchController,
+            decoration: const InputDecoration(
+              hintText: 'Nombre del cliente',
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Buscar'),
+              onPressed: () {
+                _searchTransfers();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
   
   @override
  Widget build(BuildContext context) {  
@@ -41,25 +109,28 @@ class ListTransferScreen extends StatefulWidget {
       child: Scaffold(
         appBar: AppBar(
           foregroundColor: kPrimaryColor,
-          title: const Text('Transferencias', style: TextStyle(color: kPrimaryColor),),
+          title: const Text('Transferencias',
+           style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: kPrimaryColor
+                ),),
           actions: <Widget>[
             IconButton(
-              icon: const Icon(Icons.search),
-              onPressed: () {},
-            ),
+            icon: Icon(_isFiltered ? Icons.filter_list : Icons.search),
+            onPressed: _showSearchDialog,
+          ),
           ],
         ),
-        body: Stack(
-          children: [
-            Container(
-              color:   const Color.fromARGB(255, 70, 72, 77),
-              child: Center(
-                child: _showLoader ? const LoaderComponent(text: 'Por favor espere...') 
-                : _getContent(),
-              ),
+        body: Container(
+          color:   const Color.fromARGB(255, 70, 72, 77),
+          child: Center(
+            child: _showLoader ? const LoaderComponent(text: 'Por favor espere...') 
+            : Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: _getContent(),
             ),
-            _showLoader ? const LoaderComponent(text: 'Por favor espere...') : Container(),
-          ],
+          ),
         ),
       
       
@@ -67,9 +138,6 @@ class ListTransferScreen extends StatefulWidget {
     );
   }
  
-
-
-
  Future<void> _getTransfers() async {
     setState(() {
       _showLoader = true;
@@ -107,6 +175,7 @@ class ListTransferScreen extends StatefulWidget {
 
     setState(() {
       _transfers = response.result;
+      _backupLits = response.result;
     });
    
   }
@@ -135,10 +204,6 @@ class ListTransferScreen extends StatefulWidget {
     );
   }
 
-
-
-
-
  Widget _getListView() {
     return RefreshIndicator(
       onRefresh: _getTransfers,
@@ -150,21 +215,12 @@ class ListTransferScreen extends StatefulWidget {
     );
   }
  
- 
-
-
   void orderTransfer() {
     _transfers.sort((a, b) {
       return a.cliente!.compareTo(b.cliente!);
     });
   }
   
- 
-  
-
- 
-
-
 }
 
 

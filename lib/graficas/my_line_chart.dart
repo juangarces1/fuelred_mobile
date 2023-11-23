@@ -1,8 +1,21 @@
-import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
+import 'package:fuelred_mobile/modelsAdmin/SalesModels/product_sales.dart';
+import 'package:fuelred_mobile/modelsAdmin/SalesModels/sales_data.dart';
 
-class MyLineChart extends StatelessWidget {
-  const MyLineChart({super.key});
+class MyLineChart extends StatefulWidget {
+  final SalesData salesData;
+  const MyLineChart({super.key, required this.salesData});
+
+  @override
+  State<MyLineChart> createState() => _MyLineChartState();
+}
+
+class _MyLineChartState extends State<MyLineChart> {
+ 
+  
+
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +31,7 @@ class MyLineChart extends StatelessWidget {
             sideTitles: SideTitles(
               showTitles: true,
               getTitlesWidget: (value, meta) {
-                // switch (value.toInt()) {
-                //   case 1: return const Text('Dia 1');
-                //   case 2: return const Text('Dia 2');
-                //   case 3: return const Text('Dia 3');
-                //   case 4: return const Text('Dia 4');
-                //   default: return const Text('');
-                // }
+              
                 return Text(' ${value.toInt()}');
               },
               reservedSize: 30,
@@ -33,11 +40,8 @@ class MyLineChart extends StatelessWidget {
           ),
           lineTouchData: LineTouchData(
               touchCallback: (FlTouchEvent event, LineTouchResponse? touchResponse) {
-                // Aquí puedes manejar eventos de toque si es necesario
-                // Por ejemplo, puedes comprobar si es un evento de toque y actuar en consecuencia
-                if (event is FlTapUpEvent && touchResponse != null) {
-                  // Manejo de un evento de toque
-                  // Puedes usar touchResponse para obtener detalles sobre el punto tocado
+               if (event is FlTapUpEvent && touchResponse != null) {
+       
                 }
               },
               handleBuiltInTouches: true,
@@ -46,24 +50,30 @@ class MyLineChart extends StatelessWidget {
         lineBarsData: [
           // Datos para el Producto 1
           LineChartBarData(
-            spots: getSpotsForProduct1(), // Reemplaza con tus datos
+            spots: getSpotsForExo(), // Reemplaza con tus datos
             isCurved: true,
             barWidth: 3,
             color: Colors.blue,
           ),
           // Datos para el Producto 2
           LineChartBarData(
-            spots: getSpotsForProduct2(), // Reemplaza con tus datos
+            spots: getSpotsForDiesel(), // Reemplaza con tus datos
             isCurved: true,
             barWidth: 3,
             color: Colors.green,
           ),
           // Datos para el Producto 3
           LineChartBarData(
-            spots: getSpotsForProduct3(), // Reemplaza con tus datos
+            spots: getSpotsForRegular(), // Reemplaza con tus datos
             isCurved: true,
             barWidth: 3,
             color: Colors.red,
+          ),
+            LineChartBarData(
+            spots: getSpotsForSuper(), // Reemplaza con tus datos
+            isCurved: true,
+            barWidth: 3,
+            color: const Color.fromARGB(255, 244, 54, 187),
           ),
         ],
       ),
@@ -71,39 +81,61 @@ class MyLineChart extends StatelessWidget {
   }
 
   // Genera FlSpot para cada producto
-  List<FlSpot> getSpotsForProduct1() {
-    return [
-      // Aquí debes reemplazar con tus datos (x, y)
-      const FlSpot(1, 2),
-      const FlSpot(2, 3.5),
-       const FlSpot(3, 2),
-      const FlSpot(4, 3.5),
-       const FlSpot(5, 4.5),
-      // ... más datos
-    ];
+  List<FlSpot> getSpotsForDiesel() {
+    List<FlSpot> spots = [];
+    List<ProductSale> filtrarProductosDiesel = widget.salesData.data!.where((producto) => producto.product == 'Diesel').toList();
+    
+    
+    for (var producto in filtrarProductosDiesel) {
+      for (var venta in producto.sales) {
+        spots.add(FlSpot(venta.number, venta.volumen));
+      }
+    }
+
+    return spots;
   }
 
-  List<FlSpot> getSpotsForProduct2() {
-    return [
-      // Aquí debes reemplazar con tus datos (x, y)
-      const FlSpot(1, 3),
-      const FlSpot(2, 2.5),
-       const FlSpot(3, 4.3),
-      const FlSpot(4, 5.5),
-       const FlSpot(5, 4.5),
-      // ... más datos
-    ];
+  List<FlSpot> getSpotsForSuper() {
+    List<FlSpot> spots = [];
+    List<ProductSale> filtrarProductosDiesel = widget.salesData.data!.where((producto) => producto.product == 'Super').toList();
+    
+    
+    for (var producto in filtrarProductosDiesel) {
+      for (var venta in producto.sales) {
+        spots.add(FlSpot(venta.number, venta.volumen));
+      }
+    }
+
+    return spots;
   }
 
-  List<FlSpot> getSpotsForProduct3() {
-    return [
-      // Aquí debes reemplazar con tus datos (x, y)
-      const FlSpot(1, 1),
-      const FlSpot(2, 4.5),
-       const FlSpot(3, 6),
-      const FlSpot(4, 1.5),
-       const FlSpot(5, 2.5),
-      // ... más datos
-    ];
+  List<FlSpot> getSpotsForRegular() {
+     List<FlSpot> spots = [];
+    List<ProductSale> filtrarProductosDiesel = widget.salesData.data!.where((producto) => producto.product == 'Regular').toList();
+    
+    
+    for (var producto in filtrarProductosDiesel) {
+      for (var venta in producto.sales) {
+        spots.add(FlSpot(venta.number, venta.volumen));
+      }
+    }
+
+    return spots;
   }
+
+  List<FlSpot> getSpotsForExo() {
+     List<FlSpot> spots = [];
+    List<ProductSale> filtrarProductosDiesel = widget.salesData.data!.where((producto) => producto.product == 'Exo').toList();
+    
+    
+    for (var producto in filtrarProductosDiesel) {
+      for (var venta in producto.sales) {
+        spots.add(FlSpot(venta.number, venta.volumen));
+      }
+    }
+
+    return spots;
+  }
+  
+ 
 }
