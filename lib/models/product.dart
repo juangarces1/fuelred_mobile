@@ -77,11 +77,23 @@ class Product{
         rateid = json['rateid'];
         taxid = json['taxid'];
         precioCompra = json['precio_compra'].toDouble();
-        codigoCabys = json['codigoCabys'];
+        if (json['codigoCabys'] != null){
+          codigoCabys = json['codigoCabys'];
+        }
+        else{
+          codigoCabys = "";
+        }
+        
         transaccion = json['transaccion'];
         factor = json['factor'].toDouble();
         dispensador = json['dispensador'];
-        imageUrl=json['imageUrl'];
+        if (json['imageUrl'] != null) {
+          imageUrl = json['imageUrl'];
+        }
+        else{
+          imageUrl = "NoImage.jpg";
+        }
+       
         inventario=json['inventario'];        
       }
 
@@ -110,6 +122,7 @@ class Product{
     data['transaccion'] = transaccion;
     data['factor'] = factor;
     data['dispensador'] = dispensador;
+   
     data['imageUrl'] = imageUrl;
     data['inventario'] = inventario;
     return data;

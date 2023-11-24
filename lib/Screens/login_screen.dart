@@ -94,9 +94,9 @@ class _LoginScreenState extends State<LoginScreen> {
                            bottomRight: Radius.circular(20),
                          )
                        ),
-                       child: const Row(
+                       child:  Row(
                          mainAxisAlignment: MainAxisAlignment.center,
-                         children: [
+                         children: const [
                            Padding(padding: EdgeInsets.all(20),
                            child: Text('ENTRAR', style: TextStyle(
                              fontSize: 20,
@@ -130,9 +130,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
   Widget _showLogo() {
-    return const Row(
+    return  Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [ Image(
+      children: const [ Image(
         image: AssetImage('assets/LogoLogin.png'),
         width: 130,
         fit: BoxFit.fill,

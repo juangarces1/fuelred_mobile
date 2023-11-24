@@ -31,7 +31,8 @@ class resdoc_facturas {
   bool isFactura = false;
   bool  isTicket = false;
   bool isCredito = false;
-
+  double? saldo; 
+  int? diasEnMora;
   resdoc_facturas(
   {    
     required this.cliente,
@@ -58,6 +59,8 @@ class resdoc_facturas {
     this.usuario,
     this.identificacion,
     this.telefono,
+    this.saldo,
+    this.diasEnMora,
     
   }){
   // Asignar valores a isDevolucion, isFactura e isTicket basados en el valor de nFactura
@@ -68,8 +71,8 @@ class resdoc_facturas {
   } else if (nFactura.startsWith('2') || nFactura.startsWith('9')) {
     isTicket = true;
   }
-  if(plazo! > 0){
-    isCredito = true;
+  if (plazo != null && plazo! > 0){
+     isCredito = true;
   }
 }
   
@@ -80,7 +83,7 @@ class resdoc_facturas {
     nFactura = json['nFactura'];
     codigoCliente = json['codigoCliente'];
     descripCliente = json['descripCliente'];
-    fechaFactura =  DateTime.parse(json['fechaFactura']);
+    fechaFactura = json['fechaFactura'] != null ? DateTime.parse(json['fechaFactura']) : null;
     fechaHoraTrans =  DateTime.parse(json['fechaHoraTrans']); 
     tipoDocumento = json['tipoDocumento'];
     email = json['email'];
@@ -114,6 +117,12 @@ class resdoc_facturas {
     if(plazo! > 0){
       isCredito = true;
     }
+    if(json['totalTip'] != null){
+      saldo = json['totalTip'];
+    } else {
+      saldo = 0;
+    }
+    diasEnMora = json['diasEnMora'];
     
   } 
 

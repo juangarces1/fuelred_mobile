@@ -20,61 +20,59 @@ class CardDetailTransfer extends StatelessWidget {
               child: Container(
                 margin: const EdgeInsets.all(5),
                 padding: const EdgeInsets.all(5),
-                child: Expanded(
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                           
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                         
 
-                               Text(
-                                'Fecha: ${detailTransfer.fecha}', 
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black87
-                                ),
+                             Text(
+                              'Fecha: ${detailTransfer.fecha}', 
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black87
                               ),
-                           
-                            
-                            
-                              Text(
-                               'Monto: ¢ ${NumberFormat("###,000", "en_US").format(detailTransfer.monto)}', 
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                   color: kPrimaryColor
-                                ),
+                            ),
+                         
+                          
+                          
+                            Text(
+                             'Monto: ¢ ${NumberFormat("###,000", "en_US").format(detailTransfer.monto)}', 
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                 color: kPrimaryColor
                               ),
-                           
-                              Text(
-                                  'Pistero:  ${detailTransfer.pistero}', 
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                   color: kPrimaryText
-                                ),
+                            ),
+                         
+                            Text(
+                                'Pistero:  ${detailTransfer.pistero}', 
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                 color: kPrimaryText
                               ),
+                            ),
 
-                               Text(
-                                  'Cierre #:  ${detailTransfer.cierre}', 
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                   color: kBlueColorLogo
-                                ),
+                             Text(
+                                'Cierre #:  ${detailTransfer.cierre}', 
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                 color: kBlueColorLogo
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),

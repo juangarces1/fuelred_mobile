@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons_null_safety/flutter_icons_null_safety.dart';
+import 'package:fuelred_mobile/Screens/Admin/Cartera/cartera_screen.dart';
 import 'package:fuelred_mobile/Screens/Transfers/add_transfer_screen.dart';
 import 'package:fuelred_mobile/Screens/Transfers/list_transfers_screen.dart';
+import 'package:fuelred_mobile/Screens/facturas/info_factura_screen.dart';
+import 'package:fuelred_mobile/clases/show_alert_factura.dart';
 import 'package:fuelred_mobile/components/loader_component.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/graficas/my_line_chart.dart';
@@ -38,7 +41,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title:  const Row(
+          title:   const Row(
             children: [  
              SizedBox(
               height: 70,
@@ -176,7 +179,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
                  scale: 5.5,
                  image:  AssetImage('assets/LogoSinFondo.png'))),
                    child: SizedBox()),
-          ),           
+          ),     
+
+           ListTile(
+              textColor: kColorMenu,
+              leading: const Icon(Icons.search , color: kColorMenu,),
+              title: const Text('Buscar Factura'),
+              onTap: () async {
+                String? numberInput = await ShowAlertFactura.show(context);
+                if (numberInput != null) {
+                  // Haz algo con el número, por ejemplo, navegar a otra pantalla
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => InfoFacturaScreen(numeroFactura: numberInput),
+                  ));
+                }
+              },
+            ),
+
             ListTile(
                 textColor: kColorMenu,
               leading: const Icon(Icons.double_arrow_outlined , color: kColorMenu,),
@@ -202,6 +221,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
                    context, 
                    MaterialPageRoute(
                      builder: (context) => const  ListTransferScreen()
+                   )
+                 );
+              },
+            ),
+
+             ListTile(
+                textColor: kColorMenu,
+              leading: const Icon(Icons.wallet_outlined , color: kColorMenu,),
+              title: const Text('Cartera'),
+              onTap: () { 
+                 Navigator.push(
+                   context, 
+                   MaterialPageRoute(
+                     builder: (context) => const  CarteraScreen()
                    )
                  );
               },

@@ -6,6 +6,7 @@ class ClienteCredito {
   String? documento;
   String? codigoTipoID;
   String? tipo;
+  double? saldoPendiente;
 
   ClienteCredito(
       {this.placas,
@@ -14,16 +15,25 @@ class ClienteCredito {
       this.email,
       this.documento,
       this.codigoTipoID,
-      this.tipo});
+      this.tipo,
+      this.saldoPendiente,      
+      });
 
   ClienteCredito.fromJson(Map<String, dynamic> json) {
-    placas = json['placas'].cast<String>();
+    if (json['placas'] != null) {
+     placas = json['placas'].cast<String>();
+    } else{
+      placas=[];
+    }
+   
+    
     nombre = json['nombre'];
     codigo = json['codigo'];
     email = json['email'];
     documento = json['documento'];
     codigoTipoID = json['codigoTipoID'];
     tipo = json['tipo'];
+    saldoPendiente = (json['saldoPendiente'] as num?)?.toDouble() ?? 0;
   }
 
   Map<String, dynamic> toJson() {

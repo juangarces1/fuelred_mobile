@@ -740,7 +740,7 @@ return Padding(
   }
 
  void _showNewCliente(context) {
- ShowAlertCliente.showAlert(context, widget.factura.clienteFactura, _goClientes);
+   ShowAlertCliente.showAlert(context, widget.factura.clienteFactura, _goClientes);
 
 }
 

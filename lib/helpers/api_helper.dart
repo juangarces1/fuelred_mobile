@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fuelred_mobile/models/ad,min/dash.dart';
 import 'package:fuelred_mobile/models/ad,min/transferfull.dart';
 import 'package:fuelred_mobile/models/bank.dart';
 import 'package:fuelred_mobile/models/cashback.dart';
@@ -18,7 +19,6 @@ import 'package:fuelred_mobile/models/tranferview.dart';
 import 'package:fuelred_mobile/models/transaccion.dart';
 import 'package:fuelred_mobile/models/transparcial.dart';
 import 'package:fuelred_mobile/models/viatico.dart';
-import 'package:fuelred_mobile/modelsAdmin/SalesModels/sales_data.dart';
 import 'package:fuelred_mobile/modelsAdmin/cuenta_banco.dart';
 import 'package:http/http.dart' as http;
 
@@ -83,6 +83,55 @@ static Future<Response> getClienteCredito(String id) async {
      return Response(isSuccess: true, result: cliente);    
  }
 
+ static Future<Response> getFactura(String id) async {      
+   var url = Uri.parse('${Constans.apiUrl}/api/Facturacion/GetFacturaByNum/$id');
+   
+    var response = await http.get(
+      url,
+      headers: {
+        'content-type' : 'application/json',
+        'accept' : 'application/json',
+      },        
+    );
+    var body = response.body;
+    if (response.statusCode >= 400) {
+      return Response(isSuccess: false, message: body);
+    }
+    resdoc_facturas? fact;
+    var decodedJson = jsonDecode(body);
+     if(decodedJson != null){      
+
+      fact=resdoc_facturas.fromJson(decodedJson);
+     }
+     return Response(isSuccess: true, result: fact);    
+ }
+
+ static Future<Response> getClientesCredito() async {      
+   var url = Uri.parse('${Constans.apiUrl}/api/Users/GetClientesCredito');
+   
+    var response = await http.get(
+      url,
+      headers: {
+        'content-type' : 'application/json',
+        'accept' : 'application/json',
+      },        
+    );
+    var body = response.body;
+    if (response.statusCode >= 400) {
+      return Response(isSuccess: false, message: body);
+    }
+    List<ClienteCredito> clientes =[];
+    var decodedJson = jsonDecode(body);
+     if(decodedJson != null){      
+
+       for (var item in decodedJson){
+        clientes.add(ClienteCredito.fromJson(item));
+      }
+     
+     }
+     return Response(isSuccess: true, result: clientes);    
+ }
+
 static Future<Response> getTransacciones(int? zona) async {
     var url = Uri.parse('${Constans.apiUrl}/api/TransaccionesApi/GetTransaccionesByZona/$zona');
     var response = await http.get(
@@ -131,6 +180,37 @@ static Future<Response> getTransacciones(int? zona) async {
 
  static Future<Response> getFacturasByCierre(int? cierre) async {
     var url = Uri.parse('${Constans.apiUrl}/api/Facturacion/GetFacturasByCierre/$cierre');
+    var response = await http.get(
+      url,
+      headers: {
+        'content-type' : 'application/json',
+        'accept' : 'application/json',
+      },        
+    );
+    var body = response.body;
+    if (response.statusCode >= 400) {
+      return Response(isSuccess: false, message: body);
+    }
+    List<resdoc_facturas> facturas =[];
+    var decodedJson = jsonDecode(body);
+     if(decodedJson != null){
+      for (var item in decodedJson){
+        facturas.add(resdoc_facturas.fromJson(item));
+      }
+     }
+
+    for (var fact in facturas) {
+       for (var element in fact.detalles) {
+          element.images.add(element.imageUrl);
+       }
+    }
+  
+
+     return Response(isSuccess: true, result: facturas);    
+ }
+
+ static Future<Response> getFacturasByCliente(String id) async {
+    var url = Uri.parse('${Constans.apiUrl}/api/Facturacion/GetFacturasByCliente/$id');
     var response = await http.get(
       url,
       headers: {
@@ -564,10 +644,10 @@ static Future<Response> getBanks() async {
     if (response.statusCode >= 400) {
       return Response(isSuccess: false, message: body);
     }
-    SalesData? data;
+    Dash? data;
     var decodedJson = jsonDecode(body);
      if(decodedJson != null){
-      data = SalesData.fromJson(decodedJson);
+      data = Dash.fromJson(decodedJson);
      }
      return Response(isSuccess: true, result: data);    
  }
@@ -619,8 +699,7 @@ static Future<Response> getBanks() async {
  }
 
 static Future<Response> getClienteFromHacienda(String document) async {
-     
-
+   
     var url = Uri.parse('${Constans.apiHacienda}?identificacion=$document');
     var response = await http.get(
       url,

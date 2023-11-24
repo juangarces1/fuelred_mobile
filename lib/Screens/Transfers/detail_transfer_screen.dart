@@ -14,15 +14,19 @@ class DetailTransferScreen extends StatelessWidget {
         backgroundColor: const Color.fromARGB(255, 70, 72, 77),
         appBar: AppBar(
           foregroundColor: kPrimaryColor,
-          title: const Text('Detalle de transferencia'),
+          title: const Text('Detalle de transferencia', style:  TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: kPrimaryColor
+                ),),
         ),
         body: Column(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Expanded(
-                flex: 1, // Ajusta la proporción si es necesario
-                child: CardTransfer(transfer: transfer, showDetail: false,)
+           Expanded(
+              flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: CardTransfer(transfer: transfer, showDetail: false,),
               ),
             ),
              const Padding(
