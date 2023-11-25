@@ -19,17 +19,20 @@ class _InfoFacturaScreenState extends State<InfoFacturaScreen> {
  bool showLoader = false;  
  resdoc_facturas factura= resdoc_facturas(
   //plazo:0,
-  cliente: 'Cliente Ejemplo',
-  nFactura: '12345',
+  cliente: '',
+  nFactura: '',
   fechaHoraTrans: DateTime.now(),
   detalles: [],
+  totalImpuesto: 0,
+  totalFactura: 0,
+
   // Otros campos pueden ser dejados como null o proporcionar un valor por defecto
 );
 
    @override
    void initState() {   
      super.initState();
-    //  getFactura();
+     getFactura();
    }
 
   @override
@@ -46,7 +49,7 @@ class _InfoFacturaScreenState extends State<InfoFacturaScreen> {
           child: Center(
             child: showLoader 
               ? const LoaderComponent(text: 'Por favor espere...',) 
-              : _getContent(),
+              : factura.cliente != '' ? _getContent() : _noContent(),
           ),
         ),      
        
@@ -60,7 +63,7 @@ class _InfoFacturaScreenState extends State<InfoFacturaScreen> {
        child: Column(
          children: <Widget>[          
            const SizedBox(height: 5,),     
-          factura.cliente != '' ? _showHeader(): Container(),
+           _showHeader(),
            const SizedBox(height: 5,),    
           factura.detalles.isEmpty
            ? Container() 
@@ -225,18 +228,63 @@ class _InfoFacturaScreenState extends State<InfoFacturaScreen> {
                        'Total: ', 
                        style: TextStyle(
                            fontWeight: FontWeight.bold,
+                         fontSize: 17,
+
                             color: Color(0xFFE5E8EC),
                        ),
                      ),
                      Text(
                        NumberFormat.currency(symbol: '¢').format(factura.totalFactura),
                        style: const TextStyle(
-                         fontSize: 14,
-                          color: Color(0xFFE5E8EC),
+                         fontSize: 18,
+                         fontWeight: FontWeight.bold,
+                          color: kPrimaryText,
                        ),
                      ),                          
                    ],
-                 ),              
+                 ),    
+                factura.plazo! > 0 ? Row(                        
+                   children: [
+                     const Text(
+                       'Saldo: ', 
+                       style: TextStyle(
+                           fontWeight: FontWeight.bold,
+                         fontSize: 17,
+
+                            color: Color(0xFFE5E8EC),
+                       ),
+                     ),
+                     Text(
+                       NumberFormat.currency(symbol: '¢').format(factura.totalFactura),
+                       style: const TextStyle(
+                         fontSize: 18,
+                         fontWeight: FontWeight.bold,
+                          color: kPrimaryColor,
+                       ),
+                     ),                          
+                   ],
+                 ) : Container(),    
+                   factura.plazo! > 0 ? Row(                        
+                   children: [
+                     const Text(
+                       'Dias en Mora: ', 
+                       style: TextStyle(
+                           fontWeight: FontWeight.bold,
+                         fontSize: 17,
+
+                            color: Color(0xFFE5E8EC),
+                       ),
+                     ),
+                     Text(
+                       factura.diasEnMora.toString(),
+                       style: const TextStyle(
+                         fontSize: 18,
+                         fontWeight: FontWeight.bold,
+                          color:  Color(0xFFE5E8EC),
+                       ),
+                     ),                          
+                   ],
+                 ) : Container(),                       
             
              
                ],
@@ -247,23 +295,23 @@ class _InfoFacturaScreenState extends State<InfoFacturaScreen> {
      );
    }
 
-
     Widget _noContent() {
      return Center(
        child: Container(
          margin: const EdgeInsets.all(20),
          child: const Text(          
-            'No hay detalle registrado.',
+            'No hay factura con ese numero.',
            style: TextStyle(
              fontSize: 16,
-             fontWeight: FontWeight.bold
+             fontWeight: FontWeight.bold,
+              color: Colors.white,
            ),
          ),
        ),
      );
    }
 
-   Widget _getProducts() {
+  Widget _getProducts() {
      return Padding(
        padding: const EdgeInsets.all(10.0),
        child: Container(
@@ -292,14 +340,15 @@ class _InfoFacturaScreenState extends State<InfoFacturaScreen> {
        ),
      );
    }
-    Future<void> getFactura() async {
-       // setState(() {
-       //   showLoader = true;
-       // });
+  
+  Future<void> getFactura() async {
+     setState(() {
+       showLoader = true;
+     });
        Response response = await ApiHelper.getFactura(widget.numeroFactura);
-     // setState(() {
-     //     showLoader = false;
-     //   });
+      setState(() {
+          showLoader = false;
+        });
      if (!response.isSuccess) {
            if (mounted) {       
              showDialog(
@@ -322,8 +371,8 @@ class _InfoFacturaScreenState extends State<InfoFacturaScreen> {
            }  
            return;
          }
-       // setState(() {
-       //     factura = response.result;
-       //   });
+        setState(() {
+            factura = response.result;
+          });
       }
 }
