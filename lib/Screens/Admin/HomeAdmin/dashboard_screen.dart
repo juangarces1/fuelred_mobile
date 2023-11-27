@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons_null_safety/flutter_icons_null_safety.dart';
 import 'package:fuelred_mobile/Screens/Admin/Cartera/cartera_screen.dart';
+import 'package:fuelred_mobile/Screens/Admin/Inventario/invent_form_screen.dart';
 import 'package:fuelred_mobile/Screens/Transfers/add_transfer_screen.dart';
 import 'package:fuelred_mobile/Screens/Transfers/list_transfers_screen.dart';
 import 'package:fuelred_mobile/Screens/facturas/info_factura_screen.dart';
@@ -40,6 +41,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: const Color.fromARGB(209, 245, 241, 241),
         appBar: AppBar(
           title:   const Row(
             children: [  
@@ -106,7 +108,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     padding: const EdgeInsets.all(16),
                     child: dash != null 
                       ? MyLineChart(salesData: dash!.salesData!)
-                      : const Center(child: CircularProgressIndicator()), // Muestra un spinner mientras salesData es nulo
+                      :  Container(), // Muestra un spinner mientras salesData es nulo
                   ),
                   // Agrega más tarjetas de resumen aquí
                 ],
@@ -235,6 +237,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
                    context, 
                    MaterialPageRoute(
                      builder: (context) => const  CarteraScreen()
+                   )
+                 );
+              },
+            ),
+
+             ListTile(
+                textColor: kColorMenu,
+              leading: const Icon(Icons.update_outlined , color: kColorMenu,),
+              title: const Text('Actualizar Inventario'),
+              onTap: () { 
+                 Navigator.push(
+                   context, 
+                   MaterialPageRoute(
+                     builder: (context) => const  InventFormScreen()
                    )
                  );
               },
