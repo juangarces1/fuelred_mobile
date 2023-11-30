@@ -234,7 +234,7 @@ class _ClienteCarteraScreenState extends State<ClienteCarteraScreen> {
                             style: const TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.bold,
-                              color: kDefaultIconDarkColor,
+                              color: Colors.black,
                             ),
                           ),
                           const SizedBox(height: 5,),
