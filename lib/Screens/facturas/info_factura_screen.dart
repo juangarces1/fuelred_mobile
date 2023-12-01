@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fuelred_mobile/Screens/Admin/ComponentsShared/app_bar_custom.dart';
 import 'package:fuelred_mobile/Screens/cart/components/cart_card.dart';
 import 'package:fuelred_mobile/components/loader_component.dart';
 import 'package:fuelred_mobile/constans.dart';
@@ -39,11 +40,14 @@ class _InfoFacturaScreenState extends State<InfoFacturaScreen> {
   Widget build(BuildContext context) {
     return   SafeArea(
       child:Scaffold(
-        appBar: AppBar(
-          foregroundColor: Colors.white,
+        appBar:  MyCustomAppBar(
+          title: widget.numeroFactura,
+          automaticallyImplyLeading: true,   
           backgroundColor: kBlueColorLogo,
-          title: Text(widget.numeroFactura, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: Colors.white),),
-        ),
+          elevation: 8.0,
+          shadowColor: Colors.blueGrey,
+          foreColor: Colors.white,
+      ),
         body: Container(
           color: kColorFondoOscuro,
           child: Center(

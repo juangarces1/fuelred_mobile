@@ -78,16 +78,8 @@ static Future<Response> getCierreActivo(int? zona, int? cedula) async {
 
     // Check for 200 OK response
     if (response.statusCode == 200) {
-      try {
-          var decodedJson = jsonDecode(response.body);
-           return Response(isSuccess: true, result: ConsolidadoDeposito.fromJson(decodedJson));
-          // Rest of your code...
-        } catch (e) {
-          print('Error parsing JSON: $e');
-           return Response(isSuccess: false, message: "Exception: ${e.toString()}");
-          // Handle the error or return a custom error message
-        }
-     
+      var decodedJson = jsonDecode(response.body);
+      return Response(isSuccess: true, result: ConsolidadoDeposito.fromJson(decodedJson));
     } else if (response.statusCode == 204) {
       // No content
       return Response(isSuccess: true, message: '', result: []);
@@ -104,27 +96,31 @@ static Future<Response> getCierreActivo(int? zona, int? cedula) async {
 
  static Future<Response> getResumenDia(String dia) async {  
 
-    var url = Uri.parse('${Constans.getAPIUrl()}/api/Cierre/GetResumenDia/$dia');
+   var url = Uri.parse('${Constans.getAPIUrl()}/api/Cierre/GetResumenDia/$dia');
+   try {
     var response = await http.get(
       url,
       headers: {
-        'content-type' : 'application/json',
-        'accept' : 'application/json',
-      },        
+        'content-type': 'application/json',
+        'accept': 'application/json',
+      },
     );
 
-    var body = response.body;
-   
-    if (response.statusCode >= 400) {
-     
-       return Response(isSuccess: false, message: body);
+    // Check for 200 OK response
+    if (response.statusCode == 200) {
+      var decodedJson = jsonDecode(response.body);
+      return Response(isSuccess: true, result: ResumenDia.fromJson(decodedJson));
+    } else if (response.statusCode == 204) {
+      // No content
+      return Response(isSuccess: true, message: '', result: []);
+    } else {
+      // Handle other statuses, maybe something went wrong
+      return Response(isSuccess: false, message: "Error: ${response.statusCode}");
     }
-
-   
-    var decodedJson = jsonDecode(body);
-   
-
-    return Response(isSuccess: true, result: ResumenDia.fromJson(decodedJson));
+  } catch (e) {
+    // Catch any other errors, like JSON parsing errors
+    return Response(isSuccess: false, message: "Exception: ${e.toString()}");
+  }
  }
 
 static Future<Response> getClienteCredito(String id) async {      

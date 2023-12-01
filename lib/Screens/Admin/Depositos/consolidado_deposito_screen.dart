@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fuelred_mobile/Screens/Admin/ComponentsShared/app_bar_custom.dart';
 import 'package:fuelred_mobile/Screens/Admin/Depositos/detail_deposits_screen.dart';
 import 'package:fuelred_mobile/components/my_loader.dart';
+import 'package:fuelred_mobile/components/no_contetnt.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/helpers/api_helper.dart';
 import 'package:fuelred_mobile/models/response.dart';
@@ -35,13 +37,15 @@ class _ConsolidadoDepositoScreenState extends State<ConsolidadoDepositoScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-           foregroundColor: const Color.fromARGB(255, 199, 190, 190),
-          backgroundColor: kBlueColorLogo,
-          title: const Text('Cierres', style: TextStyle(color: Colors.white),),
-         
-        ),
-        body:  Container(
+        appBar: const MyCustomAppBar(
+        title: 'Depositos Consolidados',
+        automaticallyImplyLeading: true,   
+        backgroundColor: kBlueColorLogo,
+        elevation: 8.0,
+        shadowColor: Colors.blueGrey,
+        foreColor: Colors.white,
+      ),
+        body: consolidado.idConsolidado == 0 ? const MyNoContent(text: 'No hay Resumen Dia',) : Container(
           color: const Color.fromARGB(255, 226, 225, 223),
           child: Stack(
             children: [ Padding(

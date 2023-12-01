@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fuelred_mobile/Screens/Admin/ComponentsShared/app_bar_custom.dart';
 import 'package:fuelred_mobile/Screens/Admin/ReumenDia/Components/custom_card.dart';
 import 'package:fuelred_mobile/Screens/Admin/ReumenDia/Components/depositos_card.dart';
 import 'package:fuelred_mobile/clases/impresion.dart';
@@ -62,19 +63,21 @@ class _ResumenDiaScreenState extends State<ResumenDiaScreen> {
     _controller.dispose();
     super.dispose();
   }
-
-  
+ 
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: kColorFondoOscuro,
-        appBar:  AppBar(
-          foregroundColor: Colors.white,
-          backgroundColor: kBlueColorLogo,
-          title:  Text('Resumen Dia ${widget.date.substring(0,10)}', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: Colors.white),),
-        ),
+        backgroundColor: kContrateFondoOscuro,
+        appBar:   MyCustomAppBar(
+        title: 'Resumen Dia ${widget.date.substring(0,10)}',
+        automaticallyImplyLeading: true,   
+        backgroundColor: kBlueColorLogo,
+        elevation: 8.0,
+        shadowColor: Colors.blueGrey,
+        foreColor: Colors.white,
+      ),
         body: Stack(
           children: [
             resumen.numeroConsolidado != 0 ? getContent() : const MyNoContent(text: 'No hay Resumen',),
@@ -84,9 +87,7 @@ class _ResumenDiaScreenState extends State<ResumenDiaScreen> {
       ),
     );
   }
-
-  
-  
+    
   Widget getContent(){
     return  SingleChildScrollView(
           child: Column(

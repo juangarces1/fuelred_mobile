@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fuelred_mobile/constans.dart';
 
-
 class ShowAlertFactura {
   static Future<String?> show(BuildContext context) async {
+    final formKey = GlobalKey<FormState>();
     TextEditingController textFieldController = TextEditingController();
 
     return showDialog<String>(
@@ -20,15 +20,25 @@ class ShowAlertFactura {
               ),
             ),
           ),
-          content: TextField(
-            controller: textFieldController,
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              hintText: "Escribe aquí el número",
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+          content: Form(
+            key: formKey,
+            child: TextFormField(
+              controller: textFieldController,
+              keyboardType: TextInputType.number,
+              maxLength: 10,
+              validator: (value) {
+                if (value == null || value.length != 10) {
+                  return 'Introduce 10 dígitos';
+                }
+                return null;
+              },
+              decoration: InputDecoration(
+                hintText: "Escribe aquí el número",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
               ),
             ),
+          ),
           ),
           actions: <Widget>[
             TextButton(
@@ -43,7 +53,9 @@ class ShowAlertFactura {
                 foregroundColor: Colors.green, // Color del texto
               ),
               onPressed: () {
-                Navigator.of(dialogContext).pop(textFieldController.text);
+                if (formKey.currentState!.validate()) {
+                  Navigator.of(dialogContext).pop(textFieldController.text);
+                }
               },
               child: const Text('Aceptar'),
             ),
