@@ -1,9 +1,7 @@
 import 'package:fuelred_mobile/sizeconfig.dart';
 import 'package:flutter/material.dart';
 
-//const String imagenesUrl = 'http://200.91.130.215:9091/photos'; 
-//const String imagenesUrl = 'http://192.168.1.3:9091/photos';  
-const String imagenesUrl = 'http://192.168.1.165:8081/photos'; 
+
 const kRegularColor =  Color(0xFFec1c24);
 const kSuperColor =Color(0xFFb634b8);
 const kDieselColor =Color(0xFF1dbd4a);

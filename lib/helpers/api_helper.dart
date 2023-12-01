@@ -19,6 +19,8 @@ import 'package:fuelred_mobile/models/tranferview.dart';
 import 'package:fuelred_mobile/models/transaccion.dart';
 import 'package:fuelred_mobile/models/transparcial.dart';
 import 'package:fuelred_mobile/models/viatico.dart';
+import 'package:fuelred_mobile/modelsAdmin/Consolidados/resumen_dia.dart';
+import 'package:fuelred_mobile/modelsAdmin/DepostosConsolidado/consolidado_deposito.dart';
 import 'package:fuelred_mobile/modelsAdmin/cuenta_banco.dart';
 import 'package:http/http.dart' as http;
 
@@ -29,7 +31,7 @@ class ApiHelper {
 
 static Future<Response> getCierreActivo(int? zona, int? cedula) async {  
 
-    var url = Uri.parse('${Constans.apiUrl}/api/users/GetCierreByZona/$zona-$cedula');
+    var url = Uri.parse('${Constans.getAPIUrl()}/api/users/GetCierreByZona/$zona-$cedula');
     var response = await http.get(
       url,
       headers: {
@@ -60,8 +62,60 @@ static Future<Response> getCierreActivo(int? zona, int? cedula) async {
     return Response(isSuccess: true, result: CierreActivo.fromJson(decodedJson));
  }
 
+ 
+
+ static Future<Response> getDepositosByConsolidado(String dia) async {  
+
+    var url = Uri.parse('${Constans.getAPIUrl()}/api/Cierre/GetDepositosConsolidado/$dia');
+    var response = await http.get(
+      url,
+      headers: {
+        'content-type' : 'application/json',
+        'accept' : 'application/json',
+      },        
+    );
+
+    var body = response.body;
+   
+    if (response.statusCode >= 400) {
+     
+       return Response(isSuccess: false, message: body);
+    }
+
+   
+    var decodedJson = jsonDecode(body);
+   
+
+    return Response(isSuccess: true, result: ConsolidadoDeposito.fromJson(decodedJson));
+ }
+
+ static Future<Response> getResumenDia(String dia) async {  
+
+    var url = Uri.parse('${Constans.getAPIUrl()}/api/Cierre/GetResumenDia/$dia');
+    var response = await http.get(
+      url,
+      headers: {
+        'content-type' : 'application/json',
+        'accept' : 'application/json',
+      },        
+    );
+
+    var body = response.body;
+   
+    if (response.statusCode >= 400) {
+     
+       return Response(isSuccess: false, message: body);
+    }
+
+   
+    var decodedJson = jsonDecode(body);
+   
+
+    return Response(isSuccess: true, result: ResumenDia.fromJson(decodedJson));
+ }
+
 static Future<Response> getClienteCredito(String id) async {      
-   var url = Uri.parse('${Constans.apiUrl}/api/Users/GetClienteCredito/$id');
+   var url = Uri.parse('${Constans.getAPIUrl()}/api/Users/GetClienteCredito/$id');
    
     var response = await http.get(
       url,
@@ -74,7 +128,7 @@ static Future<Response> getClienteCredito(String id) async {
     if (response.statusCode >= 400) {
       return Response(isSuccess: false, message: body);
     }
-    ClienteCredito cliente =ClienteCredito();
+    ClienteCredito cliente = ClienteCredito();
     var decodedJson = jsonDecode(body);
      if(decodedJson != null){      
 
@@ -84,7 +138,7 @@ static Future<Response> getClienteCredito(String id) async {
  }
 
  static Future<Response> getFactura(String id) async {      
-   var url = Uri.parse('${Constans.apiUrl}/api/Facturacion/GetFacturaByNum/$id');
+   var url = Uri.parse('${Constans.getAPIUrl()}/api/Facturacion/GetFacturaByNum/$id');
    
     var response = await http.get(
       url,
@@ -107,7 +161,7 @@ static Future<Response> getClienteCredito(String id) async {
  }
 
  static Future<Response> getClientesCredito() async {      
-   var url = Uri.parse('${Constans.apiUrl}/api/Users/GetClientesCredito');
+   var url = Uri.parse('${Constans.getAPIUrl()}/api/Users/GetClientesCredito');
    
     var response = await http.get(
       url,
@@ -133,7 +187,7 @@ static Future<Response> getClienteCredito(String id) async {
  }
 
 static Future<Response> getTransacciones(int? zona) async {
-    var url = Uri.parse('${Constans.apiUrl}/api/TransaccionesApi/GetTransaccionesByZona/$zona');
+    var url = Uri.parse('${Constans.getAPIUrl()}/api/TransaccionesApi/GetTransaccionesByZona/$zona');
     var response = await http.get(
       url,
       headers: {
@@ -156,7 +210,7 @@ static Future<Response> getTransacciones(int? zona) async {
  }
 
  static Future<Response> getCuentasBancos() async {
-    var url = Uri.parse('${Constans.apiUrl}/api/Otros/GetCuentasBancos');
+    var url = Uri.parse('${Constans.getAPIUrl()}/api/Otros/GetCuentasBancos');
     var response = await http.get(
       url,
       headers: {
@@ -179,7 +233,7 @@ static Future<Response> getTransacciones(int? zona) async {
  }
 
  static Future<Response> getFacturasByCierre(int? cierre) async {
-    var url = Uri.parse('${Constans.apiUrl}/api/Facturacion/GetFacturasByCierre/$cierre');
+    var url = Uri.parse('${Constans.getAPIUrl()}/api/Facturacion/GetFacturasByCierre/$cierre');
     var response = await http.get(
       url,
       headers: {
@@ -210,7 +264,7 @@ static Future<Response> getTransacciones(int? zona) async {
  }
 
  static Future<Response> getFacturasByCliente(String id) async {
-    var url = Uri.parse('${Constans.apiUrl}/api/Facturacion/GetFacturasByCliente/$id');
+    var url = Uri.parse('${Constans.getAPIUrl()}/api/Facturacion/GetFacturasByCliente/$id');
     var response = await http.get(
       url,
       headers: {
@@ -241,7 +295,7 @@ static Future<Response> getTransacciones(int? zona) async {
  }
 
   static Future<Response> getFacturasCredito(int? cierre) async {
-    var url = Uri.parse('${Constans.apiUrl}/api/Facturacion/GetFacturasCreditByCierre/$cierre');
+    var url = Uri.parse('${Constans.getAPIUrl()}/api/Facturacion/GetFacturasCreditByCierre/$cierre');
     var response = await http.get(
       url,
       headers: {
@@ -264,7 +318,7 @@ static Future<Response> getTransacciones(int? zona) async {
  }
 
  static Future<Response> getTransaccionesByCierre(int? cierre) async {
-    var url = Uri.parse('${Constans.apiUrl}/api/TransaccionesApi/GetTransaccionesByCierre/$cierre');
+    var url = Uri.parse('${Constans.getAPIUrl()}/api/TransaccionesApi/GetTransaccionesByCierre/$cierre');
     var response = await http.get(
       url,
       headers: {
@@ -287,7 +341,7 @@ static Future<Response> getTransacciones(int? zona) async {
  }
 
 static Future<Response> getPeddlersByCierre(int? cierre) async {
-    var url = Uri.parse('${Constans.apiUrl}/api/Peddler/$cierre');
+    var url = Uri.parse('${Constans.getAPIUrl()}/api/Peddler/$cierre');
     var response = await http.get(
       url,
       headers: {
@@ -310,7 +364,7 @@ static Future<Response> getPeddlersByCierre(int? cierre) async {
  }
 
 static Future<Response> getCierresDatafonos(int cierre) async {
-    var url = Uri.parse('${Constans.apiUrl}/api/CierreDatafonos/$cierre');
+    var url = Uri.parse('${Constans.getAPIUrl()}/api/CierreDatafonos/$cierre');
     var response = await http.get(
       url,
       headers: {
@@ -333,7 +387,7 @@ static Future<Response> getCierresDatafonos(int cierre) async {
  }
 
  static Future<Response> getViaticosByCierre(int cierre) async {
-    var url = Uri.parse('${Constans.apiUrl}/api/Viaticos/GetViaticoByCierre/$cierre');
+    var url = Uri.parse('${Constans.getAPIUrl()}/api/Viaticos/GetViaticoByCierre/$cierre');
     var response = await http.get(
       url,
       headers: {
@@ -356,7 +410,7 @@ static Future<Response> getCierresDatafonos(int cierre) async {
  }
 
 static Future<Response> getCashBacks(int cierre) async {
-    var url = Uri.parse('${Constans.apiUrl}/api/Cashbacks/$cierre');
+    var url = Uri.parse('${Constans.getAPIUrl()}/api/Cashbacks/$cierre');
     var response = await http.get(
       url,
       headers: {
@@ -379,7 +433,7 @@ static Future<Response> getCashBacks(int cierre) async {
  }
 
  static Future<Response> getSinpes(int cierre) async {
-    var url = Uri.parse('${Constans.apiUrl}/api/Sinpes/$cierre');
+    var url = Uri.parse('${Constans.getAPIUrl()}/api/Sinpes/$cierre');
     var response = await http.get(
       url,
       headers: {
@@ -402,7 +456,7 @@ static Future<Response> getCashBacks(int cierre) async {
  }
 
 static Future<Response> getDepositos(int cierre) async {
-    var url = Uri.parse('${Constans.apiUrl}/api/Depositos/$cierre');
+    var url = Uri.parse('${Constans.getAPIUrl()}/api/Depositos/$cierre');
     var response = await http.get(
       url,
       headers: {
@@ -425,7 +479,7 @@ static Future<Response> getDepositos(int cierre) async {
  }
 
 static Future<Response> getBanks() async {
-    var url = Uri.parse('${Constans.apiUrl}/api/Cashbacks/GetBanks');
+    var url = Uri.parse('${Constans.getAPIUrl()}/api/Cashbacks/GetBanks');
     var response = await http.get(
       url,
       headers: {
@@ -448,7 +502,7 @@ static Future<Response> getBanks() async {
  }
 
  static Future<Response> getDatafonos() async {
-    var url = Uri.parse('${Constans.apiUrl}/api/CierreDatafonos/GetDatafonos');
+    var url = Uri.parse('${Constans.getAPIUrl()}/api/CierreDatafonos/GetDatafonos');
     var response = await http.get(
       url,
       headers: {
@@ -471,7 +525,7 @@ static Future<Response> getBanks() async {
  }
 
  static Future<Response> getMoneys() async {
-    var url = Uri.parse('${Constans.apiUrl}/api/Depositos/GetMoneys');
+    var url = Uri.parse('${Constans.getAPIUrl()}/api/Depositos/GetMoneys');
     var response = await http.get(
       url,
       headers: {
@@ -494,7 +548,7 @@ static Future<Response> getBanks() async {
  }
 
  static Future<Response> getTransfes() async {
-    var url = Uri.parse('${Constans.apiUrl}/api/Transferencias/GetTransfers');
+    var url = Uri.parse('${Constans.getAPIUrl()}/api/Transferencias/GetTransfers');
     var response = await http.get(
       url,
       headers: {
@@ -517,7 +571,7 @@ static Future<Response> getBanks() async {
  }
 
  static Future<Response> getTransferfull() async {
-    var url = Uri.parse('${Constans.apiUrl}/api/Transferencias/GetTransfersFull');
+    var url = Uri.parse('${Constans.getAPIUrl()}/api/Transferencias/GetTransfersFull');
     var response = await http.get(
       url,
       headers: {
@@ -540,7 +594,7 @@ static Future<Response> getBanks() async {
  }
 
   static Future<Response> getTransfesByCierre(int cierre) async {
-    var url = Uri.parse('${Constans.apiUrl}/api/Transferencias/GetTransfersByCierre/$cierre');
+    var url = Uri.parse('${Constans.getAPIUrl()}/api/Transferencias/GetTransfersByCierre/$cierre');
     var response = await http.get(
       url,
       headers: {
@@ -563,7 +617,7 @@ static Future<Response> getBanks() async {
  }
 
   static Future<Response> getTransaccionesAsProduct(int? zona) async {
-    var url = Uri.parse('${Constans.apiUrl}/api/TransaccionesApi/GetTransaccionesByZonaAsProducts/$zona');
+    var url = Uri.parse('${Constans.getAPIUrl()}/api/TransaccionesApi/GetTransaccionesByZonaAsProducts/$zona');
     var response = await http.get(
       url,
       headers: {
@@ -586,7 +640,7 @@ static Future<Response> getBanks() async {
  }
 
   static Future<Response> getProducts(int? zona) async {
-    var url = Uri.parse('${Constans.apiUrl}/api/TransaccionesApi/GetProducts/$zona');
+    var url = Uri.parse('${Constans.getAPIUrl()}/api/TransaccionesApi/GetProducts/$zona');
     var response = await http.get(
       url,
       headers: {
@@ -609,7 +663,7 @@ static Future<Response> getBanks() async {
  }
 
   static Future<Response> getClienteContado() async {
-   var url = Uri.parse('${Constans.apiUrl}/api/TransaccionesApi/GetClientsContado');
+   var url = Uri.parse('${Constans.getAPIUrl()}/api/TransaccionesApi/GetClientsContado');
     var response = await http.get(
       url,
       headers: {
@@ -632,7 +686,7 @@ static Future<Response> getBanks() async {
  }
 
  static Future<Response> getSales() async {
-   var url = Uri.parse('${Constans.apiUrl}/api/Sales/');
+   var url = Uri.parse('${Constans.getAPIUrl()}/api/Sales/');
     var response = await http.get(
       url,
       headers: {
@@ -653,7 +707,7 @@ static Future<Response> getBanks() async {
  }
 
    static Future<Response> getClientesTransfer() async {
-   var url = Uri.parse('${Constans.apiUrl}/api/Otros/GetClientesSanGerardo');
+   var url = Uri.parse('${Constans.getAPIUrl()}/api/Otros/GetClientesSanGerardo');
     var response = await http.get(
       url,
       headers: {
@@ -676,7 +730,7 @@ static Future<Response> getBanks() async {
  }
 
  static Future<Response> getClientFrec(String codigo) async {      
-   var url = Uri.parse('${Constans.apiUrl}/api/TransaccionesApi/GetClientFrecuente/?codigo=$codigo');
+   var url = Uri.parse('${Constans.getAPIUrl()}/api/TransaccionesApi/GetClientFrecuente/?codigo=$codigo');
    
     var response = await http.get(
       url,
@@ -734,7 +788,7 @@ static Future<Response> getClienteFromHacienda(String document) async {
 
 static Future<Response> put(String controller, String id, Map<String, dynamic> request) async {
         
-    var url = Uri.parse('${Constans.apiUrl}$controller$id');
+    var url = Uri.parse('${Constans.getAPIUrl()}/api/$controller/$id');
     var response = await http.put(
       url,
       headers: {
@@ -751,7 +805,7 @@ static Future<Response> put(String controller, String id, Map<String, dynamic> r
   }
 
 static Future<Response> post(String controller, Map<String, dynamic> request) async {        
-    var url = Uri.parse('${Constans.apiUrl}/$controller');
+    var url = Uri.parse('${Constans.getAPIUrl()}/$controller');
     var response = await http.post(
       url,
       headers: {
@@ -768,7 +822,7 @@ static Future<Response> post(String controller, Map<String, dynamic> request) as
   }
 
   static Future<Response> postNoRequest(String controller) async {        
-    var url = Uri.parse('${Constans.apiUrl}/$controller');
+    var url = Uri.parse('${Constans.getAPIUrl()}/$controller');
     var response = await http.post(
       url,
       headers: {
@@ -785,7 +839,7 @@ static Future<Response> post(String controller, Map<String, dynamic> request) as
 
 static Future<Response> delete(String controller, String id) async { 
     
-    var url = Uri.parse('${Constans.apiUrl}$controller$id');
+    var url = Uri.parse('${Constans.getAPIUrl()}$controller$id');
     var response = await http.delete(
       url,
       headers: {

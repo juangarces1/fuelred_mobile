@@ -39,7 +39,9 @@ class _CarteraScreenState extends State<CarteraScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: const Text(
+        appBar: AppBar(
+          foregroundColor: kPrimaryColor,
+          title: const Text(
                   'Cartera San Gerardo', style:  TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,

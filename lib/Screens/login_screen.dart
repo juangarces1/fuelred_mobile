@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fuelred_mobile/Screens/Admin/HomeAdmin/dashboard_screen.dart';
 import 'package:fuelred_mobile/components/loader_component.dart';
+import 'package:fuelred_mobile/components/my_loader.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/helpers/api_helper.dart';
 import 'package:fuelred_mobile/models/all_fact.dart';
@@ -94,9 +95,9 @@ class _LoginScreenState extends State<LoginScreen> {
                            bottomRight: Radius.circular(20),
                          )
                        ),
-                       child:  Row(
+                       child:  const Row(
                          mainAxisAlignment: MainAxisAlignment.center,
-                         children: const [
+                         children: [
                            Padding(padding: EdgeInsets.all(20),
                            child: Text('ENTRAR', style: TextStyle(
                              fontSize: 20,
@@ -111,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                      ),
                     ),    
                     //make a button to print 
-                        
+                   
                     
                ]),
              ),
@@ -119,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
              ],
            )   ,
  
-            _showLoader ? const LoaderComponent(text: 'Por favor espere...') : Container(),
+            _showLoader ?  const CustomActivityIndicator(loadingText: 'Cargando...',) : Container(),
           ],
         ),
     );
@@ -130,9 +131,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
   Widget _showLogo() {
-    return  Row(
+    return  const Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const [ Image(
+      children: [ Image(
         image: AssetImage('assets/LogoLogin.png'),
         width: 130,
         fit: BoxFit.fill,
@@ -338,8 +339,11 @@ class _LoginScreenState extends State<LoginScreen> {
   }
   
   
+ 
 
  
 
 
+
+ 
 }

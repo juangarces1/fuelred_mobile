@@ -13,7 +13,7 @@ class LoaderComponent extends StatelessWidget {
     return Center(      
         child: Container(          
           width: 180,
-          height: 120,
+          height: 130,
           decoration: BoxDecoration(
             color:  kBlueColorLogo,
             borderRadius: BorderRadius.circular(10),

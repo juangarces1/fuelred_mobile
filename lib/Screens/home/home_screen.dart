@@ -18,6 +18,7 @@ import 'package:fuelred_mobile/Screens/manejoCierre/viaticos_screen.dart';
 import 'package:fuelred_mobile/Screens/transacciones/transacciones_screen.dart';
 import 'package:fuelred_mobile/clases/show_alert_cliente.dart';
 import 'package:fuelred_mobile/components/loader_component.dart';
+import 'package:fuelred_mobile/components/my_loader.dart';
 import 'package:fuelred_mobile/components/product_card.dart';
 import 'package:fuelred_mobile/models/all_fact.dart';
 import 'package:fuelred_mobile/models/product.dart';
@@ -69,119 +70,95 @@ class _HomeScreenState extends State<HomeScreen> {
    // _timer.cancel();
     super.dispose();
   }
+
+  @override
+  
   
   @override
  Widget build(BuildContext context) {
      return SafeArea( 
        child: Scaffold(
         backgroundColor: kColorFondoOscuro,         
-        body:  SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-               Container(     
-                  padding: const EdgeInsets.all(10),
-                  decoration: const BoxDecoration(
-                  gradient: kGradientHome,        
-                ),
-                child:  Padding(
-                   padding: const EdgeInsets.only(left: 10, right: 10),
-                    child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                         Text(
-                          'Cierre: ${widget.factura.cierreActivo.cierreFinal.idcierre}',
-                            style:  const TextStyle(
-                            fontStyle: FontStyle.normal, 
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold, 
-                            color: Colors.white
-                        )),
-                        Text(
-                          'User: ${widget.factura.cierreActivo.usuario.nombre} ${widget.factura.cierreActivo.usuario.apellido1}',
-                            style:  const TextStyle(
-                            fontStyle: FontStyle.normal, 
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold, 
-                            color: Colors.white
-                        )),
-                       
-                       
-                        Text(
-                          'Cajero: ${widget.factura.cierreActivo.cajero.nombre} ${widget.factura.cierreActivo.cajero.apellido1}',
-                            style:  const TextStyle(
-                            fontStyle: FontStyle.normal, 
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold, 
-                            color: Colors.white
-                        )),               
-                      ],       
-                    ),
-                    const Spacer(),
-                       InkWell(
-                         onTap: () => _showNewCliente(context),
-                         child: Container(
-                           padding: const EdgeInsets.all(10),
-                           height: getProportionateScreenWidth(40),
-                           width: getProportionateScreenWidth(40),
-                           decoration: BoxDecoration(
-                             border: Border.all(
-                               color:  Colors.white,
-                             ),
-                             borderRadius: BorderRadius.circular(10),
-                           ),
-                      
-                         // ignore: deprecated_member_use
-                         child: SvgPicture.asset("assets/User Icon.svg",
-                          // ignore: deprecated_member_use
-                          color:  widget.factura.clienteFactura.nombre == '' ? Colors.white : kPrimaryColor, ),
-                         ),
-                       ),
-
-                     
-                      const SizedBox(width: 10,),
-                    IconBtnWithCounter(
-                      svgSrc: "assets/Cart Icon.svg",  
-                      numOfitem:  widget.factura.cart.products.length,  
-                              
-                      press: goCart,                     
-                        
-                    ), 
-                  ],
-                ),
-              )),
-              SizedBox(height: getProportionateScreenHeight(20)),
-                          
-              widget.factura.transacciones.isNotEmpty ? combustibles(context)
-                : _noTr(),
-                          
-              const Divider(
-                height: 40,
-                thickness: 2,
-                color: kTextColor,
-
-              ), 
-              searchBarCartIcon(context),
-              const Divider(
-              height: 40,
-              thickness: 2,
-              color: kTextColor,
-
-            ), 
-            aceitesProductos(context),
-            SizedBox(height: getProportionateScreenHeight(10)),
-          ],
-          ),
-        ),
-        ),
+        body: content(context),
           drawer: _getAdminMenu(),
        ),
      );
 }
+
+Widget content(context){
+   TextStyle baseStyle = const TextStyle(
+      fontStyle: FontStyle.normal, 
+      fontSize: 16,
+      fontWeight: FontWeight.bold, 
+      color: Colors.white
+    );
+  return  Stack(
+      children: [
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: const BoxDecoration(
+                  gradient: kGradientHome,        
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Cierre: ${widget.factura.cierreActivo.cierreFinal.idcierre}', style: baseStyle),
+                        Text('User: ${widget.factura.cierreActivo.usuario.nombre} ${widget.factura.cierreActivo.usuario.apellido1}', style: baseStyle),
+                        Text('Cajero: ${widget.factura.cierreActivo.cajero.nombre} ${widget.factura.cierreActivo.cajero.apellido1}', style: baseStyle),               
+                      ],       
+                    ),
+                    const Spacer(),
+                    _buildUserIcon(context),
+                    const SizedBox(width: 10,),
+                    IconBtnWithCounter(
+                      svgSrc: "assets/Cart Icon.svg",  
+                      numOfitem: widget.factura.cart.products.length,  
+                      press: goCart,                     
+                    ), 
+                  ],
+                ),
+              ),
+              SizedBox(height: getProportionateScreenHeight(20)),
+              widget.factura.transacciones.isNotEmpty ? combustibles(context) : _noTr(),
+              const Divider(height: 40, thickness: 2, color: kTextColor), 
+              searchBarCartIcon(context),
+              const Divider(height: 40, thickness: 2, color: kTextColor), 
+              aceitesProductos(context),
+              SizedBox(height: getProportionateScreenHeight(10)),
+            ],
+          ),
+        ),
+        _showLoader ? const CustomActivityIndicator(loadingText: "Actualizando...") : const SizedBox.shrink(),
+      ],
+    );
+
+}
+
+ Widget _buildUserIcon(BuildContext context) {
+    return InkWell(
+      onTap: () => _showNewCliente(context),
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        height: getProportionateScreenWidth(40),
+        width: getProportionateScreenWidth(40),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.white),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: SvgPicture.asset(
+          "assets/User Icon.svg",
+          color: widget.factura.clienteFactura.nombre.isEmpty ? Colors.white : kPrimaryColor,
+        ),
+      ),
+    );
+  }
 
  Widget aceitesProductos(context){
   return  Column( 
@@ -209,7 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         SizedBox(height: getProportionateScreenWidth(10)),
-        _showLoaderProdcut ? const LoaderComponent(text: "Cargando...",) : SingleChildScrollView(
+        SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
           children: 
@@ -322,53 +299,47 @@ return Padding(
  }
 
  Widget combustibles(context){
-  return Stack(
-    children: [
-      Column(
-          children: [
-            Padding(
-              padding:
-                  EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Combustibles(${widget.factura.transacciones.length})",
-                    style: TextStyle(
-                      fontSize: getProportionateScreenWidth(18),
-                      color: Colors.white,
-                    ),
-                  ),
-                GestureDetector(
-                  onTap: _updateTransactions,
-                  child: const Text(
-                    "Actualizar",
-                    style: TextStyle(color: kContrateFondoOscuro),
-                  ),
+  return Column(
+      children: [
+        Padding(
+          padding:
+              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Combustibles(${widget.factura.transacciones.length})",
+                style: TextStyle(
+                  fontSize: getProportionateScreenWidth(18),
+                  color: Colors.white,
                 ),
-              ],
-            ),
-          ),
-        SizedBox(height: getProportionateScreenWidth(10)),          
-        _showLoader ? const LoaderComponent(text: "Actualizando...",) : 
-              Container(
-                padding: EdgeInsets.only(left: getProportionateScreenWidth(20)),
-                height: getProportionateScreenHeight(200),
-                child: ListView.separated(
-                 
-                  scrollDirection: Axis.horizontal,                  
-                  itemCount: widget.factura.transacciones.length,
-                  separatorBuilder: (context, _) => const SizedBox(width: 0,),
-                  itemBuilder: (context, indice) => buildCard(product: widget.factura.transacciones[indice]),
-                  
-                      ),
               ),
-            SizedBox(width: getProportionateScreenWidth(20)),
-        ],
-         ),
-      _showLoader ? const LoaderComponent(text: "Actualizando...",) : Container(),
+            GestureDetector(
+              onTap: _updateTransactions,
+              child: const Text(
+                "Actualizar",
+                style: TextStyle(color: kContrateFondoOscuro),
+              ),
+            ),
+          ],
+        ),
+      ),
+     SizedBox(height: getProportionateScreenWidth(10)),          
+  
+          Container(
+            padding: EdgeInsets.only(left: getProportionateScreenWidth(20)),
+            height: getProportionateScreenHeight(200),
+            child: ListView.separated(
+            
+              scrollDirection: Axis.horizontal,                  
+              itemCount: widget.factura.transacciones.length,
+              separatorBuilder: (context, _) => const SizedBox(width: 0,),
+              itemBuilder: (context, indice) => buildCard(product: widget.factura.transacciones[indice]),
+              
+                  ),
+          ),
+        SizedBox(width: getProportionateScreenWidth(20)),
     ],
-   
   );
  }
 
@@ -634,6 +605,9 @@ return Padding(
         _showLoader=true;
       });
       Response rsponseTransacciones = await ApiHelper.getTransaccionesAsProduct(widget.factura.cierreActivo.cierreFinal.idzona);     
+       setState(() {
+        _showLoader=false;
+      });
       if (rsponseTransacciones.isSuccess){
         backup_transacciones.clear();
         backup_transacciones = rsponseTransacciones.result;
@@ -652,9 +626,7 @@ return Padding(
          });         
         }
       } 
-       setState(() {
-        _showLoader=false;
-      });    
+        
     }
 
   void _updateProducts() async {
@@ -779,37 +751,31 @@ return Padding(
             ],
           ),
        ),
-      Stack(
-        children: [
-          Center(
-            child: Container(
-              padding: EdgeInsets.all(getProportionateScreenWidth(10)),
-              height: 100,
-              width: 100,
-              color: kColorFondoOscuro,
-              child: AspectRatio(
-                  aspectRatio: aspectRetio,
-                  child: Container(
-                      padding: EdgeInsets.all(getProportionateScreenWidth(10)),
-                      decoration: BoxDecoration(
-                      color: kSecondaryColor.withOpacity(0.5),
-                      borderRadius: BorderRadius.circular(15),
-                      ),
-                      child:  const Image(
-                            image: AssetImage('assets/NoTr.png'),
-                            fit: BoxFit.cover,
-                            height: 70,
-                            width: 70,
-                          ),                         
+      Center(
+        child: Container(
+          padding: EdgeInsets.all(getProportionateScreenWidth(10)),
+          height: 100,
+          width: 100,
+          color: kColorFondoOscuro,
+          child: AspectRatio(
+              aspectRatio: aspectRetio,
+              child: Container(
+                  padding: EdgeInsets.all(getProportionateScreenWidth(10)),
+                  decoration: BoxDecoration(
+                  color: kSecondaryColor.withOpacity(0.5),
+                  borderRadius: BorderRadius.circular(15),
                   ),
-                ),
-                        
-                
+                  child:  const Image(
+                        image: AssetImage('assets/NoTr.png'),
+                        fit: BoxFit.cover,
+                        height: 70,
+                        width: 70,
+                      ),                         
+              ),
             ),
-          ),
-          _showLoader ? const LoaderComponent(text: "Actualizando...",) : Container(),
-        ],
-        
+                    
+            
+        ),
       ),
       Center(
         child: Text(

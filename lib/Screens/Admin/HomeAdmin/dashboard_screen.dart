@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons_null_safety/flutter_icons_null_safety.dart';
 import 'package:fuelred_mobile/Screens/Admin/Cartera/cartera_screen.dart';
+import 'package:fuelred_mobile/Screens/Admin/Depositos/consolidado_deposito_screen.dart';
+import 'package:fuelred_mobile/Screens/Admin/HomeAdmin/Components/summary_card.dart';
 import 'package:fuelred_mobile/Screens/Admin/Inventario/invent_form_screen.dart';
-import 'package:fuelred_mobile/Screens/Transfers/add_transfer_screen.dart';
+import 'package:fuelred_mobile/Screens/Admin/ReumenDia/resumen_dia_screen.dart';
 import 'package:fuelred_mobile/Screens/Transfers/list_transfers_screen.dart';
 import 'package:fuelred_mobile/Screens/facturas/info_factura_screen.dart';
+import 'package:fuelred_mobile/Screens/login_screen.dart';
 import 'package:fuelred_mobile/clases/show_alert_factura.dart';
 import 'package:fuelred_mobile/components/loader_component.dart';
 import 'package:fuelred_mobile/constans.dart';
@@ -12,7 +15,6 @@ import 'package:fuelred_mobile/graficas/my_line_chart.dart';
 import 'package:fuelred_mobile/helpers/api_helper.dart';
 import 'package:fuelred_mobile/models/ad,min/dash.dart';
 import 'package:fuelred_mobile/models/response.dart';
-import 'package:fuelred_mobile/sizeconfig.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -65,54 +67,78 @@ class _DashboardScreenState extends State<DashboardScreen> {
           shadowColor: Colors.blueAccent,
         ),
         drawer: menu(),
-        body:    Stack(
+        body: Stack(
           children: [
-            SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  const SizedBox(height: 10,),
-                   SummaryCard(
-                    title: 'Inv Diesel', 
-                    value: dash?.invDiesel?.toString() ?? '0',
-                    iconData: FlutterIcons.sale_mco,
-                    color: Colors.green,
+            Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                        const SizedBox(height: 10,),
+                         SummaryCard(
+                          title: 'Inv Diesel', 
+                          value: dash?.invDiesel?.toString() ?? '0',
+                          iconData: FlutterIcons.sale_mco,
+                          color: Colors.green,
+                        ),
+                           SummaryCard(
+                          title: 'Inv Regular', 
+                          value: dash?.invRegular?.toString() ?? '0',
+                          iconData: FlutterIcons.sale_mco,
+                          color: Colors.red,
+                        ),
+                           SummaryCard(
+                          title: 'Inv Super', 
+                           value: dash?.invSuper?.toString() ?? '0',
+                          iconData: FlutterIcons.sale_mco,
+                          color: Colors.indigo,
+                        ),
+                          SummaryCard(
+                          title: 'Inv Exonerado', 
+                           value: dash?.invExo?.toString() ?? '0',
+                          iconData: FlutterIcons.sale_mco,
+                          color: Colors.blue,
+                        ),
+                        
+                     //  SalesBarChart(salesData: salesData),
+                      ],
+                     
+                     
+                        // Agrega más tarjetas de resumen aquí
+                     
+                    ),
                   ),
-                     SummaryCard(
-                    title: 'Inv Regular', 
-                    value: dash?.invRegular?.toString() ?? '0',
-                    iconData: FlutterIcons.sale_mco,
-                    color: Colors.red,
+                ),
+                 Expanded(
+                  child: Container(
+                    color: Colors.white,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: <Widget>[
+                          const SizedBox(height: 10,),
+                           const Text('Ventas Ultimos 7 dias', style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: kPrimaryColor )),
+                      
+                         Container(
+                            height: 250,
+                            padding: const EdgeInsets.all(16),
+                            child: dash != null 
+                              ? MyLineChart(salesData: dash!.salesData!)
+                              :  Container(), // Muestra un spinner mientras salesData es nulo
+                          ),
+                        ],
+                       
+                       
+                        
+                       
+                      ),
+                    ),
                   ),
-                     SummaryCard(
-                    title: 'Inv Super', 
-                     value: dash?.invSuper?.toString() ?? '0',
-                    iconData: FlutterIcons.sale_mco,
-                    color: Colors.indigo,
-                  ),
-                    SummaryCard(
-                    title: 'Inv Exonerado', 
-                     value: dash?.invExo?.toString() ?? '0',
-                    iconData: FlutterIcons.sale_mco,
-                    color: Colors.blue,
-                  ),
-    
-               //  SalesBarChart(salesData: salesData),
-                const SizedBox(height: 10,),
-                const Text('Ventas Ultimos 7 dias', style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: kPrimaryColor )),
-
-                 Container(
-                    height: 250,
-                    padding: const EdgeInsets.all(16),
-                    child: dash != null 
-                      ? MyLineChart(salesData: dash!.salesData!)
-                      :  Container(), // Muestra un spinner mientras salesData es nulo
-                  ),
-                  // Agrega más tarjetas de resumen aquí
-                ],
-              ),
+                ),
+              ],
             ),
             showLoader ? const LoaderComponent(text: 'Cargando',) : const SizedBox.shrink(),
           ],
@@ -198,26 +224,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
               },
             ),
 
-            ListTile(
-                textColor: kColorMenu,
-              leading: const Icon(Icons.double_arrow_outlined , color: kColorMenu,),
-              title: const Text('Crear Transferencia'),
-              onTap: () { 
-                 Navigator.push(
-                   context, 
-                   MaterialPageRoute(
-                     builder: (context) => const AddTransferScreen()
-                   )
-                 );
-              },
+             ListTile(
+              textColor: kColorMenu,
+              leading: const Icon(Icons.money , color: kColorMenu,),
+              title: const Text('Depositos'),
+              onTap: () => showDatePickerDialog(context, 'deposito'),
             ),
+
+            ListTile(
+              textColor: kColorMenu,
+              leading: const Icon(Icons.reset_tv , color: kColorMenu,),
+              title: const Text('Resumen del dia'),
+              onTap: () => showDatePickerDialog(context, 'resumen'),
+            ),
+
 
            
 
            ListTile(
                 textColor: kColorMenu,
               leading: const Icon(Icons.double_arrow_outlined , color: kColorMenu,),
-              title: const Text('Lista Transferencia'),
+              title: const Text('Transferencias'),
               onTap: () { 
                  Navigator.push(
                    context, 
@@ -229,7 +256,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
 
              ListTile(
-                textColor: kColorMenu,
+              textColor: kColorMenu,
               leading: const Icon(Icons.wallet_outlined , color: kColorMenu,),
               title: const Text('Cartera'),
               onTap: () { 
@@ -255,7 +282,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
                  );
               },
             ),
-
+              ListTile(
+                textColor: kColorMenu,
+                leading: const Icon(Icons.logout, color: kColorMenu,),
+                title: const Text('Cerrar Sesión'),
+                onTap: () => { 
+                  Navigator.pushReplacement(
+                    context, 
+                    MaterialPageRoute(
+                      builder: (context) => const LoginScreen()
+                    )
+                  ),
+                },
+            ),
            
 
           
@@ -264,64 +303,63 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
-}
 
-class SummaryCard extends StatelessWidget {
-  final String title;
-  final String value;
-  final IconData iconData;
-  final Color color;
-
-  const SummaryCard({super.key, 
-    required this.title, 
-    required this.value, 
-    required this.iconData, 
-    required this.color
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      margin: const EdgeInsets.all(8),
-      child: ListTile(
-        leading: AspectRatio(
-                aspectRatio: 1.02,
-                child: Container(
-                  padding: EdgeInsets.all(getProportionateScreenWidth(5)),
-                  decoration: BoxDecoration(
-                    color: kTextColor,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Image(
-                        image: title =='Inv Super' ?  const AssetImage('assets/super.png') : 
-                              title =='Inv Regular' ? const AssetImage('assets/regular.png') : 
-                              title =='Inv Exonerado' ? const AssetImage('assets/exonerado.png') :
-                              const AssetImage('assets/diesel.png'),
-                              fit: BoxFit.cover,
-                    ),
-                ),
-              ),
-        title: Text(
-          title,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.black54,
-          ),
-        ),
-        trailing: Text(
-          value,
-          style: TextStyle(
-            color: color,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
+  void navigateToNextPage(BuildContext context, DateTime selectedDate, String ruta) {
+  if (ruta=='resumen'){
+    Navigator.of(context).push(
+    MaterialPageRoute(
+      builder: (context) => ResumenDiaScreen(date: selectedDate.toString()),
+    ),
+  );
   }
+  else{
+    Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => ConsolidadoDepositoScreen(dia: selectedDate.toString()),
+        ),
+      );
+  }
+  
+  
+}
 
+   void showDatePickerDialog(BuildContext context, String ruta) {
+  DateTime selectedDate = DateTime.now();
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Seleccione una fecha'),
+        content: SizedBox(
+          height: 200,
+          width: double.maxFinite,
+          child: CalendarDatePicker(
+            initialDate: selectedDate,
+            firstDate: DateTime(2017),
+            lastDate: DateTime(2030),
+            onDateChanged: (newDate) {
+              selectedDate = newDate;
+            },
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('OK'),
+            onPressed: () {
+              Navigator.of(context).pop(); // Cierra el AlertDialog
+              navigateToNextPage(context, selectedDate, ruta); // Navegar a la nueva página
+            },
+          ),
+        ],
+      );
+    },
+  );
+
+  
+}
 
 }
+
 
 

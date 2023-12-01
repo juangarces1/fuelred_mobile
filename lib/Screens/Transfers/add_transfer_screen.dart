@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fuelred_mobile/components/default_button.dart';
 import 'package:fuelred_mobile/components/loader_component.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/helpers/api_helper.dart';
@@ -128,6 +129,7 @@ Widget _buildClientePopupMenu() {
       child: Scaffold(
         backgroundColor: kContrateFondoOscuro,
         appBar: AppBar(
+          foregroundColor: Colors.white,
           backgroundColor: kPrimaryColor,
           title: const Text('Agregar Transferencia', style: TextStyle(color: Colors.white)),
         ),
@@ -234,8 +236,11 @@ Widget _buildClientePopupMenu() {
                     ),
                   
                     const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () {
+                  
+
+                    DefaultButton(
+                      text: "Crear",
+                      press: () {
                         if (selectedCliente == null) {
                              Fluttertoast.showToast(
                               msg: "Seleccione un cliente",
@@ -266,11 +271,9 @@ Widget _buildClientePopupMenu() {
                           _formKey.currentState!.save();
                           // Procesa la información de la transferencia
                           _goTransfer();
-                        } 
-                        
+                        }                         
                       },
-                      child: const Text('Agregar Transferencia'),
-                    ),
+                    ),  
                   ],
                 ),
               ),
@@ -306,43 +309,31 @@ Widget _buildClientePopupMenu() {
     });
 
      if (!response.isSuccess) {
-       showDialog(
-         context: context,
-         builder: (BuildContext context) {
-           return AlertDialog(
-             title: const Text('Error'),
-             content:  Text(response.message),
-             actions: <Widget>[
-               TextButton(
-                 child: const Text('Aceptar'),
-                 onPressed: () {
-                   Navigator.of(context).pop();
-                 },
-               ),
-             ],
-           );
-         },
-       );
-       return;
+      if(mounted) {
+          showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Error'),
+              content:  Text(response.message),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Aceptar'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+        return;
+       }
      }
-    showDialog(
-       context: context,
-       builder: (BuildContext context) {
-         return AlertDialog(
-           title: const Text('Éxito'),
-           content:  const Text('Transferencia agregada correctamente'),
-           actions: <Widget>[
-             TextButton(
-               child: const Text('Aceptar'),
-               onPressed: () {
-                 Navigator.of(context).pop();
-                 Navigator.of(context).pop();
-               },
-             ),
-           ],
-         );
-       },
-     );
+
+   WidgetsBinding.instance.addPostFrameCallback((_) {
+    Navigator.pop(context, 'Archivo Creado');
+  });
 
   }
 }

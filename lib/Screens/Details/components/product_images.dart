@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fuelred_mobile/models/product.dart';
 import 'package:flutter/material.dart';
+import 'package:fuelred_mobile/providers/network_info.dart';
 
 import '../../../constans.dart';
 import '../../../sizeconfig.dart';
@@ -18,7 +19,18 @@ class ProductImages extends StatefulWidget {
   _ProductImagesState createState() => _ProductImagesState();
 }
 
+
+
 class _ProductImagesState extends State<ProductImages> {
+
+ static String imagenesUrlRemoto = 'http://200.91.130.215:9091/photos'; 
+    static String imagenesUrlLocal = 'http://192.168.1.3:9091/photos';   
+    // const String imagenesUrl = 'http://192.168.1.165:8081/photos'; 
+
+    static String  getImagenesUrl () {
+      return NetworkInfo().isLocal ? imagenesUrlLocal : imagenesUrlRemoto;
+    }
+
   int selectedImage = 0;
   @override
   Widget build(BuildContext context) {
@@ -37,7 +49,7 @@ class _ProductImagesState extends State<ProductImages> {
               child: Hero(
                 tag: widget.product.codigoArticulo.toString(),
                 child: CachedNetworkImage(
-                          imageUrl: '$imagenesUrl/${widget.product.imageUrl}',
+                          imageUrl: '${getImagenesUrl()}}/${widget.product.imageUrl}',
                           errorWidget: (context, url, error) => const Icon(Icons.error),
                           fit: BoxFit.cover,
                           height: 70,

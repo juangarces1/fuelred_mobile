@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:fuelred_mobile/Screens/Transfers/add_transfer_screen.dart';
 import 'package:fuelred_mobile/Screens/Transfers/ciompoents/card_transfer.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/models/ad,min/transferfull.dart';
@@ -32,6 +33,7 @@ class ListTransferScreen extends StatefulWidget {
   bool _showLoader = false;
   bool _isFiltered = false;
   bool showTransfer = true;
+  double total = 0;
 
 
   @override
@@ -132,10 +134,31 @@ class ListTransferScreen extends StatefulWidget {
             ),
           ),
         ),
-      
+        
+       
+        floatingActionButton: FloatingActionButton(
+          
+          backgroundColor: kPrimaryColor,
+          onPressed: () => _goAdd(),
+          
+          child: const Icon(Icons.add, size: 35, color: Colors.white,),
+          
+        ),
       
       ),
     );
+  }
+
+   void _goAdd() async {
+    final resultado = await Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const AddTransferScreen()),
+        );
+
+        // Si se recibe un dato de retorno, recargar la lista
+        if (resultado != null) {
+          _getTransfers();
+        }
   }
  
  Future<void> _getTransfers() async {

@@ -5,6 +5,7 @@ class Deposito {
   int? cedulaempleado;
   String? moneda;
   int? idcierre;
+  bool? selected = false;
 
   Deposito(
       {this.iddeposito,
@@ -12,7 +13,9 @@ class Deposito {
       this.fechadepostio,
       this.cedulaempleado,
       this.moneda,
-      this.idcierre});
+      this.idcierre,
+      this.selected,
+      });
 
   Deposito.fromJson(Map<String, dynamic> json) {
     iddeposito = json['iddeposito'];

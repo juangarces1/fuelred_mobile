@@ -1,11 +1,13 @@
 
 import 'package:flutter/material.dart';
+import 'package:fuelred_mobile/helpers/varios_helpers.dart';
 import 'package:fuelred_mobile/models/peddler.dart';
 import 'package:fuelred_mobile/models/resdoc_facturas.dart';
+import 'package:fuelred_mobile/modelsAdmin/Consolidados/resumen_dia.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
-import 'package:printing/printing.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
 
 
 class Impresion {
@@ -271,4 +273,320 @@ class Impresion {
 
     
   }
+
+
+
+  static Future<void> generatePdf(ResumenDia resumen) async {
+  
+  pw.TextStyle styteTitulo =  pw.TextStyle(
+                            fontWeight: pw.FontWeight.bold,
+                            fontSize: 14,  
+                            color: PdfColors.blue800,                          // Ajusta el tamaño de la fuente según tus necesidades
+                          );
+   
+  final pdf = pw.Document();
+  pdf.addPage(    
+    pw.MultiPage(
+      pageFormat: PdfPageFormat.letter.landscape,
+      build: (pw.Context context) {
+        return [
+           pw.Header(
+            level: 0,
+            child: pw.Text('Resumen del Día ${VariosHelpers.formatYYYYmmDD(resumen.fecha)} -- Consolidado #${resumen.numeroConsolidado}',
+             style: pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold, color: PdfColors.redAccent700 )),
+          ),
+      
+          pw.Table(
+            border: pw.TableBorder.all(),
+            children: [
+
+              
+              
+              pw.TableRow(
+                children: [
+                  pw.Container(
+                    padding: const pw.EdgeInsets.all(8.0),
+                    child: pw.Column(
+                      crossAxisAlignment: pw.CrossAxisAlignment.start,
+                      children: [
+                        pw.Text(
+                          'Ventas Pistas',
+                          style: styteTitulo,
+                        ),
+                        pw.Divider(), ...resumen.ventaPistas.toJson().entries.map((entry) {
+                        if (entry.key != 'cierres' && entry.value != 0.0) {
+                          String formattedKey = VariosHelpers.convertCamelCaseToTitle(entry.key);
+                          return pw.Row(
+                            mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                            children: [
+                              pw.Text(
+                                '$formattedKey:',
+                                style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                              ),
+                              pw.Text(
+                                VariosHelpers.formattedToCurrencyValue(entry.value.toString()),
+                              ),
+                            ],
+                          );
+                        } else {
+                          return pw.Container(); // Devuelve un contenedor vacío para 'cierres'
+                        }
+                      }).where((child) => child is! pw.Container).toList(), // Opcional: añade un divisor para una mejor separación visual
+                      ],
+                    ),
+                  ),
+                   pw.Container(
+                    padding: const pw.EdgeInsets.all(8.0), // Añade un padding para un mejor diseño
+                    child: pw.Column(
+                      crossAxisAlignment: pw.CrossAxisAlignment.start,
+                      children: [
+                        pw.Text(
+                          'Exonerado',
+                          style: styteTitulo,
+                        ),
+                        pw.Divider(), ...resumen.exonerado.toJson().entries.map((entry) {
+                           if (entry.key != 'cierres' && entry.value != 0.0) {
+                            String formattedKey = VariosHelpers.convertCamelCaseToTitle(entry.key);
+                            return pw.Row(
+                              mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                              children: [
+                                pw.Text(
+                                  '$formattedKey:',
+                                  style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                                ),
+                                pw.Text(
+                                  VariosHelpers.formattedToCurrencyValue(entry.value.toString()),
+                                ),
+                              ],
+                            );
+                          } else {
+                            return pw.Container(); // Devuelve un contenedor vacío para 'cierres'
+                          }
+                        }).where((child) => child is! pw.Container).toList(), // Opcional: añade un divisor para una mejor separación visual
+                      ], // Eliminar contenedores vacíos de la lista
+                    ),
+                  ),
+                
+                  pw.Container(
+                    padding: const pw.EdgeInsets.all(8.0), // Añade un padding para un mejor diseño
+                    child: pw.Column(
+                      crossAxisAlignment: pw.CrossAxisAlignment.start,
+                      children: [
+                        pw.Text(
+                          'Total General',
+                          style: styteTitulo,
+                        ),
+                        pw.Divider(), ...resumen.totalGeneral.toJson().entries.map((entry) {
+                           if (entry.key != 'cierres' && entry.value != 0.0) {
+                            String formattedKey = VariosHelpers.convertCamelCaseToTitle(entry.key);
+                            return pw.Row(
+                              mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                              children: [
+                                pw.Text(
+                                  '$formattedKey:',
+                                  style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                                ),
+                                pw.Text(
+                                  VariosHelpers.formattedToCurrencyValue(entry.value.toString()),
+                                ),
+                              ],
+                            );
+                          } else {
+                            return pw.Container(); // Devuelve un contenedor vacío para 'cierres'
+                          }
+                        }).where((child) => child is! pw.Container).toList(), // Opcional: añade un divisor para una mejor separación visual
+                      ], // Eliminar contenedores vacíos de la lista
+                    ),
+                  ),
+                ]
+              ),
+              
+              pw.TableRow(
+                children: [
+                  pw.Container(
+                    padding: const pw.EdgeInsets.all(8.0), // Añade un padding para un mejor diseño
+                    child: pw.Column(
+                      crossAxisAlignment: pw.CrossAxisAlignment.start,
+                      children: [
+                        pw.Text(
+                          'Avances BN',
+                          style: styteTitulo,
+                        ),
+                        pw.Divider(), ...resumen.avancesBn.toJson().entries.map((entry) {
+                           if (entry.key != 'cierres' && entry.value != 0.0) {
+                            String formattedKey = VariosHelpers.convertCamelCaseToTitle(entry.key);
+                            return pw.Row(
+                              mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                              children: [
+                                pw.Text(
+                                  '$formattedKey:',
+                                  style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                                ),
+                                pw.Text(
+                                  VariosHelpers.formattedToCurrencyValue(entry.value.toString()),
+                                ),
+                              ],
+                            );
+                          } else {
+                            return pw.Container(); // Devuelve un contenedor vacío para 'cierres'
+                          }
+                        }).where((child) => child is! pw.Container).toList(), // Opcional: añade un divisor para una mejor separación visual
+                      ], // Eliminar contenedores vacíos de la lista
+                    ),
+                  ),
+                   pw.Container(
+                    padding: const pw.EdgeInsets.all(8.0), // Añade un padding para un mejor diseño
+                    child: pw.Column(
+                      crossAxisAlignment: pw.CrossAxisAlignment.start,
+                      children: [
+                        pw.Text(
+                          'Ventas Almacen',
+                          style: styteTitulo,
+                        ),
+                        pw.Divider(), ...resumen.ventasAlmacen.toJson().entries.map((entry) {
+                           if (entry.key != 'cierres' && entry.value != 0.0) {
+                            String formattedKey = VariosHelpers.convertCamelCaseToTitle(entry.key);
+                            return pw.Row(
+                              mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                              children: [
+                                pw.Text(
+                                  '$formattedKey:',
+                                  style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                                ),
+                                pw.Text(
+                                  VariosHelpers.formattedToCurrencyValue(entry.value.toString()),
+                                ),
+                              ],
+                            );
+                          } else {
+                            return pw.Container(); // Devuelve un contenedor vacío para 'cierres'
+                          }
+                        }).where((child) => child is! pw.Container).toList(), // Opcional: añade un divisor para una mejor separación visual
+                      ], // Eliminar contenedores vacíos de la lista
+                    ),
+                  ),
+                 
+                  // Deja el tercer contenedor vacío si así lo requieres
+                  pw.Container(
+                    padding: const pw.EdgeInsets.all(8.0), // Añade un padding para un mejor diseño
+                    child: pw.Column(
+                      crossAxisAlignment: pw.CrossAxisAlignment.start,
+                      children: [
+                        pw.Text(
+                          'Depositos',
+                          style: styteTitulo,
+                        ),
+                        pw.Divider(),
+                        pw.Row(
+                          mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                          children: [
+                            pw.Text(
+                              'Deposito Exo 1:',
+                              style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                            ),
+                            pw.Text(
+                              VariosHelpers.formattedToCurrencyValue(resumen.depositoExo1.toString()),
+                            ),
+                          ],
+                        ),
+
+                        pw.Row(
+                          mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                          children: [
+                            pw.Text(
+                              'Deposito Exo 2:',
+                              style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                            ),
+                            pw.Text(
+                              VariosHelpers.formattedToCurrencyValue(resumen.depositoExo2.toString()),
+                            ),
+                          ],
+                        ),
+
+                        pw.Row(
+                          mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                          children: [
+                            pw.Text(
+                              'Dep San Gerardo:',
+                              style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                            ),
+                            pw.Text(
+                              VariosHelpers.formattedToCurrencyValue(resumen.depositoSanGerardo.toString()),
+                            ),
+                          ],
+                        ),    
+
+                        resumen.depositoAvances > 0 ? pw.Row(
+                          mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                          children: [
+                            pw.Text(
+                              'Deposito Avances BN:',
+                              style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                            ),
+                            pw.Text(
+                              VariosHelpers.formattedToCurrencyValue(resumen.depositoAvances.toString()),
+                            ),
+                          ],
+                        ):  pw.Container(), 
+
+                         resumen.comision > 0 ? pw.Row(
+                          mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                          children: [
+                            pw.Text(
+                              'Comisión:',
+                              style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                            ),
+                            pw.Text(
+                              VariosHelpers.formattedToCurrencyValue(resumen.comision.toString()),
+                            ),
+                          ],
+                        ):  pw.Container(),                     
+                                              
+                       pw.Row(
+                          mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                          children: [
+                            pw.Text(
+                              'Evaporación:',
+                              style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                            ),
+                            pw.Text(
+                              VariosHelpers.formattedToCurrencyValue(resumen.evaporacion.toString()),
+                            ),
+                          ],
+                        ),    
+
+                        resumen.comision > 0 ? pw.Row(
+                          mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                          children: [
+                            pw.Text(
+                              'Caja Chica:',
+                              style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                            ),
+                            pw.Text(
+                              VariosHelpers.formattedToCurrencyValue(resumen.cajaChica.toString()),
+                            ),
+                          ],
+                        ):  pw.Container(), 
+                       
+                        //pregunta si la caja chica es mayor a cero y si es asi la muestra
+                       
+                        
+                      ], 
+                    ),
+                  ),
+                ]
+              ),
+            ]
+          ),
+        ];
+      },
+    ),
+  );
+
+  // Guardar o imprimir el PDF
+  await Printing.layoutPdf(
+    format: PdfPageFormat.letter.landscape,
+    onLayout: (PdfPageFormat format,) async => pdf.save(),
+  );
+}
 }

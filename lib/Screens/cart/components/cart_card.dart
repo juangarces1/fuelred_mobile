@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/models/product.dart';
 import 'package:flutter/material.dart';
+import 'package:fuelred_mobile/providers/network_info.dart';
 import 'package:intl/intl.dart';
 import '../../../sizeconfig.dart';
 
@@ -16,6 +17,15 @@ class CartCard extends StatefulWidget {
 }
 
 class _CartCardState extends State<CartCard> {
+ 
+  static String imagenesUrlRemoto = 'http://200.91.130.215:9091/photos'; 
+    static String imagenesUrlLocal = 'http://192.168.1.3:9091/photos';   
+    // const String imagenesUrl = 'http://192.168.1.165:8081/photos'; 
+
+    static String  getImagenesUrl () {
+      return NetworkInfo().isLocal ? imagenesUrlLocal : imagenesUrlRemoto;
+    }
+ 
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -33,7 +43,7 @@ class _CartCardState extends State<CartCard> {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: widget.product.unidad == "Unid" ? CachedNetworkImage(
-                         imageUrl:'$imagenesUrl/${widget.product.imageUrl}',
+                         imageUrl:'${getImagenesUrl()}/${widget.product.imageUrl}',
                           errorWidget: (context, url, error) => const Icon(Icons.error),
                           fit: BoxFit.cover,
                           height: 80,
