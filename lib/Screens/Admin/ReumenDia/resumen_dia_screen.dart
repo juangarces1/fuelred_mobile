@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fuelred_mobile/Screens/Admin/ReumenDia/Components/custom_card.dart';
+import 'package:fuelred_mobile/Screens/Admin/ReumenDia/Components/depositos_card.dart';
 import 'package:fuelred_mobile/clases/impresion.dart';
-import 'package:fuelred_mobile/components/loader_component.dart';
+import 'package:fuelred_mobile/components/my_loader.dart';
+import 'package:fuelred_mobile/components/no_contetnt.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/helpers/api_helper.dart';
 import 'package:fuelred_mobile/helpers/varios_helpers.dart';
@@ -26,7 +28,7 @@ class ResumenDiaScreen extends StatefulWidget {
 class _ResumenDiaScreenState extends State<ResumenDiaScreen> {
  
   bool showLoader = false;
-   late TextEditingController _controller;
+  late TextEditingController _controller;
   ResumenDia resumen = ResumenDia(
     ventaPistas: VentasPistas(cierres: []),
     ventasAlmacen: VentasAlmacen(cierres: []),
@@ -75,15 +77,17 @@ class _ResumenDiaScreenState extends State<ResumenDiaScreen> {
         ),
         body: Stack(
           children: [
-            resumen.numeroConsolidado != 0 ? getContent() : Container(),
-            showLoader ? const LoaderComponent(text: 'Por favor espere...') : Container(),
+            resumen.numeroConsolidado != 0 ? getContent() : const MyNoContent(text: 'No hay Resumen',),
+            showLoader ?  const CustomActivityIndicator(loadingText: 'Por favor espere...') : Container(),
           ],
         ),
       ),
     );
   }
 
-   Widget getContent(){
+  
+  
+  Widget getContent(){
     return  SingleChildScrollView(
           child: Column(
             children: <Widget>[
@@ -120,7 +124,7 @@ class _ResumenDiaScreenState extends State<ResumenDiaScreen> {
     );
    }
 
-   Widget cardDepositos(){
+  Widget cardDepositos(){
      return Card(
       color: kPrimaryText,
       elevation: 4,
@@ -131,96 +135,48 @@ class _ResumenDiaScreenState extends State<ResumenDiaScreen> {
         iconColor: Colors.white,
         title: const Text('Depositos', style: TextStyle(color: Colors.white ,fontWeight: FontWeight.bold,)),
         children: [ 
-          Container(
-              color: VariosHelpers.getShadedColor("aaaadfaaf", kPrimaryText), // Usa el color generado
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Deposito Exo 1', style:  TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
-                  Expanded(
-                    child: Text(
-                      VariosHelpers.formattedToCurrencyValue(resumen.depositoExo1.toString()),
-                      
-                      textAlign: TextAlign.right,
-                      style:  const TextStyle(color: Colors.white,fontWeight: FontWeight.bold,),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              color: VariosHelpers.getShadedColor("hdfghfg", kPrimaryText), // Usa el color generado
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Deposito Exo 2', style:  TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
-                  Expanded(
-                    child: Text(
-                      VariosHelpers.formattedToCurrencyValue(resumen.depositoExo2.toString()),
-                      
-                      textAlign: TextAlign.right,
-                      style:  const TextStyle(color: Colors.white,fontWeight: FontWeight.bold,),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-             Container(
-              color: VariosHelpers.getShadedColor("nhgfhn34sdfg", kPrimaryText), // Usa el color generado
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Deposito Avances', style:  TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
-                  Expanded(
-                    child: Text(
-                      VariosHelpers.formattedToCurrencyValue(resumen.depositoAvances.toString()),
-                      
-                      textAlign: TextAlign.right,
-                      style:  const TextStyle(color: Colors.white,fontWeight: FontWeight.bold,),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-             Container(
-              color: VariosHelpers.getShadedColor("hdfgfg", kPrimaryText), // Usa el color generado
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Deposito San Gerardo', style:  TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
-                  Expanded(
-                    child: Text(
-                      VariosHelpers.formattedToCurrencyValue(resumen.depositoSanGerardo.toString()),
-                      
-                      textAlign: TextAlign.right,
-                      style:  const TextStyle(color: Colors.white, fontWeight: FontWeight.bold,),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-             Container(
-              color: VariosHelpers.getShadedColor("aaafgfdfg5", kPrimaryText), // Usa el color generado
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Comisión', style:  TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
-                  Expanded(
-                    child: Text(
-                      VariosHelpers.formattedToCurrencyValue(resumen.comision.toString()),
-                      
-                      textAlign: TextAlign.right,
-                      style:  const TextStyle(color: Colors.white, fontWeight: FontWeight.bold,),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+
+          DepositosCustomCard(
+            title: 'Deposito Exo 1',
+            baseColor: kPrimaryText, 
+            foreColor: Colors.white, 
+            valor: resumen.depositoExo1,
+            colorVariable: "aaaadfaaf"
+          ),
+            DepositosCustomCard(
+            title: 'Deposito Exo 2',
+            baseColor: kPrimaryText, 
+            foreColor: Colors.white, 
+            valor: resumen.depositoExo2,
+            colorVariable: "hdfghfg"
+          ),
+           DepositosCustomCard(
+            title: 'Deposito Avances',
+            baseColor: kPrimaryText, 
+            foreColor: Colors.white, 
+            valor: resumen.depositoAvances,
+            colorVariable: "nhgfhn34sdfg"
+          ),
+           
+           DepositosCustomCard(
+            title: 'Deposito San Gerardo',
+            baseColor: kPrimaryText, 
+            foreColor: Colors.white, 
+            valor: resumen.depositoSanGerardo,
+            colorVariable: "hdfgfg"
+          ),
+           
+            
+           DepositosCustomCard(
+            title: 'Comisión',
+            baseColor: kPrimaryText, 
+            foreColor: Colors.white, 
+            valor: resumen.comision,
+            colorVariable: "aaafgfdfg5"
+          ),
+           
+            
+            
              Container(
               color: VariosHelpers.getShadedColor("aaasdfaaa", kPrimaryText), // Usa el color generado
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -326,10 +282,17 @@ class _ResumenDiaScreenState extends State<ResumenDiaScreen> {
       });
 
       Response respose = await ApiHelper.getResumenDia(widget.date);
+
        setState(() {
         showLoader = false;
       });
+
+
       if (respose.isSuccess) {
+        if (respose.message.isEmpty) {
+          
+          return;
+        }
         setState(() {
           resumen = respose.result;
           cajaChicaBackup = resumen.cajaChica;
@@ -355,6 +318,9 @@ class _ResumenDiaScreenState extends State<ResumenDiaScreen> {
              );
            }  
       }
+     
+     
+
   }
   
   Future<void> goSave() async {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fuelred_mobile/Screens/facturas/detale_factura_screen.dart';
 import 'package:fuelred_mobile/clases/impresion.dart';
 import 'package:fuelred_mobile/components/appbarbottom.dart';
-import 'package:fuelred_mobile/components/loader_component.dart';
+import 'package:fuelred_mobile/components/my_loader.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/helpers/api_helper.dart';
 import 'package:fuelred_mobile/models/clientecredito.dart';
@@ -58,7 +58,7 @@ class _ClienteCarteraScreenState extends State<ClienteCarteraScreen> {
         body: Container(
           color: const Color.fromARGB(255, 70, 72, 77),
           child: Center(
-            child: _showLoader ? const LoaderComponent(text: 'Por favor espere...') : Padding(
+            child: _showLoader ? const  CustomActivityIndicator(loadingText: 'Por favor espere...') : Padding(
               padding: const EdgeInsets.all(8.0),
               child: _getContent(),
             ),

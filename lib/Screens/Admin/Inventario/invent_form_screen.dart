@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fuelred_mobile/components/default_button.dart';
-import 'package:fuelred_mobile/components/loader_component.dart';
+import 'package:fuelred_mobile/components/my_loader.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/helpers/api_helper.dart';
 import 'package:fuelred_mobile/models/response.dart';
@@ -129,7 +129,7 @@ class _InventFormScreenState extends State<InventFormScreen> {
                 ),
               ),
             ),
-            showLoader ? const LoaderComponent(text: 'Por favor espere...') : Container(),
+            showLoader ?  const CustomActivityIndicator(loadingText: 'Por favor espere...') : Container(),
           ],
         ),
       ),

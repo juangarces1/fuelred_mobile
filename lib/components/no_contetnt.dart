@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:fuelred_mobile/constans.dart';
 
-class CustomActivityIndicator extends StatelessWidget {
-  final String gifPath;
+class MyNoContent extends StatelessWidget {
+  final String imgPath;
   final double width;
   final double height;
   final Color backgroundColor;
-  final String loadingText;
+  final String text;
   final Color borderColor;
   final double borderWidth;
 
-  const CustomActivityIndicator({super.key, 
-    this.gifPath = 'assets/FrGif.gif',
-    this.width = 100.0,
-    this.height = 100.0,
-    this.backgroundColor = kColorFondoOscuro,
-    this.loadingText = '',
+  const MyNoContent({super.key, 
+    this.imgPath = 'assets/splash.png',
+    this.width = 200.0,
+    this.height = 180.0,
+    this.backgroundColor = kSecondaryColor,
+    this.text = '',
     this.borderColor = kPrimaryColor,
-    this.borderWidth = 2.0,
+    this.borderWidth = 1.0,
   });
 
   @override
   Widget build(BuildContext context) {
   return Center(
     child: Container(
-      width: 160, // Ancho fijo
-      height: 160, // Alto fijo
+      width: width, // Ancho fijo
+      height: height, // Alto fijo
       decoration: BoxDecoration(
         color: backgroundColor, // Fondo sólido
         border: Border.all(
@@ -41,14 +41,14 @@ class CustomActivityIndicator extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(top: 20, left: 10, right: 10, bottom: 10), // Espaciado dentro del borde
               child: Image.asset(
-                gifPath,
+                imgPath,
                 // Elimina el width y height para permitir que la imagen se escale dentro de los límites del contenedor
               ),
             ),
           ),
           const SizedBox(height: 10), // Espacio entre el GIF y el texto
           Text(
-            loadingText,
+            text,
             style: const TextStyle(
               color: Colors.white,
               fontSize: 16.0,

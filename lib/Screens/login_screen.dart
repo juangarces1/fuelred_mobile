@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fuelred_mobile/Screens/Admin/HomeAdmin/dashboard_screen.dart';
-import 'package:fuelred_mobile/components/loader_component.dart';
 import 'package:fuelred_mobile/components/my_loader.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/helpers/api_helper.dart';

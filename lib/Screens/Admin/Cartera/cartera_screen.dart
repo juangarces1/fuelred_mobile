@@ -2,13 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:fuelred_mobile/Screens/Admin/Cartera/cliente_cartera_screen.dart';
+import 'package:fuelred_mobile/components/my_loader.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/helpers/api_helper.dart';
 import 'package:fuelred_mobile/models/clientecredito.dart';
 import 'package:fuelred_mobile/models/response.dart';
 import 'package:intl/intl.dart';
-
-import '../../../components/loader_component.dart';
 
 class CarteraScreen extends StatefulWidget {
   const CarteraScreen({super.key});
@@ -50,7 +49,7 @@ class _CarteraScreenState extends State<CarteraScreen> {
          body: Container(
           color: const Color.fromARGB(255, 70, 72, 77),
           child: Center(
-            child: showLoader ? const LoaderComponent(text: 'Por favor espere...') : Padding(
+            child: showLoader ? const CustomActivityIndicator(loadingText: 'Por favor espere...') : Padding(
               padding: const EdgeInsets.all(8.0),
               child: _getContent(),
             ),

@@ -9,7 +9,7 @@ import 'package:fuelred_mobile/Screens/Transfers/list_transfers_screen.dart';
 import 'package:fuelred_mobile/Screens/facturas/info_factura_screen.dart';
 import 'package:fuelred_mobile/Screens/login_screen.dart';
 import 'package:fuelred_mobile/clases/show_alert_factura.dart';
-import 'package:fuelred_mobile/components/loader_component.dart';
+import 'package:fuelred_mobile/components/my_loader.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/graficas/my_line_chart.dart';
 import 'package:fuelred_mobile/helpers/api_helper.dart';
@@ -140,7 +140,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
               ],
             ),
-            showLoader ? const LoaderComponent(text: 'Cargando',) : const SizedBox.shrink(),
+            showLoader ?  const CustomActivityIndicator(loadingText: 'Por favor espere...') : const SizedBox.shrink(),
           ],
         ),
       ),

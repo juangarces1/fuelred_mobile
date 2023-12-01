@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuelred_mobile/Screens/Admin/Depositos/detail_deposits_screen.dart';
-import 'package:fuelred_mobile/components/loader_component.dart';
+import 'package:fuelred_mobile/components/my_loader.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/helpers/api_helper.dart';
 import 'package:fuelred_mobile/models/response.dart';
@@ -129,7 +129,7 @@ class _ConsolidadoDepositoScreenState extends State<ConsolidadoDepositoScreen> {
               }        
             ),
           ),
-          showLoader ? const LoaderComponent(text: 'Cargando..,',) :Container()
+          showLoader ?  const CustomActivityIndicator(loadingText: 'Por favor espere...') :Container()
             ]
           ),
         ),

@@ -17,7 +17,6 @@ import 'package:fuelred_mobile/Screens/manejoCierre/transferencias_screen.dart';
 import 'package:fuelred_mobile/Screens/manejoCierre/viaticos_screen.dart';
 import 'package:fuelred_mobile/Screens/transacciones/transacciones_screen.dart';
 import 'package:fuelred_mobile/clases/show_alert_cliente.dart';
-import 'package:fuelred_mobile/components/loader_component.dart';
 import 'package:fuelred_mobile/components/my_loader.dart';
 import 'package:fuelred_mobile/components/product_card.dart';
 import 'package:fuelred_mobile/models/all_fact.dart';
