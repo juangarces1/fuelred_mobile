@@ -192,7 +192,7 @@ class _SinpesScreenState extends State<SinpesScreen> {
     });
 
     
-    Response response = await ApiHelper.getSinpes(widget.all.cierreActivo.cierreFinal.idcierre ?? 0);
+    Response response = await ApiHelper.getSinpes(widget.all.cierreActivo!.cierreFinal.idcierre ?? 0);
 
     setState(() {
       showLoader = false;

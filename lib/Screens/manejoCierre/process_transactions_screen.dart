@@ -25,7 +25,7 @@ class _ProcessScreenState extends State<ProcessScreen> {
   get kPrimaryColor => null;
   @override
   Widget build(BuildContext context) {
-    widget.factura.cart.setTotal();
+    widget.factura.cart!.setTotal();
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(AppBar().preferredSize.height),
@@ -35,9 +35,9 @@ class _ProcessScreenState extends State<ProcessScreen> {
       padding:
       EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
       child: ListView.builder(
-        itemCount: widget.factura.cart.products.length,
+        itemCount: widget.factura.cart!.products.length,
         itemBuilder: (context, index) {
-          final item = widget.factura.cart.products[index].transaccion == 0 ? widget.factura.cart.products[index].codigoArticulo : widget.factura.cart.products[index].transaccion.toString();
+          final item = widget.factura.cart!.products[index].transaccion == 0 ? widget.factura.cart!.products[index].codigoArticulo : widget.factura.cart!.products[index].transaccion.toString();
          return Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: Dismissible(
@@ -45,19 +45,19 @@ class _ProcessScreenState extends State<ProcessScreen> {
             direction: DismissDirection.endToStart,
             onDismissed: (direction) {              
               setState(() {               
-                if(widget.factura.cart.products[index].unidad=="L"){
-                    widget.factura.transacciones.add(widget.factura.cart.products[index]);
+                if(widget.factura.cart!.products[index].unidad=="L"){
+                    widget.factura.transacciones.add(widget.factura.cart!.products[index]);
                 }
                 else{
                   for (var element in widget.factura.productos) {
-                        if (element.codigoArticulo==widget.factura.cart.products[index].codigoArticulo){                       
+                        if (element.codigoArticulo==widget.factura.cart!.products[index].codigoArticulo){                       
                           element.inventario=(element.inventario + element.cantidad).toInt();
                           element.cantidad=0;                         
                         }
                    }
                 }
-                 widget.factura.cart.products.removeAt(index);
-                 widget.factura.cart.setTotal();
+                 widget.factura.cart!.products.removeAt(index);
+                 widget.factura.cart!.setTotal();
               });             
             },
             background: Container(              
@@ -73,7 +73,7 @@ class _ProcessScreenState extends State<ProcessScreen> {
                 ],
               ),
             ),
-            child: CartCard(product: widget.factura.cart.products[index]),
+            child: CartCard(product: widget.factura.cart!.products[index]),
             
           ),
          );  
@@ -170,7 +170,7 @@ class _ProcessScreenState extends State<ProcessScreen> {
             style: TextStyle(color: Colors.white),
           ),
           Text(
-            "${widget.factura.cart.products.length} Producto(s)",
+            "${widget.factura.cart!.products.length} Producto(s)",
             style: const TextStyle(
               color: Colors.white,
               fontSize: 12,

@@ -199,7 +199,7 @@ class _ProceeeCreditScreen extends State<ProceeeCreditScreen> {
               text: "Total:\n",
               children: [
                 TextSpan(
-                  text: "¢${NumberFormat("###,000", "en_US").format(widget.factura.cart.total.toInt())}",
+                  text: "¢${NumberFormat("###,000", "en_US").format(widget.factura.cart!.total.toInt())}",
                   style: const TextStyle(fontSize: 20, color: kPrimaryColor, ),
                 ),
               ],
@@ -219,7 +219,7 @@ class _ProceeeCreditScreen extends State<ProceeeCreditScreen> {
 }
 
  Future<void> _goFact()  async{
-    if(widget.factura.formPago.clientePaid.nombre=='') {
+    if(widget.factura.formPago!.clientePaid.nombre=='') {
       Fluttertoast.showToast(
             msg: "Seleccione un cliente.",
             toastLength: Toast.LENGTH_SHORT,
@@ -241,23 +241,23 @@ class _ProceeeCreditScreen extends State<ProceeeCreditScreen> {
       }
       Map<String, dynamic> request = 
       {
-        'products': widget.factura.cart.products.map((e) => e.toApiProducJson()).toList(),
-        'idCierre' : widget.factura.cierreActivo.cierreFinal.idcierre,
-        'cedualaUsuario' : widget.factura.cierreActivo.usuario.cedulaEmpleado.toString(),
-        'cedulaClienteFactura' : widget.factura.clienteFactura.documento,
-        'totalEfectivo' : widget.factura.formPago.totalEfectivo,        
-        'totalBac' : widget.factura.formPago.totalBac,
-        'totalDav' : widget.factura.formPago.totalDav,
-        'totalBn' : widget.factura.formPago.totalBn,
-        'totalSctia' : widget.factura.formPago.totalSctia,
-        'totalDollars' : widget.factura.formPago.totalDollars,
-        'totalCheques' : widget.factura.formPago.totalCheques,
-        'totalCupones' : widget.factura.formPago.totalCupones,
-        'totalPuntos' : widget.factura.formPago.totalPuntos,
-        'totalTransfer' : widget.factura.formPago.totalTransfer,
-        'saldo' : widget.factura.formPago.saldo,
-        'clientePaid' : widget.factura.formPago.clientePaid.toJson(),
-        'Transferencia' : widget.factura.formPago.transfer.toJson(),
+        'products': widget.factura.cart!.products.map((e) => e.toApiProducJson()).toList(),
+        'idCierre' : widget.factura.cierreActivo!.cierreFinal.idcierre,
+        'cedualaUsuario' : widget.factura.cierreActivo!.usuario.cedulaEmpleado.toString(),
+        'cedulaClienteFactura' : widget.factura.clienteFactura!.documento,
+        'totalEfectivo' : widget.factura.formPago!.totalEfectivo,        
+        'totalBac' : widget.factura.formPago!.totalBac,
+        'totalDav' : widget.factura.formPago!.totalDav,
+        'totalBn' : widget.factura.formPago!.totalBn,
+        'totalSctia' : widget.factura.formPago!.totalSctia,
+        'totalDollars' : widget.factura.formPago!.totalDollars,
+        'totalCheques' : widget.factura.formPago!.totalCheques,
+        'totalCupones' : widget.factura.formPago!.totalCupones,
+        'totalPuntos' : widget.factura.formPago!.totalPuntos,
+        'totalTransfer' : widget.factura.formPago!.totalTransfer,
+        'saldo' : widget.factura.formPago!.saldo,
+        'clientePaid' : widget.factura.formPago!.clientePaid.toJson(),
+        'Transferencia' : widget.factura.formPago!.transfer.toJson(),
         'kms':kms.text,
         'observaciones' :obser.text,
         'placa':placa     
@@ -294,7 +294,7 @@ class _ProceeeCreditScreen extends State<ProceeeCreditScreen> {
 
      var decodedJson = jsonDecode(response.result);
        resdoc_facturas resdocFactura = resdoc_facturas.fromJson(decodedJson);   
-       resdocFactura.usuario = '${widget.factura.cierreActivo.usuario.nombre} ${widget.factura.cierreActivo.usuario.apellido1}';
+       resdocFactura.usuario = '${widget.factura.cierreActivo!.usuario.nombre} ${widget.factura.cierreActivo!.usuario.apellido1}';
     
    
       resetFactura();
@@ -328,8 +328,8 @@ class _ProceeeCreditScreen extends State<ProceeeCreditScreen> {
 
   void goCart() async {
     setState(() {
-        widget.factura.formPago.showTotal=false;
-        widget.factura.formPago.showFact=true;
+        widget.factura.formPago!.showTotal=false;
+        widget.factura.formPago!.showFact=true;
     });
     
     Navigator.push(context,  
@@ -354,23 +354,23 @@ class _ProceeeCreditScreen extends State<ProceeeCreditScreen> {
 
    resetFactura() {
     setState(() {
-      widget.factura.cart.products.clear();
-      widget.factura.formPago.totalBac=0;
-      widget.factura.formPago.totalBn=0;
-      widget.factura.formPago.totalCheques=0;
-      widget.factura.formPago.totalCupones=0;
-      widget.factura.formPago.totalDav=0;
-      widget.factura.formPago.totalDollars=0;
-      widget.factura.formPago.totalEfectivo=0;
-      widget.factura.formPago.totalPuntos=0;
-      widget.factura.formPago.totalSctia=0;
-      widget.factura.formPago.transfer.totalTransfer=0;
-      widget.factura.formPago.totalSinpe=0;
-      widget.factura.formPago.transfer= Transferencia(cliente: Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: ''), transfers: [], monto: 0, totalTransfer: 0);
+      widget.factura.cart!.products.clear();
+      widget.factura.formPago!.totalBac=0;
+      widget.factura.formPago!.totalBn=0;
+      widget.factura.formPago!.totalCheques=0;
+      widget.factura.formPago!.totalCupones=0;
+      widget.factura.formPago!.totalDav=0;
+      widget.factura.formPago!.totalDollars=0;
+      widget.factura.formPago!.totalEfectivo=0;
+      widget.factura.formPago!.totalPuntos=0;
+      widget.factura.formPago!.totalSctia=0;
+      widget.factura.formPago!.transfer.totalTransfer=0;
+      widget.factura.formPago!.totalSinpe=0;
+      widget.factura.formPago!.transfer= Transferencia(cliente: Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: ''), transfers: [], monto: 0, totalTransfer: 0);
       widget.factura.clienteFactura=Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: '');
       widget.factura.clientePuntos=Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: '');
-      widget.factura.formPago.clientePaid=Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: '');
-      widget.factura.formPago.sinpe = Sinpe(numFact: '', fecha: DateTime.now(), id: 0, idCierre: 0, activo: 0, monto: 0, nombreEmpleado: '', nota: '', numComprobante: '');
+      widget.factura.formPago!.clientePaid=Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: '');
+      widget.factura.formPago!.sinpe = Sinpe(numFact: '', fecha: DateTime.now(), id: 0, idCierre: 0, activo: 0, monto: 0, nombreEmpleado: '', nota: '', numComprobante: '');
       widget.factura.setSaldo(); 
       
     });

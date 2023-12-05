@@ -105,7 +105,7 @@ class _ListaSinpesScreenState extends State<ListaSinpesScreen> {
              children: [          
    
            
-             Text('Saldo: ${NumberFormat("###,000", "en_US").format(widget.factura.formPago.saldo)}',
+             Text('Saldo: ${NumberFormat("###,000", "en_US").format(widget.factura.formPago!.saldo)}',
               style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),),
                              
              ],
@@ -117,8 +117,8 @@ class _ListaSinpesScreenState extends State<ListaSinpesScreen> {
  }
 
  void _goBack() async {
-    widget.factura.formPago.transfer.totalTransfer=0;
-    widget.factura.formPago.totalTransfer=0;
+    widget.factura.formPago!.transfer.totalTransfer=0;
+    widget.factura.formPago!.totalTransfer=0;
     setState(() {
       widget.factura.setSaldo();
     });
@@ -148,7 +148,7 @@ class _ListaSinpesScreenState extends State<ListaSinpesScreen> {
   _goAdd(Sinpe sinpe) {
          
      //show tast to say the saldo is not riagth
-      if(sinpe.monto > widget.factura.formPago.saldo){
+      if(sinpe.monto > widget.factura.formPago!.saldo){
         showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -173,8 +173,8 @@ class _ListaSinpesScreenState extends State<ListaSinpesScreen> {
      setState(() {      
           
        
-          widget.factura.formPago.sinpe = sinpe;
-          widget.factura.formPago.totalSinpe = sinpe.monto;
+          widget.factura.formPago!.sinpe = sinpe;
+          widget.factura.formPago!.totalSinpe = sinpe.monto;
           widget.factura.setSaldo();
       }); 
 
@@ -210,7 +210,7 @@ class _ListaSinpesScreenState extends State<ListaSinpesScreen> {
     });
 
     
-    Response response = await ApiHelper.getSinpes(widget.factura.cierreActivo.cierreFinal.idcierre ?? 0);
+    Response response = await ApiHelper.getSinpes(widget.factura.cierreActivo!.cierreFinal.idcierre ?? 0);
 
     setState(() {
       showLoader = false;

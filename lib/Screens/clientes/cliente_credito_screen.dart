@@ -98,11 +98,11 @@ class _ClientesCreditoScreen extends State<ClientesCreditoScreen> {
 
              SizedBox(height: SizeConfig.screenHeight * 0.04),
 
-          widget.factura.formPago.clientePaid.nombre.isEmpty ? Container() 
-          : ClientCard(client: widget.factura.formPago.clientePaid,),
+          widget.factura.formPago!.clientePaid.nombre.isEmpty ? Container() 
+          : ClientCard(client: widget.factura.formPago!.clientePaid,),
         
                   
-           widget.factura.formPago.clientePaid.nombre.isEmpty ? Container() 
+           widget.factura.formPago!.clientePaid.nombre.isEmpty ? Container() 
           :  DefaultButton(text: 'Select',press: () => _goBack()),
           
         
@@ -194,7 +194,7 @@ class _ClientesCreditoScreen extends State<ClientesCreditoScreen> {
     );    
    
     setState(() {
-      widget.factura.formPago.clientePaid= clientePaid;
+      widget.factura.formPago!.clientePaid= clientePaid;
       widget.factura.placas=cliente.placas??[];
      
      
@@ -203,7 +203,7 @@ class _ClientesCreditoScreen extends State<ClientesCreditoScreen> {
   }
 
   void _goBack() async {
-   if(widget.factura.formPago.clientePaid.nombre ==""){
+   if(widget.factura.formPago!.clientePaid.nombre ==""){
      await Fluttertoast.showToast(
           msg: "Debe buscar el cliente primero.",
           toastLength: Toast.LENGTH_SHORT,
@@ -216,7 +216,7 @@ class _ClientesCreditoScreen extends State<ClientesCreditoScreen> {
       return;
    }  
 
-   if(widget.factura.formPago.clientePaid.tipo == 'Peddler'){
+   if(widget.factura.formPago!.clientePaid.tipo == 'Peddler'){
    Navigator.pushReplacement(context,  
                MaterialPageRoute(
                builder: (context) => PeddlersAddScreen(

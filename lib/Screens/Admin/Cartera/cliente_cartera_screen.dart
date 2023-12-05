@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fuelred_mobile/Screens/Admin/ComponentsShared/app_bar_custom.dart';
 import 'package:fuelred_mobile/Screens/facturas/detale_factura_screen.dart';
 import 'package:fuelred_mobile/clases/impresion.dart';
 import 'package:fuelred_mobile/components/appbarbottom.dart';
@@ -20,6 +21,7 @@ class ClienteCarteraScreen extends StatefulWidget {
 
 class _ClienteCarteraScreenState extends State<ClienteCarteraScreen> {
   List<resdoc_facturas> _facturas = [];
+  List<resdoc_facturas> _backupLits= [];
   bool _showLoader = false;
   bool _isFiltered = false;
   String _search = '';
@@ -39,22 +41,23 @@ class _ClienteCarteraScreenState extends State<ClienteCarteraScreen> {
   Widget build(BuildContext context) {
      return SafeArea(
        child: Scaffold(
-        appBar: AppBar(
-           foregroundColor: Colors.white,
-          backgroundColor: kBlueColorLogo,
-          title:  Text(widget.cliente.nombre!, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),),
-          actions: <Widget>[
-            _isFiltered
+        appBar: MyCustomAppBar(
+        title: widget.cliente.nombre!,
+        automaticallyImplyLeading: true,   
+        backgroundColor: kBlueColorLogo,
+        elevation: 8.0,
+        shadowColor: Colors.blueGrey,
+        foreColor: Colors.white,
+         actions: [ _isFiltered
             ?  IconButton(
                 onPressed: _removeFilter, 
-                icon: const Icon(Icons.filter_none, color: Colors.white,)
+                icon: const Icon(Icons.filter_alt_off, color: Colors.white,)
               )
             :  IconButton(
                 onPressed: _showFilter, 
                 icon: const Icon(Icons.filter_alt, color: Colors.white,)
-              )
-          ],      
-        ),
+              )],
+      ),
         body: Container(
           color: const Color.fromARGB(255, 70, 72, 77),
           child: Center(
@@ -112,8 +115,10 @@ class _ClienteCarteraScreenState extends State<ClienteCarteraScreen> {
      }   
    
     setState(() {
-      _facturas = response.result;      
+      _facturas = response.result;   
+      _backupLits = _facturas;   
     });  
+
     double aux=0;    
     for(var i=0; i<_facturas.length; i++){
       if(_facturas[i].tipoDocumento=="00003"){
@@ -326,8 +331,9 @@ class _ClienteCarteraScreenState extends State<ClienteCarteraScreen> {
   void _removeFilter() {
     setState(() {
       _isFiltered = false;
+      _facturas = _backupLits;
     });
-    _getFacturas();
+   
   }
 
   void _filter() {

@@ -184,7 +184,7 @@ class _CashbarksScreenState extends State<CashbarksScreen> {
     });
 
     
-    Response response = await ApiHelper.getCashBacks(widget.factura.cierreActivo.cierreFinal.idcierre ?? 0);
+    Response response = await ApiHelper.getCashBacks(widget.factura.cierreActivo!.cierreFinal.idcierre ?? 0);
 
     setState(() {
       showLoader = false;

@@ -69,7 +69,7 @@ class CustomBottomNavBar extends StatelessWidget {
               IconButton(
                 icon: SvgPicture.asset(
                   "assets/User Icon.svg",
-                  color: factura.clienteFactura.nombre !=""
+                  color: factura.clienteFactura!.nombre !=""
                       ? kPrimaryColor
                       : inActiveIconColor,
                 ),             
@@ -89,7 +89,7 @@ class CustomBottomNavBar extends StatelessWidget {
         title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              factura.clienteFactura.nombre == "" ? const Expanded(child: Text(
+              factura.clienteFactura!.nombre == "" ? const Expanded(child: Text(
                   "No hay un cliente Seleccionado",
                    style:  TextStyle(
                         fontSize: 15,
@@ -102,7 +102,7 @@ class CustomBottomNavBar extends StatelessWidget {
                             : const Expanded (child:  Text("Cliente Contado")), 
               
             ]),
-        content:factura.clienteFactura.nombre != "" ?
+        content:factura.clienteFactura!.nombre != "" ?
           Card(
             shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(40), // if you need this
@@ -121,7 +121,7 @@ class CustomBottomNavBar extends StatelessWidget {
                 child:  Column(
                   children: [
                       Text(
-                        factura.clienteFactura.nombre, 
+                        factura.clienteFactura!.nombre, 
                         style: const TextStyle(                        
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -130,7 +130,7 @@ class CustomBottomNavBar extends StatelessWidget {
                       ),
                     const SizedBox(height: 5,),
                       Text(
-                      'Documento: ${factura.clienteFactura.documento}',
+                      'Documento: ${factura.clienteFactura!.documento}',
                       style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
@@ -139,7 +139,7 @@ class CustomBottomNavBar extends StatelessWidget {
                       ),
                       const SizedBox(height: 5,),
                     Text(
-                        'Email: ${factura.clienteFactura.email}',
+                        'Email: ${factura.clienteFactura!.email}',
                         style: const TextStyle(
                         fontSize: 14,
                           fontWeight: FontWeight.bold,

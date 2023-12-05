@@ -16,8 +16,8 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    factura.cart.setTotal();
-    factura.cart.cargaritems();
+    factura.cart!.setTotal();
+    factura.cart!.cargaritems();
     return Padding(
       padding:
           EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
@@ -27,7 +27,7 @@ class HomeHeader extends StatelessWidget {
           const SearchField(),
           IconBtnWithCounter(
             svgSrc: "assets/Cart Icon.svg",  
-            numOfitem: factura.cart.products.length,          
+            numOfitem: factura.cart!.products.length,          
             press: () {},
           ),         
         ],

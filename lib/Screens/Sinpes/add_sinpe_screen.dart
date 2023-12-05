@@ -191,9 +191,9 @@ class _AddSinpeScreenState extends State<AddSinpeScreen> {
 
     showLoader=true;
     //set the idCierre
-    sinpe.idCierre = widget.all.cierreActivo.cierreFinal.idcierre??0;
+    sinpe.idCierre = widget.all.cierreActivo!.cierreFinal.idcierre??0;
     //set the nombreEmpleado
-    sinpe.nombreEmpleado = ' ${widget.all.cierreActivo.cajero.nombre} ${widget.all.cierreActivo.cajero.apellido1}';
+    sinpe.nombreEmpleado = ' ${widget.all.cierreActivo!.cajero.nombre} ${widget.all.cierreActivo!.cajero.apellido1}';
     
     //set the fecha
     sinpe.fecha = DateTime.now();

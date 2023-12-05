@@ -57,14 +57,14 @@ class _ShowClientState extends State<ShowClient> {
                 child: SvgPicture.asset(
                   "assets/User Icon.svg", 
                   // ignore: deprecated_member_use
-                  color: widget.factura.clienteFactura.nombre == '' ? kTextColorBlack 
+                  color: widget.factura.clienteFactura!.nombre == '' ? kTextColorBlack 
                   : kPrimaryColor,),
                   
               ),
               const SizedBox(width: 10,),        
               Flexible(
                 child: Text(
-                  widget.factura.clienteFactura.nombre == "" ? "Seleccione Un Cliente": widget.factura.clienteFactura.nombre ,
+                  widget.factura.clienteFactura!.nombre == "" ? "Seleccione Un Cliente": widget.factura.clienteFactura!.nombre ,
                     style:  const TextStyle(
                     color: kContrateFondoOscuro),),
               ),
@@ -78,11 +78,11 @@ class _ShowClientState extends State<ShowClient> {
   }
 
 void _showNewCliente(context) async {
-  if(widget.factura.clienteFactura.nombre == ""){
+  if(widget.factura.clienteFactura!.nombre == ""){
     _goClientes();
   }
   else{
-  ShowAlertCliente.showAlert(context, widget.factura.clienteFactura, _goClientes);
+  ShowAlertCliente.showAlert(context, widget.factura.clienteFactura!, _goClientes);
   }
 }
 

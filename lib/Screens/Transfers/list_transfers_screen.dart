@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:fuelred_mobile/Screens/Admin/ComponentsShared/app_bar_custom.dart';
 import 'package:fuelred_mobile/Screens/Transfers/add_transfer_screen.dart';
 import 'package:fuelred_mobile/Screens/Transfers/ciompoents/card_transfer.dart';
 import 'package:fuelred_mobile/constans.dart';
@@ -109,27 +110,34 @@ class ListTransferScreen extends StatefulWidget {
  Widget build(BuildContext context) {  
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          foregroundColor: kPrimaryColor,
-          title: const Text('Transferencias',
-           style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: kPrimaryColor
-                ),),
-          actions: <Widget>[
+        appBar: MyCustomAppBar(
+        title: 'Transferencias',
+        automaticallyImplyLeading: true,   
+        backgroundColor: kPrimaryColor,
+        elevation: 8.0,
+        shadowColor: const Color.fromARGB(255, 216, 223, 226),
+        foreColor: Colors.white,
+         actions: [
             IconButton(
-            icon: Icon(_isFiltered ? Icons.filter_list : Icons.search),
-            onPressed: _showSearchDialog,
-          ),
-          ],
-        ),
+              icon: Icon(_isFiltered ? Icons.filter_alt_off : Icons.filter_alt, color: Colors.white,),
+              onPressed: _showSearchDialog,
+            ),
+           Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ClipOval(child:  Image.asset(
+                  'assets/splash.png',
+                  width: 30,
+                  height: 30,
+                  fit: BoxFit.cover,
+                ),), // Ícono de perfil de usuario
+            ),],
+      ),
         body: Container(
           color:   const Color.fromARGB(255, 70, 72, 77),
           child: Center(
             child: _showLoader ? const LoaderComponent(text: 'Por favor espere...') 
             : Padding(
-              padding: const EdgeInsets.only(top: 10),
+              padding: const EdgeInsets.only(top: 15),
               child: _getContent(),
             ),
           ),

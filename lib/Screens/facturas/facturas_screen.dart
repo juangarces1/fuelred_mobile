@@ -95,11 +95,11 @@ class _FacturasScreenState extends State<FacturasScreen> {
     Response response = Response(isSuccess: false);
 
     if(widget.tipo=='Contado'){
-      response = await ApiHelper.getFacturasByCierre(widget.factura.cierreActivo.cierreFinal.idcierre);
+      response = await ApiHelper.getFacturasByCierre(widget.factura.cierreActivo!.cierreFinal.idcierre);
 
     }
     else{
-       response = await ApiHelper.getFacturasCredito(widget.factura.cierreActivo.cierreFinal.idcierre);
+       response = await ApiHelper.getFacturasCredito(widget.factura.cierreActivo!.cierreFinal.idcierre);
     }
    
     setState(() {
@@ -556,7 +556,7 @@ class _FacturasScreenState extends State<FacturasScreen> {
   }
   
   _printFactura(resdoc_facturas e) {
-    e.usuario ='${widget.factura.cierreActivo.usuario.nombre} ${widget.factura.cierreActivo.usuario.apellido1}'; 
+    e.usuario ='${widget.factura.cierreActivo!.usuario.nombre} ${widget.factura.cierreActivo!.usuario.apellido1}'; 
     String tipoDocumento = e.isFactura ? 'FACTURA' : 'TICKET';
     e.isDevolucion ? tipoDocumento = 'NOTA DE CREDITO' : tipoDocumento = tipoDocumento;
     String tipoPago = e.plazo==0 ? 'CONTADO' : 'CREDITO';

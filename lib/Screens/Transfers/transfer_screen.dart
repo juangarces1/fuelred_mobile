@@ -148,10 +148,10 @@ class TransferScreen extends StatefulWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
              children: [          
    
-             Text('Transferencias(${widget.factura.formPago.transfer.transfers.length})',
+             Text('Transferencias(${widget.factura.formPago!.transfer.transfers.length})',
               style: const TextStyle(color: kPrimaryColor, fontSize: 14, fontWeight: FontWeight.bold),),
               
-             Text('Saldo: ${NumberFormat("###,000", "en_US").format(widget.factura.formPago.saldo)}',
+             Text('Saldo: ${NumberFormat("###,000", "en_US").format(widget.factura.formPago!.saldo)}',
               style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),),
                              
              ],
@@ -163,8 +163,8 @@ class TransferScreen extends StatefulWidget {
  }
 
  void _goBack() async {
-    widget.factura.formPago.transfer.totalTransfer=0;
-    widget.factura.formPago.totalTransfer=0;
+    widget.factura.formPago!.transfer.totalTransfer=0;
+    widget.factura.formPago!.totalTransfer=0;
     setState(() {
       widget.factura.setSaldo();
     });
@@ -256,7 +256,7 @@ class TransferScreen extends StatefulWidget {
   }
 
  Widget _getContentTP() {
-    return widget.factura.formPago.transfer.transfers.isEmpty 
+    return widget.factura.formPago!.transfer.transfers.isEmpty 
       ? _noContentTp()
       : _parcialTransferList();
   }
@@ -443,9 +443,9 @@ class TransferScreen extends StatefulWidget {
         EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
         child: 
         ListView.builder(
-          itemCount: widget.factura.formPago.transfer.transfers.length,
+          itemCount: widget.factura.formPago!.transfer.transfers.length,
           itemBuilder: (context, index) {
-            final item = widget.factura.formPago.transfer.transfers[index].numeroDeposito;
+            final item = widget.factura.formPago!.transfer.transfers[index].numeroDeposito;
            return Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Dismissible(
@@ -454,7 +454,7 @@ class TransferScreen extends StatefulWidget {
               onDismissed: (direction) {              
                 setState(() {               
                   _transfers.add(_transferenciasAux[index]);
-                  widget.factura.formPago.transfer.transfers.removeAt(index);
+                  widget.factura.formPago!.transfer.transfers.removeAt(index);
                   _transferenciasAux.removeAt(index);
                   orderTransfer();
                   widget.factura.setSaldo();
@@ -473,7 +473,7 @@ class TransferScreen extends StatefulWidget {
                   ],
                 ),
               ),
-              child: cardTranser(widget.factura.formPago.transfer.transfers[index]),
+              child: cardTranser(widget.factura.formPago!.transfer.transfers[index]),
               
             ),
            );  
@@ -506,7 +506,7 @@ class TransferScreen extends StatefulWidget {
       cliente: e.cliente
     );
     //Agregamos la tranferencia parcial a la lista de transferencias parciales
-    widget.factura.formPago.transfer.transfers.add(transParcial);
+    widget.factura.formPago!.transfer.transfers.add(transParcial);
 
     //Removemos la transferencia de la lista de transferencias
     setState(() {
@@ -519,11 +519,11 @@ class TransferScreen extends StatefulWidget {
 
   // ignore: non_constant_identifier_names
  bool IsClientRigth(Transferview trans){
-      if (widget.factura.formPago.transfer.transfers.isEmpty){
+      if (widget.factura.formPago!.transfer.transfers.isEmpty){
          return true;
       }
       else {
-        if (widget.factura.formPago.transfer.transfers.last.cliente != trans.cliente){
+        if (widget.factura.formPago!.transfer.transfers.last.cliente != trans.cliente){
           return false;
         }
       }
@@ -534,7 +534,7 @@ class TransferScreen extends StatefulWidget {
 
  void _goAdd() async {
 
-     if (widget.factura.formPago.transfer.transfers.isEmpty){
+     if (widget.factura.formPago!.transfer.transfers.isEmpty){
        Fluttertoast.showToast(
             msg: "Seleccione al menos una transferencia",
             toastLength: Toast.LENGTH_SHORT,
@@ -546,19 +546,19 @@ class TransferScreen extends StatefulWidget {
           );  
        return;
      }
-     double saldo = widget.factura.formPago.saldo;   
+     double saldo = widget.factura.formPago!.saldo;   
      setState(() {       
           
-        for (var element in widget.factura.formPago.transfer.transfers) {            
+        for (var element in widget.factura.formPago!.transfer.transfers) {            
             saldo -= element.saldo;
-           // widget.factura.formPago.transfer.transfers.add(element); 
+           // widget.factura.formPago!.transfer.transfers.add(element); 
           }
             
           if(saldo > 0 ){
-            widget.factura.formPago.transfer.totalTransfer-=saldo;
+            widget.factura.formPago!.transfer.totalTransfer-=saldo;
           }
-          widget.factura.formPago.transfer.monto = widget.factura.formPago.transfer.totalTransfer;
-          widget.factura.formPago.totalTransfer = widget.factura.formPago.transfer.totalTransfer;
+          widget.factura.formPago!.transfer.monto = widget.factura.formPago!.transfer.totalTransfer;
+          widget.factura.formPago!.totalTransfer = widget.factura.formPago!.transfer.totalTransfer;
           widget.factura.setSaldo();
       }); 
 
@@ -600,7 +600,7 @@ class TransferScreen extends StatefulWidget {
   }
  
  void setUpTransfer() {
-   for (var element in widget.factura.formPago.transfer.transfers) {
+   for (var element in widget.factura.formPago!.transfer.transfers) {
      Transferview transferview = Transferview(
        id: element.id,
        saldo: element.saldo,

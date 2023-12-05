@@ -195,7 +195,7 @@ class _CierreDatafonosScreenState extends State<CierreDatafonosScreen> {
     });
 
     
-    Response response = await ApiHelper.getCierresDatafonos(widget.factura.cierreActivo.cierreFinal.idcierre ?? 0);
+    Response response = await ApiHelper.getCierresDatafonos(widget.factura.cierreActivo!.cierreFinal.idcierre ?? 0);
 
     setState(() {
       showLoader = false;

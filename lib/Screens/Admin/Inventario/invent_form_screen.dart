@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fuelred_mobile/Screens/Admin/ComponentsShared/app_bar_custom.dart';
 import 'package:fuelred_mobile/components/default_button.dart';
 import 'package:fuelred_mobile/components/my_loader.dart';
 import 'package:fuelred_mobile/constans.dart';
@@ -11,11 +11,11 @@ class InventFormScreen extends StatefulWidget {
   const InventFormScreen({super.key});
 
   @override
-  _InventFormScreenState createState() => _InventFormScreenState();
+  State<InventFormScreen> createState() => _InventFormScreenState();
 }
 
 class _InventFormScreenState extends State<InventFormScreen> {
-  final _formKey = GlobalKey<FormState>();
+   final _formKey = GlobalKey<FormState>();
   double invDiesel = 0.0;
   double invExonerado = 0.0;
   double invRegular = 0.0;
@@ -27,28 +27,23 @@ class _InventFormScreenState extends State<InventFormScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-       appBar: AppBar(
-          title:   const Row(
-            children: [  
-             SizedBox(
-              height: 70,
-              width: 210,
-              child: Image(image: AssetImage('assets/LogoSinFondo.png')
-              ,fit: BoxFit.contain,
-             
-              )) 
-            ],
-          ),
-          actions: const [
-        
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Icon(Icons.account_circle), // Ícono de perfil de usuario
-            ),
-          ],
-          elevation: 8,
-          shadowColor: Colors.blueAccent,
-        ),
+       appBar:  MyCustomAppBar(
+        title: 'Actualizar Inventario',
+        automaticallyImplyLeading: true,   
+        backgroundColor: kBlueColorLogo,
+        elevation: 8.0,
+        shadowColor: Colors.blueGrey,
+        foreColor: Colors.white,
+         actions: [ Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ClipOval(child:  Image.asset(
+                  'assets/splash.png',
+                  width: 30,
+                  height: 30,
+                  fit: BoxFit.cover,
+                ),), // Ícono de perfil de usuario
+            ),],
+      ),
         body: Stack(
           children: [
             Padding(
@@ -58,7 +53,7 @@ class _InventFormScreenState extends State<InventFormScreen> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: <Widget>[
-                      Text("Complete el Formulario", style: headingStyle),  
+                      Text("Inventario Actual", style: myHeadingStyleBlack),  
                 
                       TextFormField(
                         decoration: const InputDecoration(labelText: 'Diesel '),
@@ -114,7 +109,7 @@ class _InventFormScreenState extends State<InventFormScreen> {
                         },
                       ),
                      
-                      
+                      const SizedBox(height: 10,),
                       DefaultButton(
                         text: "Crear",
                         press: () {
@@ -187,20 +182,5 @@ class _InventFormScreenState extends State<InventFormScreen> {
         }  
        return;
      }
-
-    await 
-     Fluttertoast.showToast(
-            msg: "Inventario Actualizado Correctamente.",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.CENTER,
-            timeInSecForIosWeb: 1,
-            backgroundColor: const Color.fromARGB(255, 20, 91, 22),
-            textColor: Colors.white,
-            fontSize: 16.0
-          ); 
-    
-
-   
   }
-
 }

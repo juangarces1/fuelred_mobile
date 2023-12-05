@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 import '../../../sizeconfig.dart';
 import 'color_dots.dart';
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
   final AllFact factura;
   final Product product;
   
@@ -26,24 +26,29 @@ class Body extends StatelessWidget {
    }) : super(key: key);
 
   @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  @override
   Widget build(BuildContext context) {
     return ListView(
       children: [
         const SizedBox(height: 10,),
-        ProductImages(product: product),
+        ProductImages(product: widget.product),
         TopRoundedContainer(
           color: kTextColor,
           child: Column(
             children: [
               ProductDescription(
-                product: product,
+                product: widget.product,
                 pressOnSeeMore: () {},
               ),
               TopRoundedContainer(
                 color: kSecondaryColor,
                 child: Column(
                   children: [
-                    ColorDots(product: product),
+                    ColorDots(product: widget.product),
                     TopRoundedContainer(
                       color: kColorFondoOscuro,
                       child: Padding(
@@ -56,21 +61,25 @@ class Body extends StatelessWidget {
                         child: DefaultButton(
                           text: "Agregar",
                           press: () {
-                              if(product.cantidad > 0){
+                              if(widget.product.cantidad > 0){
                                 bool exists =false;                             
-                                for (var element in factura.cart.products) {
-                                  if(element.codigoArticulo == product.codigoArticulo){                                   
+                                for (var element in widget.factura.cart!.products) {
+                                  if(element.codigoArticulo == widget.product.codigoArticulo){                                   
                                       exists=true;
                                   }
                                 }
                                 if (!exists)                            
                                 {
-                                  factura.cart.products.add(product);                                  
-                                }                               
+                                  widget.factura.cart!.products.add(widget.product);                                  
+                                }   
+                              setState(() {
+                                widget.factura.formPago!.showTotal=true;
+                                widget.factura.formPago!.showFact=false;
+                              });                         
                                 Navigator.pushReplacement(context,  
                                   MaterialPageRoute(
                                     builder: (context) => CartNew(
-                                    factura: factura,)
+                                    factura: widget.factura,)
                                   )
                                 );
                               }

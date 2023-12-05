@@ -107,12 +107,12 @@ class _TransactionCardState extends State<TransactionCard> {
   }
 
   void addToCart() {
-    widget.factura.cart.products.add(widget.product);
+    widget.factura.cart!.products.add(widget.product);
     widget.factura.transacciones.remove(widget.product);
 
     setState(() {
       widget.factura.transacciones;
-      widget.factura.cart.products;
+      widget.factura.cart!.products;
     });
 
     Navigator.pushReplacement(

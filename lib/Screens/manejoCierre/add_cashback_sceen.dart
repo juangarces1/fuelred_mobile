@@ -234,9 +234,9 @@ class _CashbackScreenState extends State<CashbackScreen> {
     Cashback cashback =  Cashback(idcashback: 0,
      monto: int.parse(monto),
      fechacashback: "2023-07-11T00:00:00",
-     cedulaempleado:  widget.factura.cierreActivo.usuario.cedulaEmpleado,
+     cedulaempleado:  widget.factura.cierreActivo!.usuario.cedulaEmpleado,
      idbanco: idbanco, 
-     idcierre: widget.factura.cierreActivo.cierreFinal.idcierre);
+     idcierre: widget.factura.cierreActivo!.cierreFinal.idcierre);
    
    Map<String, dynamic> request1 = cashback.toJson();
 

@@ -117,17 +117,17 @@ class ResumenDia {
   void setDepositos() {
     
     int totalPlataExonerado = exonerado.total.toInt();
-    int MENOR = totalPlataExonerado - 1000;
-    int MAYOR = totalPlataExonerado + 1000;
+    int mENOR = totalPlataExonerado - 1000;
+    int mAYOR = totalPlataExonerado + 1000;
 
-    if (total >= MENOR && total <= MAYOR) {
+    if (total >= mENOR && total <= mAYOR) {
       depositoExonerado = ((comi + precioexo) * exonerado.ltsVentas);
       comision = exonerado.total - depositoExonerado;
-      int EFECTIVO = totalGeneral.colones.toInt() - evaporacion.toInt();
+      int eFECTIVO = totalGeneral.colones.toInt() - evaporacion.toInt();
       if (cajaChica != 0) {
-        depositoSanGerardo = EFECTIVO - depositoExonerado - comision - cajaChica;
+        depositoSanGerardo = eFECTIVO - depositoExonerado - comision - cajaChica;
       } else {
-        depositoSanGerardo = EFECTIVO - depositoExonerado - comision;
+        depositoSanGerardo = eFECTIVO - depositoExonerado - comision;
       }
       depositoExo1 = precioexo * exonerado.ltsVentas;
       depositoExo2 = comi * exonerado.ltsVentas;
@@ -135,35 +135,35 @@ class ResumenDia {
       // Suponiendo que tienes una función llamada ActualizarCajaChicaNota
      
     } else {
-      int DIFERENCIA = totalPlataExonerado - total;
-      if (DIFERENCIA < 0) {
-        DIFERENCIA *= -1;
-        double AUX = DIFERENCIA / precioventaNormal;
-        litrosVentaNormal -= AUX.toInt();
+      int dIFERENCIA = totalPlataExonerado - total;
+      if (dIFERENCIA < 0) {
+        dIFERENCIA *= -1;
+        double aUX = dIFERENCIA / precioventaNormal;
+        litrosVentaNormal -= aUX.toInt();
         total = (litrosVentaMayor + litrosVentaNormal) * (comi + precioexo);
-        int EFECTIVO = totalGeneral.colones.toInt() - evaporacion.toInt();
+        int eFECTIVO = totalGeneral.colones.toInt() - evaporacion.toInt();
         depositoExonerado = total.toDouble();
         comision = exonerado.total.toInt() - depositoExonerado;
         if (cajaChica != 0) {
-          depositoSanGerardo = EFECTIVO - depositoExonerado - comision - cajaChica;
+          depositoSanGerardo = eFECTIVO - depositoExonerado - comision - cajaChica;
         } else {
-          depositoSanGerardo = EFECTIVO - depositoExonerado - comision;
+          depositoSanGerardo = eFECTIVO - depositoExonerado - comision;
         }
         depositoExo1 = (precioexo * (litrosVentaMayor + litrosVentaNormal)).toDouble();
         depositoExo2 = (comi * (litrosVentaMayor + litrosVentaNormal)).toDouble();
         depositoSanGerardo += totalGeneral.dolares.toInt();
         
       } else {
-        double AUX = DIFERENCIA / precioventaNormal;
-        litrosVentaNormal += AUX.toInt();
+        double aUX = dIFERENCIA / precioventaNormal;
+        litrosVentaNormal += aUX.toInt();
         total = (litrosVentaMayor + litrosVentaNormal) * (comi + precioexo);
-        int EFECTIVO = totalGeneral.colones.toInt() - evaporacion.toInt();
+        int eFECTIVO = totalGeneral.colones.toInt() - evaporacion.toInt();
         depositoExonerado = total.toDouble();
         comision = exonerado.total.toInt() - depositoExonerado;
         if (cajaChica != 0) {
-          depositoSanGerardo = EFECTIVO - depositoExonerado - comision - cajaChica;
+          depositoSanGerardo = eFECTIVO - depositoExonerado - comision - cajaChica;
         } else {
-          depositoSanGerardo = EFECTIVO - depositoExonerado - comision;
+          depositoSanGerardo = eFECTIVO - depositoExonerado - comision;
         }
         depositoExo1 = (precioexo * (litrosVentaMayor + litrosVentaNormal)).toDouble();
         depositoExo2 = (comi * (litrosVentaMayor + litrosVentaNormal)).toDouble();

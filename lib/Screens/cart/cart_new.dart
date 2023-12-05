@@ -42,14 +42,15 @@ class _CartScreenState extends State<CartNew> {
   void initState() {
     super.initState();
     setState(() {
-      _showTotal=widget.factura.formPago.showTotal;
-      _showPayment=widget.factura.formPago.showFact;
+      _showTotal=widget.factura.formPago!.showTotal;
+      _showPayment=widget.factura.formPago!.showFact;
+     
     });
   }
 
   @override
  Widget build(BuildContext context) {
-    widget.factura.cart.setTotal();
+    widget.factura.cart!.setTotal();
     return SafeArea(
       child: Scaffold( 
         backgroundColor: kColorFondoOscuro,    
@@ -66,9 +67,9 @@ class _CartScreenState extends State<CartNew> {
           EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
           child: 
           ListView.builder(
-              itemCount: widget.factura.cart.products.length,
+              itemCount: widget.factura.cart!.products.length,
               itemBuilder: (context, index) {
-                final product = widget.factura.cart.products[index];
+                final product = widget.factura.cart!.products[index];
                 return CardCartItem(
                   product: product,
                   onIncreaseQuantity: (product) {
@@ -77,7 +78,7 @@ class _CartScreenState extends State<CartNew> {
                           product.cantidad=product.cantidad + 1;
                           product.inventario=product.inventario - 1;                             
                           product.setTotal();
-                          widget.factura.cart.setTotal();
+                          widget.factura.cart!.setTotal();
                         
                         }
                     });
@@ -88,25 +89,25 @@ class _CartScreenState extends State<CartNew> {
                             product.cantidad= product.cantidad -1;
                             product.inventario = product.inventario +1;                               
                             product.setTotal();
-                            widget.factura.cart.setTotal();
+                            widget.factura.cart!.setTotal();
                         }
                     });
                   },
                   onDismissed: (product) {
                    setState(() {               
-                    if(widget.factura.cart.products[index].unidad=="L"){
-                        widget.factura.transacciones.add(widget.factura.cart.products[index]);
+                    if(widget.factura.cart!.products[index].unidad=="L"){
+                        widget.factura.transacciones.add(widget.factura.cart!.products[index]);
                     }
                     else{
                       for (var element in widget.factura.productos) {
-                            if (element.codigoArticulo==widget.factura.cart.products[index].codigoArticulo){                       
+                            if (element.codigoArticulo==widget.factura.cart!.products[index].codigoArticulo){                       
                               element.inventario=(element.inventario + element.cantidad).toInt();
                               element.cantidad=0;                         
                             }
                        }
                     }
-                     widget.factura.cart.products.removeAt(index);
-                     widget.factura.cart.setTotal();
+                     widget.factura.cart!.products.removeAt(index);
+                     widget.factura.cart!.setTotal();
                    });             
                   },
                 );
@@ -145,7 +146,7 @@ class _CartScreenState extends State<CartNew> {
  
 
  void _goCheck() async {
-    if(widget.factura.cart.products.isEmpty) {
+    if(widget.factura.cart!.products.isEmpty) {
 
       Fluttertoast.showToast(
           msg: "Seleccione algun producto.",
@@ -159,7 +160,7 @@ class _CartScreenState extends State<CartNew> {
       return;
      }
 
-     if(widget.factura.clienteFactura.nombre=="") {
+     if(widget.factura.clienteFactura!.nombre=="") {
        Fluttertoast.showToast(
           msg: "Seleccione el cliente.",
           toastLength: Toast.LENGTH_SHORT,
@@ -225,7 +226,7 @@ class _CartScreenState extends State<CartNew> {
   bool validate=false;
   bool validate2=false;
   if(estado=='Exonerado'){
-  for (var item in widget.factura.cart.products) {
+  for (var item in widget.factura.cart!.products) {
       if (item.detalle!='Comb Exonerado'){
         validate=true;
         break;
@@ -234,7 +235,7 @@ class _CartScreenState extends State<CartNew> {
   }
 
   else{
-    for (var item in widget.factura.cart.products) {
+    for (var item in widget.factura.cart!.products) {
       if (item.detalle=='Comb Exonerado'){
         validate2=true;
         break;
@@ -277,8 +278,8 @@ class _CartScreenState extends State<CartNew> {
       
       Map<String, dynamic> request = 
       {
-        'products': widget.factura.cart.products.map((e) => e.toApiProducJson()).toList(),
-        'idCierre' : widget.factura.cierreActivo.cierreFinal.idcierre,
+        'products': widget.factura.cart!.products.map((e) => e.toApiProducJson()).toList(),
+        'idCierre' : widget.factura.cierreActivo!.cierreFinal.idcierre,
         'estado' : estado,       
 
       };
@@ -323,8 +324,8 @@ class _CartScreenState extends State<CartNew> {
         );  
 
         setState(() {
-          widget.factura.cart.products.clear();
-          widget.factura.cart.setTotal();
+          widget.factura.cart!.products.clear();
+          widget.factura.cart!.setTotal();
          
         });
        Future.delayed(const Duration(milliseconds: 1200), () {
@@ -339,7 +340,7 @@ class _CartScreenState extends State<CartNew> {
         
     bool success = true;
 
-     for (var item in widget.factura.cart.products) {
+     for (var item in widget.factura.cart!.products) {
         if (item.transaccion==0){
           success=false;
           break;

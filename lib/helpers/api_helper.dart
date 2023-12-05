@@ -2,14 +2,15 @@ import 'dart:convert';
 
 import 'package:fuelred_mobile/models/ad,min/dash.dart';
 import 'package:fuelred_mobile/models/ad,min/transferfull.dart';
+import 'package:fuelred_mobile/models/all_fact.dart';
 import 'package:fuelred_mobile/models/bank.dart';
 import 'package:fuelred_mobile/models/cashback.dart';
-import 'package:fuelred_mobile/models/cierreactivo.dart';
 import 'package:fuelred_mobile/models/cierredatafono.dart';
 import 'package:fuelred_mobile/models/cliente.dart';
 import 'package:fuelred_mobile/models/clientecredito.dart';
 import 'package:fuelred_mobile/models/datafono.dart';
 import 'package:fuelred_mobile/models/deposito.dart';
+import 'package:fuelred_mobile/models/empleado.dart';
 import 'package:fuelred_mobile/models/money.dart';
 import 'package:fuelred_mobile/models/peddler.dart';
 import 'package:fuelred_mobile/models/product.dart';
@@ -29,40 +30,67 @@ import 'constans.dart';
 
 class ApiHelper {
 
-static Future<Response> getCierreActivo(int? zona, int? cedula) async {  
+static Future<Response> getLogIn(int? zona, int? cedula) async {  
 
-    var url = Uri.parse('${Constans.getAPIUrl()}/api/users/GetCierreByZona/$zona-$cedula');
-    var response = await http.get(
-      url,
-      headers: {
-        'content-type' : 'application/json',
-        'accept' : 'application/json',
-      },        
-    );
+    var url = Uri.parse('${Constans.getAPIUrl()}/api/users/GetLogIn/$zona-$cedula');
+     try {
+        var response = await http.get(
+          url,
+          headers: {
+            'content-type': 'application/json',
+            'accept': 'application/json',
+          },
+        );
+      
+        // Check for 200 OK response
+        if (response.statusCode == 200) {
 
-    var body = response.body;
-   
-    if (response.statusCode >= 400) {
-      if (body.length < 2)
-      {
-        body="No hay Cierre Abierto";
-
-        } 
-        else{
-           body="Contraseña Incorrecta";
-
+          var decodedJson = jsonDecode(response.body);
+          return Response(isSuccess: true, result: AllFact.fromJson(decodedJson));
+        } else if (response.statusCode == 204) {
+          // No content
+          return Response(isSuccess: true, message: '', result: []);
+        } else {
+          // Handle other statuses, maybe something went wrong
+          return Response(isSuccess: false, message: "Error: ${response.body}");
         }
-       return Response(isSuccess: false, message: body);
-    }
-
-   
-    var decodedJson = jsonDecode(body);
-   
-
-    return Response(isSuccess: true, result: CierreActivo.fromJson(decodedJson));
+      } catch (e) {
+        // Catch any other errors, like JSON parsing errors
+       
+        return Response(isSuccess: false, message: "Exception: ${e.toString()}");
+      }
  }
 
- 
+ static Future<Response> getLoginAdmin(String? cedula, ) async {  
+
+   var url = Uri.parse('${Constans.getAPIUrl()}/api/users/GetAdminUser/$cedula');
+   try {
+        var response = await http.get(
+          url,
+          headers: {
+            'content-type': 'application/json',
+            'accept': 'application/json',
+          },
+        );
+
+        // Check for 200 OK response
+        if (response.statusCode == 200) {
+          var decodedJson = jsonDecode(response.body);
+          return Response(isSuccess: true, result: Empleado.fromJson(decodedJson));
+        } else if (response.statusCode == 204) {
+          // No content
+          return Response(isSuccess: true, message: '', result: []);
+        } else {
+          // Handle other statuses, maybe something went wrong
+         
+          return Response(isSuccess: false, message: "Error: ${response.body}");
+
+        }
+      } catch (e) {
+        // Catch any other errors, like JSON parsing errors
+        return Response(isSuccess: false, message: "Exception: ${e.toString()}");
+      }
+ }
 
  static Future<Response> getDepositosByConsolidado(String dia) async {  
   var url = Uri.parse('${Constans.getAPIUrl()}/api/Cierre/GetDepositosConsolidado/$dia');
@@ -93,7 +121,6 @@ static Future<Response> getCierreActivo(int? zona, int? cedula) async {
   }
 }
 
-
  static Future<Response> getResumenDia(String dia) async {  
 
    var url = Uri.parse('${Constans.getAPIUrl()}/api/Cierre/GetResumenDia/$dia');
@@ -109,15 +136,19 @@ static Future<Response> getCierreActivo(int? zona, int? cedula) async {
     // Check for 200 OK response
     if (response.statusCode == 200) {
       var decodedJson = jsonDecode(response.body);
-      return Response(isSuccess: true, result: ResumenDia.fromJson(decodedJson));
+     
+      return Response(isSuccess: true, message: 'Ok', result: ResumenDia.fromJson(decodedJson));
     } else if (response.statusCode == 204) {
+      
       // No content
       return Response(isSuccess: true, message: '', result: []);
     } else {
+     
       // Handle other statuses, maybe something went wrong
       return Response(isSuccess: false, message: "Error: ${response.statusCode}");
     }
   } catch (e) {
+   
     // Catch any other errors, like JSON parsing errors
     return Response(isSuccess: false, message: "Exception: ${e.toString()}");
   }
@@ -149,24 +180,34 @@ static Future<Response> getClienteCredito(String id) async {
  static Future<Response> getFactura(String id) async {      
    var url = Uri.parse('${Constans.getAPIUrl()}/api/Facturacion/GetFacturaByNum/$id');
    
+     try {
     var response = await http.get(
       url,
       headers: {
-        'content-type' : 'application/json',
-        'accept' : 'application/json',
-      },        
+        'content-type': 'application/json',
+        'accept': 'application/json',
+      },
     );
-    var body = response.body;
-    if (response.statusCode >= 400) {
-      return Response(isSuccess: false, message: body);
-    }
-    resdoc_facturas? fact;
-    var decodedJson = jsonDecode(body);
-     if(decodedJson != null){      
 
-      fact=resdoc_facturas.fromJson(decodedJson);
-     }
-     return Response(isSuccess: true, result: fact);    
+    // Check for 200 OK response
+    if (response.statusCode == 200) {
+      var decodedJson = jsonDecode(response.body);
+     
+      return Response(isSuccess: true, message: 'Ok', result: resdoc_facturas.fromJson(decodedJson));
+    } else if (response.statusCode == 404) {
+      
+      // No content
+      return Response(isSuccess: true, message: '', result: []);
+    } else {
+     
+      // Handle other statuses, maybe something went wrong
+      return Response(isSuccess: false, message: "Error: ${response.statusCode}");
+    }
+  } catch (e) {
+   
+    // Catch any other errors, like JSON parsing errors
+    return Response(isSuccess: false, message: "Exception: ${e.toString()}");
+  }  
  }
 
  static Future<Response> getClientesCredito() async {      

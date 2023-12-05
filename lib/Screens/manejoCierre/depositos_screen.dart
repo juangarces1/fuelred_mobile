@@ -181,7 +181,7 @@ class _DepositosScreenState extends State<DepositosScreen> {
     });
 
     
-    Response response = await ApiHelper.getDepositos(widget.factura.cierreActivo.cierreFinal.idcierre ?? 0);
+    Response response = await ApiHelper.getDepositos(widget.factura.cierreActivo!.cierreFinal.idcierre ?? 0);
 
     setState(() {
       showLoader = false;

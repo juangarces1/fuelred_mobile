@@ -25,21 +25,21 @@ class _BodyState extends State<Body> {
       padding:
       EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
       child: ListView.builder(
-        itemCount: widget.factura.cart.products.length,
+        itemCount: widget.factura.cart!.products.length,
         itemBuilder: (context, index) => Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: Dismissible(
-            key: Key(widget.factura.cart.products[index].transaccion.toString()),
+            key: Key(widget.factura.cart!.products[index].transaccion.toString()),
             direction: DismissDirection.endToStart,
             onDismissed: (direction) {   
               setState(() {               
-                if(widget.factura.cart.products[index].unidad=="L"){
-                    widget.factura.transacciones.add(widget.factura.cart.products[index]);
+                if(widget.factura.cart!.products[index].unidad=="L"){
+                    widget.factura.transacciones.add(widget.factura.cart!.products[index]);
                    
                 }
                 else{
                   for (var element in widget.factura.productos) {
-                        if (element.codigoArticulo==widget.factura.cart.products[index].codigoArticulo){                       
+                        if (element.codigoArticulo==widget.factura.cart!.products[index].codigoArticulo){                       
                           element.inventario+=(element.inventario+element.cantidad).toInt();
                           element.cantidad=0;   
                                      
@@ -47,8 +47,8 @@ class _BodyState extends State<Body> {
                    }
                    
                 }
-                 widget.factura.cart.products.removeAt(index);
-                 widget.factura.cart.setTotal();
+                 widget.factura.cart!.products.removeAt(index);
+                 widget.factura.cart!.setTotal();
               });
             },
             background: Container(              
@@ -64,7 +64,7 @@ class _BodyState extends State<Body> {
                 ],
               ),
             ),
-            child: CartCard(product: widget.factura.cart.products[index]),
+            child: CartCard(product: widget.factura.cart!.products[index]),
           ),
         ),
       ),

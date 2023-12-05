@@ -72,7 +72,7 @@ class _CustomAppBarCartState extends State<CustomAppBarCart> {
               child: Row(
                 children: [
                   Text(
-                    "Productos(${widget.factura.cart.products.length.toString()})",
+                    "Productos(${widget.factura.cart!.products.length.toString()})",
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,

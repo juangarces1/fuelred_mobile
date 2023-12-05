@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:fuelred_mobile/Screens/Admin/Cartera/cliente_cartera_screen.dart';
+import 'package:fuelred_mobile/Screens/Admin/ComponentsShared/app_bar_custom.dart';
 import 'package:fuelred_mobile/components/my_loader.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/helpers/api_helper.dart';
@@ -38,14 +39,23 @@ class _CarteraScreenState extends State<CarteraScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          foregroundColor: kPrimaryColor,
-          title: const Text(
-                  'Cartera San Gerardo', style:  TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: kPrimaryColor
-                ),),),
+        appBar: MyCustomAppBar(
+        title: 'Cartera San Gerardo',
+        automaticallyImplyLeading: true,   
+        backgroundColor: kBlueColorLogo,
+        elevation: 8.0,
+        shadowColor: const Color.fromARGB(255, 207, 214, 218),
+        foreColor: Colors.white,
+         actions: [ Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ClipOval(child:  Image.asset(
+                  'assets/splash.png',
+                  width: 30,
+                  height: 30,
+                  fit: BoxFit.cover,
+                ),), // Ícono de perfil de usuario
+            ),],
+      ),
          body: Container(
           color: const Color.fromARGB(255, 70, 72, 77),
           child: Center(

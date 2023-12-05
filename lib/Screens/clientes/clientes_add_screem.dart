@@ -1,5 +1,5 @@
 
-import 'package:connectivity/connectivity.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fuelred_mobile/Screens/cart/cart_new.dart';
 import 'package:fuelred_mobile/Screens/checkout/checkount.dart';
@@ -306,7 +306,8 @@ class _ClietesAddScreenState extends State<ClietesAddScreen> {
       await Future.delayed(const Duration(seconds: 2), () {});
 
     setState(() {
-       widget.factura.clienteFactura = Cliente.fromJson(clienteAux);
+       widget.factura.clienteFactura = _cliente;
+       widget.factura.clientesFacturacion.add(_cliente);
     });
    
 
@@ -317,8 +318,8 @@ class _ClietesAddScreenState extends State<ClietesAddScreen> {
   
   if(widget.ruta=='Cart'){
      setState(() {
-     widget.factura.formPago.showTotal=false;
-     widget.factura.formPago.showFact=true;
+     widget.factura.formPago!.showTotal=false;
+     widget.factura.formPago!.showFact=true;
    });
     Navigator.push(context,  
         MaterialPageRoute(

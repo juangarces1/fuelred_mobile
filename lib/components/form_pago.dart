@@ -129,13 +129,13 @@ class FormPagoState extends State<FormPago> {
 
                    setState(() {     
                          
-                     widget.factura.formPago.totalEfectivo = double.parse(value);
+                     widget.factura.formPago!.totalEfectivo = double.parse(value);
                      widget.factura.setSaldo();
-                      widget.onSaldoChanged(widget.factura.formPago.saldo);              
-                     if(widget.factura.formPago.saldo < 0){                 
-                       widget.factura.formPago.totalEfectivo = 0;
+                      widget.onSaldoChanged(widget.factura.formPago!.saldo);              
+                     if(widget.factura.formPago!.saldo < 0){                 
+                       widget.factura.formPago!.totalEfectivo = 0;
                        widget.factura.setSaldo(); 
-                       widget.onSaldoChanged(widget.factura.formPago.saldo);
+                       widget.onSaldoChanged(widget.factura.formPago!.saldo);
                        cashController.text= value.toString();
                       
                        Fluttertoast.showToast(
@@ -192,13 +192,13 @@ class FormPagoState extends State<FormPago> {
                  if (value.isNotEmpty){ 
                    setState(() {     
                          
-                     widget.factura.formPago.totalDollars = double.parse(value);
+                     widget.factura.formPago!.totalDollars = double.parse(value);
                       widget.factura.setSaldo();   
-                        widget.onSaldoChanged(widget.factura.formPago.saldo);                 
-                     if(widget.factura.formPago.saldo < 0){                 
-                       widget.factura.formPago.totalDollars = 0;
+                        widget.onSaldoChanged(widget.factura.formPago!.saldo);                 
+                     if(widget.factura.formPago!.saldo < 0){                 
+                       widget.factura.formPago!.totalDollars = 0;
                          widget.factura.setSaldo(); 
-                          widget.onSaldoChanged(widget.factura.formPago.saldo);
+                          widget.onSaldoChanged(widget.factura.formPago!.saldo);
                        dollarController.text= value.toString();
                        Fluttertoast.showToast(
                         msg: "La cantidad es superior al saldo, por favor vuelva a ingresarla",
@@ -260,13 +260,13 @@ class FormPagoState extends State<FormPago> {
                  if (value.isNotEmpty){ 
                    setState(() {     
                               
-                     widget.factura.formPago.totalBac = double.parse(value);
+                     widget.factura.formPago!.totalBac = double.parse(value);
                        widget.factura.setSaldo();  
-                        widget.onSaldoChanged(widget.factura.formPago.saldo);             
-                     if(widget.factura.formPago.saldo < 0){                 
-                       widget.factura.formPago.totalBac = 0;
+                        widget.onSaldoChanged(widget.factura.formPago!.saldo);             
+                     if(widget.factura.formPago!.saldo < 0){                 
+                       widget.factura.formPago!.totalBac = 0;
                         widget.factura.setSaldo(); 
-                         widget.onSaldoChanged(widget.factura.formPago.saldo);
+                         widget.onSaldoChanged(widget.factura.formPago!.saldo);
                        bacController.text= value.toString();               
                        Fluttertoast.showToast(
                         msg: " La cantidad es superior al saldo, por favor vuelva a ingresarla",
@@ -317,15 +317,15 @@ class FormPagoState extends State<FormPago> {
                onChanged: (value) {            
                  if (value.isNotEmpty){ 
                    setState(() {     
-                     widget.factura.formPago.saldo = widget.factura.cart.total;         
-                     widget.factura.formPago.totalBn = double.parse(value);
+                     widget.factura.formPago!.saldo = widget.factura.cart!.total;         
+                     widget.factura.formPago!.totalBn = double.parse(value);
                       widget.factura.setSaldo(); 
-                       widget.onSaldoChanged(widget.factura.formPago.saldo); 
+                       widget.onSaldoChanged(widget.factura.formPago!.saldo); 
                      int valor= int.parse(value);
-                     if(widget.factura.formPago.saldo < 0){                 
-                       widget.factura.formPago.totalBn = 0;
+                     if(widget.factura.formPago!.saldo < 0){                 
+                       widget.factura.formPago!.totalBn = 0;
                         widget.factura.setSaldo(); 
-                          widget.onSaldoChanged(widget.factura.formPago.saldo);
+                          widget.onSaldoChanged(widget.factura.formPago!.saldo);
                        bnController.text = valor.toString();                
                        Fluttertoast.showToast(
                         msg: " La cantidad es superior al saldo, por favor vuelva a ingresarla",
@@ -370,8 +370,8 @@ class FormPagoState extends State<FormPago> {
   }
   
   Widget _showPointTransfers(){
-      if(widget.factura.formPago.transfer.totalTransfer > 0){
-        transferController.text = widget.factura.formPago.transfer.totalTransfer.toInt().toString(); 
+      if(widget.factura.formPago!.transfer.totalTransfer > 0){
+        transferController.text = widget.factura.formPago!.transfer.totalTransfer.toInt().toString(); 
       }
    
     return Padding(
@@ -474,13 +474,13 @@ class FormPagoState extends State<FormPago> {
                 onChanged: (value) {            
                  if (value.isNotEmpty){ 
                    setState(() { 
-                     widget.factura.formPago.totalSctia = double.parse(value);
+                     widget.factura.formPago!.totalSctia = double.parse(value);
                      widget.factura.setSaldo();   
-                     widget.onSaldoChanged(widget.factura.formPago.saldo);            
-                     if(widget.factura.formPago.saldo < 0){                 
-                        widget.factura.formPago.totalSctia = 0;
+                     widget.onSaldoChanged(widget.factura.formPago!.saldo);            
+                     if(widget.factura.formPago!.saldo < 0){                 
+                        widget.factura.formPago!.totalSctia = 0;
                         widget.factura.setSaldo(); 
-                        widget.onSaldoChanged(widget.factura.formPago.saldo);
+                        widget.onSaldoChanged(widget.factura.formPago!.saldo);
                         sctiaController.text= value.toString();
                         Fluttertoast.showToast(
                           msg: " La cantidad es superior al saldo, por favor vuelva a ingresarla",
@@ -535,13 +535,13 @@ class FormPagoState extends State<FormPago> {
                 onChanged: (value) {            
                  if (value.isNotEmpty){ 
                    setState(() {  
-                     widget.factura.formPago.totalDav = double.parse(value);
+                     widget.factura.formPago!.totalDav = double.parse(value);
                      widget.factura.setSaldo();  
-                     widget.onSaldoChanged(widget.factura.formPago.saldo);                 
-                     if(widget.factura.formPago.saldo < 0){                 
-                        widget.factura.formPago.totalDav = 0;
+                     widget.onSaldoChanged(widget.factura.formPago!.saldo);                 
+                     if(widget.factura.formPago!.saldo < 0){                 
+                        widget.factura.formPago!.totalDav = 0;
                         widget.factura.setSaldo(); 
-                        widget.onSaldoChanged(widget.factura.formPago.saldo);
+                        widget.onSaldoChanged(widget.factura.formPago!.saldo);
                         davController.text= value.toString();
                         Fluttertoast.showToast(
                           msg: "La cantidad es superior al saldo, por favor vuelva a ingresarla",
@@ -607,13 +607,13 @@ class FormPagoState extends State<FormPago> {
                  if (value.isNotEmpty){ 
                    setState(() {     
                          
-                     widget.factura.formPago.totalCheques = double.parse(value);
+                     widget.factura.formPago!.totalCheques = double.parse(value);
                       widget.factura.setSaldo();  
-                       widget.onSaldoChanged(widget.factura.formPago.saldo);            
-                     if(widget.factura.formPago.saldo < 0){                 
-                       widget.factura.formPago.totalCheques = 0;
+                       widget.onSaldoChanged(widget.factura.formPago!.saldo);            
+                     if(widget.factura.formPago!.saldo < 0){                 
+                       widget.factura.formPago!.totalCheques = 0;
                          widget.factura.setSaldo(); 
-                          widget.onSaldoChanged(widget.factura.formPago.saldo);
+                          widget.onSaldoChanged(widget.factura.formPago!.saldo);
                        cashController.text= value.toString();
                        Fluttertoast.showToast(
                         msg: "La cantidad es superior al saldo, por favor vuelva a ingresarla",
@@ -668,13 +668,13 @@ class FormPagoState extends State<FormPago> {
                  if (value.isNotEmpty){ 
                    setState(() {     
                          
-                     widget.factura.formPago.totalCupones = double.parse(value);
+                     widget.factura.formPago!.totalCupones = double.parse(value);
                        widget.factura.setSaldo();
-                        widget.onSaldoChanged(widget.factura.formPago.saldo);               
-                     if(widget.factura.formPago.saldo < 0){                 
-                       widget.factura.formPago.totalCupones = 0;
+                        widget.onSaldoChanged(widget.factura.formPago!.saldo);               
+                     if(widget.factura.formPago!.saldo < 0){                 
+                       widget.factura.formPago!.totalCupones = 0;
                          widget.factura.setSaldo();
-                          widget.onSaldoChanged(widget.factura.formPago.saldo); 
+                          widget.onSaldoChanged(widget.factura.formPago!.saldo); 
                        cuponController.text= value.toString();
                        Fluttertoast.showToast(
                         msg: "La cantidad es superior al saldo, por favor vuelva a ingresarla",
@@ -720,8 +720,8 @@ class FormPagoState extends State<FormPago> {
 
 
   Widget _showSinpeRefresh() {
-      if(widget.factura.formPago.totalSinpe > 0){
-        sinpeController.text = widget.factura.formPago.totalSinpe.toInt().toString(); 
+      if(widget.factura.formPago!.totalSinpe > 0){
+        sinpeController.text = widget.factura.formPago!.totalSinpe.toInt().toString(); 
       }
     return
       Align(
@@ -789,7 +789,7 @@ class FormPagoState extends State<FormPago> {
   }
 
   void _goCashAll() {
-    if(widget.factura.formPago.saldo<=0){        
+    if(widget.factura.formPago!.saldo<=0){        
          Fluttertoast.showToast(
             msg: "La factura ya no tiene saldo",
             toastLength: Toast.LENGTH_SHORT,
@@ -804,16 +804,16 @@ class FormPagoState extends State<FormPago> {
     
     setState(() {
         widget.factura.setSaldo(); 
-      widget.factura.formPago.totalEfectivo += widget.factura.formPago.saldo;
-      cashController.text= widget.factura.formPago.totalEfectivo.toInt().toString();
+      widget.factura.formPago!.totalEfectivo += widget.factura.formPago!.saldo;
+      cashController.text= widget.factura.formPago!.totalEfectivo.toInt().toString();
         widget.factura.setSaldo(); 
-         widget.onSaldoChanged(widget.factura.formPago.saldo);
+         widget.onSaldoChanged(widget.factura.formPago!.saldo);
       
     });
   }
 
   void _goTarjetaBacAll() {
-    if(widget.factura.formPago.saldo<=0){
+    if(widget.factura.formPago!.saldo<=0){
         Fluttertoast.showToast(
             msg: "La factura ya no tiene saldo",
             toastLength: Toast.LENGTH_SHORT,
@@ -828,15 +828,15 @@ class FormPagoState extends State<FormPago> {
     
     setState(() {
         widget.factura.setSaldo(); 
-      widget.factura.formPago.totalBac += widget.factura.formPago.saldo;
-      bacController.text=widget.factura.formPago.totalBac.toInt().toString();
+      widget.factura.formPago!.totalBac += widget.factura.formPago!.saldo;
+      bacController.text=widget.factura.formPago!.totalBac.toInt().toString();
        widget.factura.setSaldo(); 
-       widget.onSaldoChanged(widget.factura.formPago.saldo);
+       widget.onSaldoChanged(widget.factura.formPago!.saldo);
     });
   }
 
   void _goTarjetaBN() {
-    if(widget.factura.formPago.saldo<=0){
+    if(widget.factura.formPago!.saldo<=0){
         Fluttertoast.showToast(
             msg: "La factura ya no tiene saldo",
             toastLength: Toast.LENGTH_SHORT,
@@ -851,15 +851,15 @@ class FormPagoState extends State<FormPago> {
     
      setState(() {
         widget.factura.setSaldo(); 
-      widget.factura.formPago.totalBn += widget.factura.formPago.saldo;
-      bnController.text=widget.factura.formPago.totalBn.toInt().toString();
+      widget.factura.formPago!.totalBn += widget.factura.formPago!.saldo;
+      bnController.text=widget.factura.formPago!.totalBn.toInt().toString();
        widget.factura.setSaldo(); 
-       widget.onSaldoChanged(widget.factura.formPago.saldo);
+       widget.onSaldoChanged(widget.factura.formPago!.saldo);
     });
   }
 
   void _goTarjetaScotia() {
-    if(widget.factura.formPago.saldo<=0){
+    if(widget.factura.formPago!.saldo<=0){
         Fluttertoast.showToast(
             msg: "La factura ya no tiene saldo",
             toastLength: Toast.LENGTH_SHORT,
@@ -874,15 +874,15 @@ class FormPagoState extends State<FormPago> {
     
     setState(() {
         widget.factura.setSaldo(); 
-        widget.factura.formPago.totalSctia += widget.factura.formPago.saldo;
-        sctiaController.text= widget.factura.formPago.totalSctia.toInt().toString();
+        widget.factura.formPago!.totalSctia += widget.factura.formPago!.saldo;
+        sctiaController.text= widget.factura.formPago!.totalSctia.toInt().toString();
         widget.factura.setSaldo(); 
-        widget.onSaldoChanged(widget.factura.formPago.saldo);
+        widget.onSaldoChanged(widget.factura.formPago!.saldo);
     });
   }
 
   void _goTarjetaDav() {
-    if(widget.factura.formPago.saldo<=0){
+    if(widget.factura.formPago!.saldo<=0){
         Fluttertoast.showToast(
             msg: "La factura ya no tiene saldo",
             toastLength: Toast.LENGTH_SHORT,
@@ -897,15 +897,15 @@ class FormPagoState extends State<FormPago> {
     
     setState(() {
       widget.factura.setSaldo(); 
-      widget.factura.formPago.totalDav += widget.factura.formPago.saldo;
-      davController.text= widget.factura.formPago.totalDav.toInt().toString();
+      widget.factura.formPago!.totalDav += widget.factura.formPago!.saldo;
+      davController.text= widget.factura.formPago!.totalDav.toInt().toString();
       widget.factura.setSaldo(); 
-      widget.onSaldoChanged(widget.factura.formPago.saldo);
+      widget.onSaldoChanged(widget.factura.formPago!.saldo);
     });
   }
 
   void _goDollar() {
-    if(widget.factura.formPago.saldo<=0){
+    if(widget.factura.formPago!.saldo<=0){
         Fluttertoast.showToast(
             msg: "La factura ya no tiene saldo",
             toastLength: Toast.LENGTH_SHORT,
@@ -919,15 +919,15 @@ class FormPagoState extends State<FormPago> {
     }    
     setState(() {
        widget.factura.setSaldo(); 
-      widget.factura.formPago.totalDollars += widget.factura.formPago.saldo;
-      dollarController.text= widget.factura.formPago.totalDollars.toInt().toString();
+      widget.factura.formPago!.totalDollars += widget.factura.formPago!.saldo;
+      dollarController.text= widget.factura.formPago!.totalDollars.toInt().toString();
         widget.factura.setSaldo();
-         widget.onSaldoChanged(widget.factura.formPago.saldo);       
+         widget.onSaldoChanged(widget.factura.formPago!.saldo);       
     });
   }
 
   void _goCheque() {
-    if(widget.factura.formPago.saldo<=0){
+    if(widget.factura.formPago!.saldo<=0){
         Fluttertoast.showToast(
             msg: "La factura ya no tiene saldo",
             toastLength: Toast.LENGTH_SHORT,
@@ -941,15 +941,15 @@ class FormPagoState extends State<FormPago> {
     }    
     setState(() {
        widget.factura.setSaldo(); 
-      widget.factura.formPago.totalCheques += widget.factura.formPago.saldo;
-      chequeController.text= widget.factura.formPago.totalCheques.toInt().toString();
+      widget.factura.formPago!.totalCheques += widget.factura.formPago!.saldo;
+      chequeController.text= widget.factura.formPago!.totalCheques.toInt().toString();
         widget.factura.setSaldo();
-         widget.onSaldoChanged(widget.factura.formPago.saldo);      
+         widget.onSaldoChanged(widget.factura.formPago!.saldo);      
     });
   }
 
   void _goCupon() {
-    if(widget.factura.formPago.saldo<=0){
+    if(widget.factura.formPago!.saldo<=0){
        Fluttertoast.showToast(
             msg: "La factura ya no tiene saldo",
             toastLength: Toast.LENGTH_SHORT,
@@ -963,15 +963,15 @@ class FormPagoState extends State<FormPago> {
     }    
     setState(() {
         widget.factura.setSaldo(); 
-      widget.factura.formPago.totalCupones += widget.factura.formPago.saldo;
-      cuponController.text= widget.factura.formPago.totalCupones.toInt().toString();
+      widget.factura.formPago!.totalCupones += widget.factura.formPago!.saldo;
+      cuponController.text= widget.factura.formPago!.totalCupones.toInt().toString();
        widget.factura.setSaldo();  
-        widget.onSaldoChanged(widget.factura.formPago.saldo);    
+        widget.onSaldoChanged(widget.factura.formPago!.saldo);    
     });
   }
 
   void _goPoints() {
-     if(widget.factura.formPago.saldo<=0){
+     if(widget.factura.formPago!.saldo<=0){
         Fluttertoast.showToast(
           msg: "La factura ya no tiene saldo",
           toastLength: Toast.LENGTH_SHORT,
@@ -984,7 +984,7 @@ class FormPagoState extends State<FormPago> {
         return;
      }    
     
-     if(widget.factura.formPago.clientePaid.nombre.isEmpty){
+     if(widget.factura.formPago!.clientePaid.nombre.isEmpty){
        Fluttertoast.showToast(
             msg: "Seleccione el Cliente Frecuente",
             toastLength: Toast.LENGTH_SHORT,
@@ -997,7 +997,7 @@ class FormPagoState extends State<FormPago> {
         return;
      }   
 
-     if(widget.factura.formPago.clientePaid.puntos==0){
+     if(widget.factura.formPago!.clientePaid.puntos==0){
        Fluttertoast.showToast(
             msg: "El cliente no tiene puntos",
             toastLength: Toast.LENGTH_SHORT,
@@ -1010,17 +1010,17 @@ class FormPagoState extends State<FormPago> {
         return;
      } 
 
-      if(widget.factura.formPago.saldo < widget.factura.formPago.clientePaid.puntos){       
-          widget.factura.formPago.totalPuntos = widget.factura.formPago.saldo;  
+      if(widget.factura.formPago!.saldo < widget.factura.formPago!.clientePaid.puntos){       
+          widget.factura.formPago!.totalPuntos = widget.factura.formPago!.saldo;  
       }
       else{
-        widget.factura.formPago.totalPuntos =  widget.factura.formPago.clientePaid.puntos.toDouble();
+        widget.factura.formPago!.totalPuntos =  widget.factura.formPago!.clientePaid.puntos.toDouble();
       }
 
       setState(() {          
-           pointsController.text= widget.factura.formPago.totalPuntos.toInt().toString();
+           pointsController.text= widget.factura.formPago!.totalPuntos.toInt().toString();
              widget.factura.setSaldo();  
-              widget.onSaldoChanged(widget.factura.formPago.saldo);     
+              widget.onSaldoChanged(widget.factura.formPago!.saldo);     
       });
     
   }
@@ -1029,8 +1029,8 @@ class FormPagoState extends State<FormPago> {
     transferController.text='';
     setState(() {
        widget.factura.setSaldo();         
-       widget.onSaldoChanged(widget.factura.formPago.saldo);
-       widget.factura.formPago.transfer.totalTransfer=widget.factura.formPago.saldo;
+       widget.onSaldoChanged(widget.factura.formPago!.saldo);
+       widget.factura.formPago!.transfer.totalTransfer=widget.factura.formPago!.saldo;
     });
    
     Navigator.push(context,
@@ -1044,38 +1044,38 @@ class FormPagoState extends State<FormPago> {
  
   void setValues() {
     setState(() {
-      if(widget.factura.formPago.totalEfectivo>0){
-        cashController.text= widget.factura.formPago.totalEfectivo.toInt().toString();
+      if(widget.factura.formPago!.totalEfectivo>0){
+        cashController.text= widget.factura.formPago!.totalEfectivo.toInt().toString();
       }
-      if(widget.factura.formPago.totalDollars>0){
-        dollarController.text= widget.factura.formPago.totalDollars.toInt().toString();
+      if(widget.factura.formPago!.totalDollars>0){
+        dollarController.text= widget.factura.formPago!.totalDollars.toInt().toString();
       }
-      if(widget.factura.formPago.totalCheques>0){
-        chequeController.text= widget.factura.formPago.totalCheques.toInt().toString();
+      if(widget.factura.formPago!.totalCheques>0){
+        chequeController.text= widget.factura.formPago!.totalCheques.toInt().toString();
       }
-      if(widget.factura.formPago.totalCupones>0){
-        cuponController.text= widget.factura.formPago.totalCupones.toInt().toString();
+      if(widget.factura.formPago!.totalCupones>0){
+        cuponController.text= widget.factura.formPago!.totalCupones.toInt().toString();
       }
-      if(widget.factura.formPago.totalPuntos>0){
-        pointsController.text= widget.factura.formPago.totalPuntos.toInt().toString();
+      if(widget.factura.formPago!.totalPuntos>0){
+        pointsController.text= widget.factura.formPago!.totalPuntos.toInt().toString();
       }
-      if(widget.factura.formPago.transfer.totalTransfer>0){
-        transferController.text= widget.factura.formPago.transfer.totalTransfer.toInt().toString();
+      if(widget.factura.formPago!.transfer.totalTransfer>0){
+        transferController.text= widget.factura.formPago!.transfer.totalTransfer.toInt().toString();
       }
-      if(widget.factura.formPago.totalBac>0){
-        bacController.text= widget.factura.formPago.totalBac.toInt().toString();
+      if(widget.factura.formPago!.totalBac>0){
+        bacController.text= widget.factura.formPago!.totalBac.toInt().toString();
       }
-      if(widget.factura.formPago.totalBn>0){
-        bnController.text= widget.factura.formPago.totalBn.toInt().toString();
+      if(widget.factura.formPago!.totalBn>0){
+        bnController.text= widget.factura.formPago!.totalBn.toInt().toString();
       }
-      if(widget.factura.formPago.totalDav>0){
-        davController.text= widget.factura.formPago.totalDav.toInt().toString();
+      if(widget.factura.formPago!.totalDav>0){
+        davController.text= widget.factura.formPago!.totalDav.toInt().toString();
       }
-      if(widget.factura.formPago.totalSctia>0){
-        sctiaController.text= widget.factura.formPago.totalSctia.toInt().toString();
+      if(widget.factura.formPago!.totalSctia>0){
+        sctiaController.text= widget.factura.formPago!.totalSctia.toInt().toString();
       }
-        if(widget.factura.formPago.totalSinpe>0){
-        sctiaController.text= widget.factura.formPago.totalSctia.toInt().toString();
+        if(widget.factura.formPago!.totalSinpe>0){
+        sctiaController.text= widget.factura.formPago!.totalSctia.toInt().toString();
       }
     
     });
@@ -1085,7 +1085,7 @@ class FormPagoState extends State<FormPago> {
     sinpeController.text='';
     setState(() {
        widget.factura.setSaldo();         
-       widget.onSaldoChanged(widget.factura.formPago.saldo);
+       widget.onSaldoChanged(widget.factura.formPago!.saldo);
       
     });
    
@@ -1099,23 +1099,23 @@ class FormPagoState extends State<FormPago> {
   
   goRefresh() {
     setState(() {
-      widget.factura.formPago.totalBac=0;
-      widget.factura.formPago.totalBn=0;
-      widget.factura.formPago.totalCheques=0;
-      widget.factura.formPago.totalCupones=0;
-      widget.factura.formPago.totalDav=0;
-      widget.factura.formPago.totalDollars=0;
-      widget.factura.formPago.totalEfectivo=0;
-      widget.factura.formPago.totalPuntos=0;
-      widget.factura.formPago.totalSctia=0;
-      widget.factura.formPago.totalTransfer=0;
-      widget.factura.formPago.transfer.totalTransfer=0;
-      widget.factura.formPago.totalSinpe=0;
-      widget.factura.formPago.transfer = Transferencia(cliente: Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: ''), transfers: [], monto: 0, totalTransfer: 0);
-      widget.factura.formPago.clientePaid = Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: '');     
-      widget.factura.formPago.sinpe = Sinpe(numFact: '', fecha: DateTime.now(), id: 0, idCierre: 0, activo: 0, monto: 0, nombreEmpleado: '', nota: '', numComprobante: '');
+      widget.factura.formPago!.totalBac=0;
+      widget.factura.formPago!.totalBn=0;
+      widget.factura.formPago!.totalCheques=0;
+      widget.factura.formPago!.totalCupones=0;
+      widget.factura.formPago!.totalDav=0;
+      widget.factura.formPago!.totalDollars=0;
+      widget.factura.formPago!.totalEfectivo=0;
+      widget.factura.formPago!.totalPuntos=0;
+      widget.factura.formPago!.totalSctia=0;
+      widget.factura.formPago!.totalTransfer=0;
+      widget.factura.formPago!.transfer.totalTransfer=0;
+      widget.factura.formPago!.totalSinpe=0;
+      widget.factura.formPago!.transfer = Transferencia(cliente: Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: ''), transfers: [], monto: 0, totalTransfer: 0);
+      widget.factura.formPago!.clientePaid = Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: '');     
+      widget.factura.formPago!.sinpe = Sinpe(numFact: '', fecha: DateTime.now(), id: 0, idCierre: 0, activo: 0, monto: 0, nombreEmpleado: '', nota: '', numComprobante: '');
       widget.factura.setSaldo(); 
-      widget.onSaldoChanged(widget.factura.formPago.saldo);
+      widget.onSaldoChanged(widget.factura.formPago!.saldo);
       sinpeController.text='';
       cashController.text='';
       dollarController.text='';

@@ -9,6 +9,7 @@ class NativeCodeHelper {
     try {
       wifiName = await platform.invokeMethod('getWifiName');
     } on PlatformException catch (e) {
+      // ignore: avoid_print
       print("Error: ${e.message}");
     }
     

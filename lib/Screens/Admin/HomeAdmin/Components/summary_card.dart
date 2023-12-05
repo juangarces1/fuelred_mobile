@@ -20,25 +20,29 @@ class SummaryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 5,
+      shadowColor: Colors.blueAccent,
       margin: const EdgeInsets.all(8),
       child: ListTile(
-        leading: AspectRatio(
-                aspectRatio: 1.02,
-                child: Container(
-                  padding: EdgeInsets.all(getProportionateScreenWidth(5)),
-                  decoration: BoxDecoration(
-                    color: kTextColor,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Image(
-                        image: title =='Inv Super' ?  const AssetImage('assets/super.png') : 
-                              title =='Inv Regular' ? const AssetImage('assets/regular.png') : 
-                              title =='Inv Exonerado' ? const AssetImage('assets/exonerado.png') :
-                              const AssetImage('assets/diesel.png'),
-                              fit: BoxFit.cover,
+        leading: Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: AspectRatio(
+                  aspectRatio: 1.02,
+                  child: Container(
+                    padding: EdgeInsets.all(getProportionateScreenWidth(3)),
+                    decoration: BoxDecoration(
+                      color: kTextColor,
+                      borderRadius: BorderRadius.circular(15),
                     ),
+                    child: Image(
+                          image: title =='Inv Super' ?  const AssetImage('assets/super.png') : 
+                                title =='Inv Regular' ? const AssetImage('assets/regular.png') : 
+                                title =='Inv Exonerado' ? const AssetImage('assets/exonerado.png') :
+                                const AssetImage('assets/diesel.png'),
+                                fit: BoxFit.cover,
+                      ),
+                  ),
                 ),
-              ),
+        ),
         title: Text(
           title,
           style: const TextStyle(

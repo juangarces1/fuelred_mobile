@@ -32,7 +32,7 @@ class ShowTotal extends StatelessWidget {
                 style: const TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
                 children: [
                   TextSpan(
-                    text: "¢${NumberFormat("###,###", "en_US").format(factura.cart.total)}",
+                    text: "¢${NumberFormat("###,###", "en_US").format(factura.cart!.total)}",
                     style: const TextStyle(fontSize: 21, color: Colors.black, fontWeight: FontWeight.bold),
                   ),
                 ],

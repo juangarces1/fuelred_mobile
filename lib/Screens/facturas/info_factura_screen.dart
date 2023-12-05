@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fuelred_mobile/Screens/Admin/ComponentsShared/app_bar_custom.dart';
 import 'package:fuelred_mobile/Screens/cart/components/cart_card.dart';
-import 'package:fuelred_mobile/components/loader_component.dart';
+import 'package:fuelred_mobile/components/my_loader.dart';
+import 'package:fuelred_mobile/components/no_contetnt.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/helpers/api_helper.dart';
 import 'package:fuelred_mobile/models/resdoc_facturas.dart';
@@ -43,17 +44,26 @@ class _InfoFacturaScreenState extends State<InfoFacturaScreen> {
         appBar:  MyCustomAppBar(
           title: widget.numeroFactura,
           automaticallyImplyLeading: true,   
-          backgroundColor: kBlueColorLogo,
+          backgroundColor: kPrimaryColor,
           elevation: 8.0,
           shadowColor: Colors.blueGrey,
           foreColor: Colors.white,
+          actions: [ Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ClipOval(child:  Image.asset(
+                  'assets/splash.png',
+                  width: 30,
+                  height: 30,
+                  fit: BoxFit.cover,
+                ),), // Ícono de perfil de usuario
+            ),],
       ),
         body: Container(
           color: kColorFondoOscuro,
           child: Center(
             child: showLoader 
-              ? const LoaderComponent(text: 'Por favor espere...',) 
-              : factura.cliente != '' ? _getContent() : _noContent(),
+              ? const CustomActivityIndicator(loadingText: 'Buscando...',) 
+              : factura.cliente != '' ? _getContent() : const MyNoContent(text: 'No existe la Factura',),
           ),
         ),      
        
@@ -79,7 +89,7 @@ class _InfoFacturaScreenState extends State<InfoFacturaScreen> {
                ),
              ),
            Expanded(
-             child: factura.detalles.isEmpty ? _noContent() : _getProducts(),
+             child: factura.detalles.isEmpty ? Container() : _getProducts(),
            ),
          ],
        ),
@@ -299,21 +309,7 @@ class _InfoFacturaScreenState extends State<InfoFacturaScreen> {
      );
    }
 
-    Widget _noContent() {
-     return Center(
-       child: Container(
-         margin: const EdgeInsets.all(20),
-         child: const Text(          
-            'No hay factura con ese numero.',
-           style: TextStyle(
-             fontSize: 16,
-             fontWeight: FontWeight.bold,
-              color: Colors.white,
-           ),
-         ),
-       ),
-     );
-   }
+   
 
   Widget _getProducts() {
      return Padding(
@@ -375,6 +371,11 @@ class _InfoFacturaScreenState extends State<InfoFacturaScreen> {
            }  
            return;
          }
+
+        if(response.message.isEmpty){
+          return;
+        }
+
         setState(() {
             factura = response.result;
           });

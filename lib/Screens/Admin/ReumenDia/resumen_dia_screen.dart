@@ -69,14 +69,23 @@ class _ResumenDiaScreenState extends State<ResumenDiaScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: kContrateFondoOscuro,
+        backgroundColor: kColorFondoOscuro,
         appBar:   MyCustomAppBar(
         title: 'Resumen Dia ${widget.date.substring(0,10)}',
         automaticallyImplyLeading: true,   
-        backgroundColor: kBlueColorLogo,
+        backgroundColor: kPrimaryColor,
         elevation: 8.0,
-        shadowColor: Colors.blueGrey,
+        shadowColor: const Color.fromARGB(255, 187, 201, 206),
         foreColor: Colors.white,
+         actions: [ Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ClipOval(child:  Image.asset(
+                  'assets/splash.png',
+                  width: 30,
+                  height: 30,
+                  fit: BoxFit.cover,
+                ),), // Ícono de perfil de usuario
+            ),],
       ),
         body: Stack(
           children: [
@@ -92,7 +101,7 @@ class _ResumenDiaScreenState extends State<ResumenDiaScreen> {
     return  SingleChildScrollView(
           child: Column(
             children: <Widget>[
-             const SizedBox(height: 5,),
+             const SizedBox(height: 15,),
               MyCustomCard(
                 title: 'Ventas Pista',
                 details: resumen.ventaPistas.toJson(), 
@@ -136,8 +145,7 @@ class _ResumenDiaScreenState extends State<ResumenDiaScreen> {
         iconColor: Colors.white,
         title: const Text('Depositos', style: TextStyle(color: Colors.white ,fontWeight: FontWeight.bold,)),
         children: [ 
-
-          DepositosCustomCard(
+            DepositosCustomCard(
             title: 'Deposito Exo 1',
             baseColor: kPrimaryText, 
             foreColor: Colors.white, 
@@ -151,34 +159,28 @@ class _ResumenDiaScreenState extends State<ResumenDiaScreen> {
             valor: resumen.depositoExo2,
             colorVariable: "hdfghfg"
           ),
-           DepositosCustomCard(
+            DepositosCustomCard(
             title: 'Deposito Avances',
             baseColor: kPrimaryText, 
             foreColor: Colors.white, 
             valor: resumen.depositoAvances,
             colorVariable: "nhgfhn34sdfg"
           ),
-           
-           DepositosCustomCard(
+            DepositosCustomCard(
             title: 'Deposito San Gerardo',
             baseColor: kPrimaryText, 
             foreColor: Colors.white, 
             valor: resumen.depositoSanGerardo,
             colorVariable: "hdfgfg"
-          ),
-           
-            
-           DepositosCustomCard(
+          ),       
+            DepositosCustomCard(
             title: 'Comisión',
             baseColor: kPrimaryText, 
             foreColor: Colors.white, 
             valor: resumen.comision,
             colorVariable: "aaafgfdfg5"
           ),
-           
-            
-            
-             Container(
+            Container(
               color: VariosHelpers.getShadedColor("aaasdfaaa", kPrimaryText), // Usa el color generado
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Row(
@@ -201,7 +203,7 @@ class _ResumenDiaScreenState extends State<ResumenDiaScreen> {
                 ],
               ),
             ),      
-             Container(
+            Container(
               color: kPrimaryText, // Usa el color generado
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Row(

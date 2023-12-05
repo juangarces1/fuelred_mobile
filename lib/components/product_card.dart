@@ -26,8 +26,8 @@ class ProductCard extends StatelessWidget {
   final AllFact factura;
 
   static String imagenesUrlRemoto = 'http://200.91.130.215:9091/photos'; 
-    static String imagenesUrlLocal = 'http://192.168.1.3:9091/photos';   
-    // const String imagenesUrl = 'http://192.168.1.165:8081/photos'; 
+   // static String imagenesUrlLocal = 'http://192.168.1.3:9091/photos';   
+     static String imagenesUrlLocal = 'http://192.168.1.165:8081/photos'; 
 
     static String  getImagenesUrl () {
       return NetworkInfo().isLocal ? imagenesUrlLocal : imagenesUrlRemoto;

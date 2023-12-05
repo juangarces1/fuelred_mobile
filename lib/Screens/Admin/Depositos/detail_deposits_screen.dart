@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fuelred_mobile/Screens/Admin/ComponentsShared/app_bar_custom.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/modelsAdmin/DepostosConsolidado/deposito_cierre.dart';
 import 'package:fuelred_mobile/sizeconfig.dart';
@@ -28,12 +29,23 @@ class _DetailDepositsScreenState extends State<DetailDepositsScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-           foregroundColor: Colors.white,
-          backgroundColor: kBlueColorLogo,
-          title:  Text('Depositos Cierre #${widget.cierre.idCierre.toString()}', style: const TextStyle(color: Colors.white),),
-         
-        ),
+        appBar:  MyCustomAppBar(
+        title: 'Cierre ${widget.cierre.idCierre}',
+        automaticallyImplyLeading: true,   
+        backgroundColor: kPrimaryColor,
+        elevation: 8.0,
+        shadowColor: Colors.blueGrey,
+        foreColor: Colors.white,
+         actions: [ Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ClipOval(child:  Image.asset(
+                  'assets/splash.png',
+                  width: 30,
+                  height: 30,
+                  fit: BoxFit.cover,
+                ),), // Ícono de perfil de usuario
+            ),],
+      ),
         body:  Container(
           color: Colors.white70,
           child: Padding(

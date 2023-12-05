@@ -27,7 +27,9 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    _checkIfLocal();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkIfLocal();
+    });
   
   }
 
@@ -50,8 +52,10 @@ class _MyAppState extends State<MyApp> {
 
    void _checkIfLocal() async {
     String wifiName = await checkPermissionsAndGetWifiName(); // Asegúrate de que esta función maneje la asincronía correctamente
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+       Provider.of<NetworkInfo>(context, listen: false).checkNetwork(wifiName);
+    });
    
-    Provider.of<NetworkInfo>(context, listen: false).checkNetwork(wifiName);
   }
 
   Future<String> checkPermissionsAndGetWifiName() async {
@@ -71,11 +75,5 @@ class _MyAppState extends State<MyApp> {
   } else  { 
     return '';
   }
-}
-
- Future<String> getWifiName() async {
-
-    var wifi = await NativeCodeHelper.getWifiName();
-      return wifi;
-  }
+} 
 }

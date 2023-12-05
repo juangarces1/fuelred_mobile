@@ -77,7 +77,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                       ),
                     ),
                     const Spacer(),               
-                    Text(widget.factura.clienteFactura.nombre == "" ? "Seleccione Un Cliente": widget.factura.clienteFactura.nombre),
+                    Text(widget.factura.clienteFactura!.nombre == "" ? "Seleccione Un Cliente": widget.factura.clienteFactura!.nombre),
                     const SizedBox(width: 10),
                     const Icon(
                       Icons.arrow_forward_ios,
@@ -95,7 +95,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                         text: "Total:\n",
                         children: [
                           TextSpan(
-                            text: "\$${NumberFormat("###,000", "en_US").format(widget.factura.cart.total.toInt())}",
+                            text: "\$${NumberFormat("###,000", "en_US").format(widget.factura.cart!.total.toInt())}",
                             style: const TextStyle(fontSize: 16, color: Colors.black),
                           ),
                         ],
@@ -119,7 +119,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
   }
 
   _goCheck() {
-     if(widget.factura.cart.products.isEmpty) {
+     if(widget.factura.cart!.products.isEmpty) {
       Fluttertoast.showToast(
           msg: "Agregue algun producto a la lista",
           toastLength: Toast.LENGTH_SHORT,
@@ -133,7 +133,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
       return;
     }
     
-    if(widget.factura.clienteFactura.nombre=="") {
+    if(widget.factura.clienteFactura!.nombre=="") {
        Fluttertoast.showToast(
           msg: " Seleccione un cliente para facturar",
           toastLength: Toast.LENGTH_SHORT,
@@ -150,7 +150,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
   }
 
   Future<void> goFact() async {
-    if(widget.factura.cart.products.isEmpty) {
+    if(widget.factura.cart!.products.isEmpty) {
     
       Fluttertoast.showToast(
           msg: "Agregue algun producto a la lista",
@@ -164,7 +164,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
       return;
     }
 
-    if(widget.factura.clienteFactura.nombre=="") {
+    if(widget.factura.clienteFactura!.nombre=="") {
      
       Fluttertoast.showToast(
           msg: "Seleccione un cliente para facturar",
@@ -184,10 +184,10 @@ class _CheckoutCardState extends State<CheckoutCard> {
       
       Map<String, dynamic> request = 
       {
-        'products': widget.factura.cart.products.map((e) => e.toApiProducJson()).toList(),
-        'idCierre' : widget.factura.cierreActivo.cierreFinal.idcierre,
-        'cedualaUsuario' : widget.factura.cierreActivo.usuario.cedulaEmpleado.toString(),
-        'cedulaClienteFactura' : widget.factura.clienteFactura.documento,
+        'products': widget.factura.cart!.products.map((e) => e.toApiProducJson()).toList(),
+        'idCierre' : widget.factura.cierreActivo!.cierreFinal.idcierre,
+        'cedualaUsuario' : widget.factura.cierreActivo!.usuario.cedulaEmpleado.toString(),
+        'cedulaclienteFactura!' : widget.factura.clienteFactura!.documento,
       };
       Response response = await ApiHelper.post("Api/Facturacion/PostFactura", request);  
 

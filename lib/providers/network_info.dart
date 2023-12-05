@@ -11,7 +11,13 @@ class NetworkInfo with ChangeNotifier {
 
   void checkNetwork(String ssid) {
     //_isLocal = ssid == "AndroidWifi"; 
-    _isLocal = ssid == "\"MAXIGARCES\"";
+
+    if (ssid == "\"MAXIGARCES_PLUS\"" || ssid == "\"AndroidWifi\"") {
+      _isLocal = true;
+    } else {
+      _isLocal = false;
+    }
+    //_isLocal = ssid == "\"MAXIGARCES_PLUS\"";
        
       
 

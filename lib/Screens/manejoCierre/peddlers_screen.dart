@@ -274,7 +274,7 @@ class _PeddlersScreenState extends State<PeddlersScreen> {
     });
 
     
-    Response response = await ApiHelper.getPeddlersByCierre(widget.factura.cierreActivo.cierreFinal.idcierre ?? 0);
+    Response response = await ApiHelper.getPeddlersByCierre(widget.factura.cierreActivo!.cierreFinal.idcierre ?? 0);
 
     setState(() {
       showLoader = false;

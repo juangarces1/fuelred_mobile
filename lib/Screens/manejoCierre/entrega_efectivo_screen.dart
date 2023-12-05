@@ -444,9 +444,9 @@ class _EntregaEfectivoScreenState extends State<EntregaEfectivoScreen> {
       _showLoader = true;
     });    
 
-    Deposito deposito = Deposito(idcierre: widget.factura.cierreActivo.cierreFinal.idcierre,
+    Deposito deposito = Deposito(idcierre: widget.factura.cierreActivo!.cierreFinal.idcierre,
     iddeposito: 0,
-    cedulaempleado: widget.factura.cierreActivo.usuario.cedulaEmpleado,
+    cedulaempleado: widget.factura.cierreActivo!.usuario.cedulaEmpleado,
     moneda: moneda,
     monto: int.parse(monto),
     fechadepostio: "2023-07-11T00:00:00",
@@ -467,7 +467,7 @@ class _EntregaEfectivoScreenState extends State<EntregaEfectivoScreen> {
           cantidad: int.parse(cantDollarController.text),
           preciocambio: int.parse(cambioDollarController.text),
           monto:  int.parse(monto),
-          idcierre: widget.factura.cierreActivo.cierreFinal.idcierre,
+          idcierre: widget.factura.cierreActivo!.cierreFinal.idcierre,
         );
 
         Map<String, dynamic> request1 = dollar.toJson();       
@@ -484,9 +484,9 @@ class _EntregaEfectivoScreenState extends State<EntregaEfectivoScreen> {
         Cheque cheque = Cheque(
           idcheque: int.parse(idChequeController.text),
           idbanco: idbank,
-          cedulaempleado: widget.factura.cierreActivo.usuario.cedulaEmpleado,
+          cedulaempleado: widget.factura.cierreActivo!.usuario.cedulaEmpleado,
           monto:  int.parse(monto),
-          idcierre: widget.factura.cierreActivo.cierreFinal.idcierre,
+          idcierre: widget.factura.cierreActivo!.cierreFinal.idcierre,
         );
 
         Map<String, dynamic> request2 = cheque.toJson();       

@@ -4,9 +4,13 @@ import 'package:fuelred_mobile/components/my_loader.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/helpers/api_helper.dart';
 import 'package:fuelred_mobile/models/all_fact.dart';
-import 'package:fuelred_mobile/models/cierreactivo.dart';
-import 'package:fuelred_mobile/models/product.dart';
+import 'package:fuelred_mobile/models/cart.dart';
+import 'package:fuelred_mobile/models/cliente.dart';
+import 'package:fuelred_mobile/models/empleado.dart';
+import 'package:fuelred_mobile/models/paid.dart';
 import 'package:fuelred_mobile/models/response.dart';
+import 'package:fuelred_mobile/models/sinpe.dart';
+import 'package:fuelred_mobile/models/transferencia.dart';
 import 'package:fuelred_mobile/sizeconfig.dart';
 
 import 'home/home_screen.dart';
@@ -126,9 +130,6 @@ class _LoginScreenState extends State<LoginScreen> {
     
   }
 
-
-
-
   Widget _showLogo() {
     return  const Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -197,24 +198,38 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _login() async {
-    setState(() {
-      _passwordShow = false;
-    });
 
     if(!_validateFields()) {
       return;
+    }
+
+    if(_zona.isEmpty){
+      goLoginAdmin();
+      return;
+    }
+    
+    else {
+      if (int.parse(_zona) < 1 || int.parse(_zona) > 2)
+      {
+          _zonaShowError=true;
+          _zonaError="La zona debe estar entre 1 y 2.";
+          return;
+      }
+      else{
+        _zonaShowError=false;
+      }
     }
 
     setState(() {
       _showLoader = true;
     });   
    
-    Response response = await ApiHelper.getCierreActivo(int.parse(_zona), int.parse(_password));
-     
-   if (!response.isSuccess) {
-          setState(() {
+    Response response = await ApiHelper.getLogIn(int.parse(_zona), int.parse(_password));
+       setState(() {
             _showLoader = false;
           });
+   if (!response.isSuccess) {
+        
         if (mounted) {       
           showDialog(
             context: context,
@@ -237,42 +252,50 @@ class _LoginScreenState extends State<LoginScreen> {
        return;
      }   
 
-      
-    
-    CierreActivo cierreActivo  = response.result;
 
-    if (cierreActivo.usuario.tipoempleado=="Admin"){
-      goAdminMenu(cierreActivo);
-      return;
-    }
-
-    Response rsponseTransacciones = await ApiHelper.getTransaccionesAsProduct(cierreActivo.cierreFinal.idzona);
-
-    List<Product> transacciones = [];
-    if (rsponseTransacciones.isSuccess){
-      transacciones=rsponseTransacciones.result;
-    }
-    
-     Response responseProductos = await ApiHelper.getProducts(cierreActivo.cierreFinal.idzona);
-
-     setState(() {
-      _showLoader = false;
-    });
-
-    List<Product> productos = [];
-    if (responseProductos.isSuccess){
-      productos=responseProductos.result;
-    }
-
-     for (var item in productos) {
-      item.images.add(item.imageUrl);     
-    }    
-
-    AllFact factura = AllFact();
-    factura.cierreActivo=cierreActivo;
-    factura.transacciones=transacciones;
-    factura.productos=productos;
-    
+    AllFact factura = response.result;
+    factura.cart = Cart(products: [], numOfItem: 0);
+    factura.clienteFactura = Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: '');
+    factura.clientePuntos = Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: '');
+    factura.formPago = Paid(
+      totalEfectivo: 0,
+      totalBac: 0, 
+      totalDav: 0, 
+      totalBn: 0, 
+      totalSctia: 0, 
+      totalDollars: 0, 
+      totalCheques: 0, 
+      totalCupones: 0, 
+      totalPuntos: 0, 
+      totalTransfer: 0, 
+      saldo: 0, 
+      clientePaid: Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: ''), 
+      transfer: Transferencia(
+        cliente: Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: ''),
+        transfers: [],
+        monto: 0,
+        totalTransfer: 0
+      ), 
+      showTotal: false, 
+      showFact: false, 
+      totalSinpe: 0, 
+      sinpe: Sinpe(
+        id: 0, 
+        numComprobante: '', 
+        nota: '', 
+        idCierre: 0, 
+        nombreEmpleado: '', 
+        fecha: DateTime.now(), 
+        numFact: '', 
+        activo: 0, 
+        monto: 0
+      ));
+    factura.placa='';
+    factura.kms=0;
+    factura.observaciones='';
+    factura.placas=[];
+    factura.lasTr=0;
+   
     //ordenamos las transacciones de mayor a menor y adjudicamos la ultima transaccion
     if(factura.transacciones.isNotEmpty){
      factura.transacciones.sort(((b, a) => a.transaccion.compareTo(b.transaccion)));
@@ -282,38 +305,20 @@ class _LoginScreenState extends State<LoginScreen> {
     goHome(factura);
   }
 
-  void goHome (AllFact factura) {
-    
-    Navigator.pushReplacement(
-      context, 
-      MaterialPageRoute(
-        builder: (context) => HomeScreen(factura: factura,
-        
-        )
-      )
-    );
+  void goHome (AllFact factura) {  
+     Navigator.pushReplacement(
+       context, 
+       MaterialPageRoute(
+         builder: (context) => HomeScreen(factura: factura,
+             )
+       )
+     );
   }
 
   bool _validateFields() {
     bool isValid = true;
 
-    if(_zona.isEmpty){
-       isValid = false;
-      _zonaShowError=true;
-      _zonaError="Debes ingresar una zona.";
-    }
     
-    else {
-      if (int.parse(_zona) < 1 || int.parse(_zona) > 2)
-      {
-           isValid = false;
-          _zonaShowError=true;
-          _zonaError="La zona debe estar entre 1 y 2.";
-      }
-      else{
-        _zonaShowError=false;
-      }
-    }
 
     if (_password.isEmpty) {
       isValid = false;
@@ -328,13 +333,46 @@ class _LoginScreenState extends State<LoginScreen> {
     return isValid;
   }
   
-  void goAdminMenu(CierreActivo cierreActivo) {
+  void goAdminMenu(Empleado empleado) {
     Navigator.pushReplacement(
       context, 
       MaterialPageRoute(
-        builder: (context) => const DashboardScreen()
+        builder: (context) =>  DashboardScreen(empleado: empleado,)
       )
     );
+  }
+  
+  void goLoginAdmin() async {
+    setState(() {
+      _showLoader = true;
+    });
+    Response response = await ApiHelper.getLoginAdmin(_password);
+    setState(() {
+      _showLoader = false;
+    });
+    if (!response.isSuccess) {
+      if (mounted) {       
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Error'),
+              content:  Text(response.message),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Aceptar'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }  
+      return;
+    }
+    goAdminMenu(response.result);
   }
   
   

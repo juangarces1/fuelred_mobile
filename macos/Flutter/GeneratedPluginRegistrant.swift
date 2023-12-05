@@ -5,8 +5,8 @@
 import FlutterMacOS
 import Foundation
 
-import connectivity_macos
-import connectivity_plus_macos
+import appkit_ui_element_colors
+import connectivity_plus
 import dynamic_color
 import macos_ui
 import macos_window_utils
@@ -15,7 +15,7 @@ import printing
 import sqflite
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
-  ConnectivityPlugin.register(with: registry.registrar(forPlugin: "ConnectivityPlugin"))
+  AppkitUiElementColorsPlugin.register(with: registry.registrar(forPlugin: "AppkitUiElementColorsPlugin"))
   ConnectivityPlugin.register(with: registry.registrar(forPlugin: "ConnectivityPlugin"))
   DynamicColorPlugin.register(with: registry.registrar(forPlugin: "DynamicColorPlugin"))
   MacOSUiPlugin.register(with: registry.registrar(forPlugin: "MacOSUiPlugin"))

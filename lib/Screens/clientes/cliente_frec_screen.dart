@@ -102,11 +102,11 @@ class _ClientesFrecScreen extends State<ClientesFrecScreen> {
           ),
           SizedBox(height: SizeConfig.screenHeight * 0.04),
 
-          widget.factura.formPago.clientePaid.nombre.isEmpty ? Container() 
-          : ClientCard(client: widget.factura.formPago.clientePaid,),
+          widget.factura.formPago!.clientePaid.nombre.isEmpty ? Container() 
+          : ClientCard(client: widget.factura.formPago!.clientePaid,),
         
                   
-           widget.factura.formPago.clientePaid.nombre.isEmpty ? Container() 
+           widget.factura.formPago!.clientePaid.nombre.isEmpty ? Container() 
           :  DefaultButton(text: 'Select',press: () => _goCheckOut())
          
         ],
@@ -184,7 +184,7 @@ class _ClientesFrecScreen extends State<ClientesFrecScreen> {
     }      
    
     setState(() {
-      widget.factura.formPago.clientePaid= response.result;
+      widget.factura.formPago!.clientePaid= response.result;
      
     }); 
 
@@ -216,7 +216,7 @@ class _ClientesFrecScreen extends State<ClientesFrecScreen> {
  
 
   void _goCheckOut() async {
-      if(widget.factura.formPago.clientePaid.nombre ==""){
+      if(widget.factura.formPago!.clientePaid.nombre ==""){
      await  Fluttertoast.showToast(
           msg: "Seleccione el Cliente",
           toastLength: Toast.LENGTH_SHORT,

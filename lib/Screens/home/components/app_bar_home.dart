@@ -34,7 +34,7 @@ class AppBarHome extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Bienvenido ${factura.cierreActivo.usuario.nombre} ${factura.cierreActivo.usuario.apellido1}',
+                    'Bienvenido ${factura.cierreActivo!.usuario.nombre} ${factura.cierreActivo!.usuario.apellido1}',
                       style:  const TextStyle(
                       fontStyle: FontStyle.normal, 
                       fontSize: 18,
@@ -43,7 +43,7 @@ class AppBarHome extends StatelessWidget {
                   )),
                   const SizedBox(height: 10,),
                   Text(
-                    'Cajero: ${factura.cierreActivo.cajero.nombre} ${factura.cierreActivo.cajero.apellido1}',
+                    'Cajero: ${factura.cierreActivo!.cajero.nombre} ${factura.cierreActivo!.cajero.apellido1}',
                       style:  const TextStyle(
                       fontStyle: FontStyle.normal, 
                       fontSize: 18,

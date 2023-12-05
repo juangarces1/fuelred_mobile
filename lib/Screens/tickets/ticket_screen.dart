@@ -50,7 +50,7 @@ class _TicketScreenState extends State<TicketScreen> {
   @override
   void initState() {
     super.initState();
-    _saldo = widget.factura.formPago.saldo;   
+    _saldo = widget.factura.formPago!.saldo;   
   } 
    
    @override
@@ -101,7 +101,7 @@ class _TicketScreenState extends State<TicketScreen> {
 
   Future<void> goTicket() async {
     
-    if(widget.factura.formPago.saldo!=0) {
+    if(widget.factura.formPago!.saldo!=0) {
       Fluttertoast.showToast(
             msg: "La factura aun tiene saldo.",
             toastLength: Toast.LENGTH_SHORT,
@@ -124,23 +124,23 @@ class _TicketScreenState extends State<TicketScreen> {
       
     Map<String, dynamic> request = 
     {
-      'products': widget.factura.cart.products.map((e) => e.toApiProducJson()).toList(),
-      'idCierre' : widget.factura.cierreActivo.cierreFinal.idcierre,
-      'cedualaUsuario' : widget.factura.cierreActivo.usuario.cedulaEmpleado.toString(),
-      'cedulaClienteFactura' : widget.factura.clienteFactura.documento,
-      'totalEfectivo' : widget.factura.formPago.totalEfectivo,        
-      'totalBac' : widget.factura.formPago.totalBac,
-      'totalDav' : widget.factura.formPago.totalDav,
-      'totalBn' : widget.factura.formPago.totalBn,
-      'totalSctia' : widget.factura.formPago.totalSctia,
-      'totalDollars' : widget.factura.formPago.totalDollars,
-      'totalCheques' : widget.factura.formPago.totalCheques,
-      'totalCupones' : widget.factura.formPago.totalCupones,
-      'totalPuntos' : widget.factura.formPago.totalPuntos,
-      'totalTransfer' : widget.factura.formPago.totalTransfer,
-      'saldo' : widget.factura.formPago.saldo,
-      'clientePaid' : widget.factura.formPago.clientePaid.toJson(),
-      'Transferencia' : widget.factura.formPago.transfer.toJson(),
+      'products': widget.factura.cart!.products.map((e) => e.toApiProducJson()).toList(),
+      'idCierre' : widget.factura.cierreActivo!.cierreFinal.idcierre,
+      'cedualaUsuario' : widget.factura.cierreActivo!.usuario.cedulaEmpleado.toString(),
+      'cedulaClienteFactura' : widget.factura.clienteFactura!.documento,
+      'totalEfectivo' : widget.factura.formPago!.totalEfectivo,        
+      'totalBac' : widget.factura.formPago!.totalBac,
+      'totalDav' : widget.factura.formPago!.totalDav,
+      'totalBn' : widget.factura.formPago!.totalBn,
+      'totalSctia' : widget.factura.formPago!.totalSctia,
+      'totalDollars' : widget.factura.formPago!.totalDollars,
+      'totalCheques' : widget.factura.formPago!.totalCheques,
+      'totalCupones' : widget.factura.formPago!.totalCupones,
+      'totalPuntos' : widget.factura.formPago!.totalPuntos,
+      'totalTransfer' : widget.factura.formPago!.totalTransfer,
+      'saldo' : widget.factura.formPago!.saldo,
+      'clientePaid' : widget.factura.formPago!.clientePaid.toJson(),
+      'Transferencia' : widget.factura.formPago!.transfer.toJson(),
       'observaciones' : obser.text.isEmpty ? '' : obser.text,
       'ticketMedioPago': 'Efectivo',
       'placa':'',      
@@ -177,7 +177,7 @@ class _TicketScreenState extends State<TicketScreen> {
 
      var decodedJson = jsonDecode(response.result);
       resdoc_facturas resdocFactura = resdoc_facturas.fromJson(decodedJson);   
-      resdocFactura.usuario = '${widget.factura.cierreActivo.usuario.nombre} ${widget.factura.cierreActivo.usuario.apellido1}';
+      resdocFactura.usuario = '${widget.factura.cierreActivo!.usuario.nombre} ${widget.factura.cierreActivo!.usuario.apellido1}';
        
       resetFactura(widget.factura);
       // ask the user if wants to print the factura
@@ -257,7 +257,7 @@ class _TicketScreenState extends State<TicketScreen> {
                    mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "Total:${NumberFormat("###,000", "en_US").format(widget.factura.cart.total.toInt())}",
+                      "Total:${NumberFormat("###,000", "en_US").format(widget.factura.cart!.total.toInt())}",
                       style: const TextStyle(
                         color: kTextColorBlack,
                         fontSize: 20,
@@ -285,8 +285,8 @@ class _TicketScreenState extends State<TicketScreen> {
 
   Future<void> _goCart() async {
    setState(() {
-     widget.factura.formPago.showTotal=false;
-     widget.factura.formPago.showFact=true;
+     widget.factura.formPago!.showTotal=false;
+     widget.factura.formPago!.showFact=true;
    });
     Navigator.push(context,  
         MaterialPageRoute(

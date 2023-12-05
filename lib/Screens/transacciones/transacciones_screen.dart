@@ -172,7 +172,7 @@ class _TransaccionesScreenState extends State<TransaccionesScreen> {
     });
 
     
-    Response response = await ApiHelper.getTransaccionesByCierre(widget.factura.cierreActivo.cierreFinal.idcierre ?? 0);
+    Response response = await ApiHelper.getTransaccionesByCierre(widget.factura.cierreActivo!.cierreFinal.idcierre ?? 0);
 
     setState(() {
       showLoader = false;

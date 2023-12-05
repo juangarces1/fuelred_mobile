@@ -9,6 +9,7 @@ class MyCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool automaticallyImplyLeading;
   final Color? shadowColor;
   final Color? foreColor;
+  final PreferredSizeWidget? bottom;
 
   const MyCustomAppBar({
     Key? key,
@@ -19,6 +20,7 @@ class MyCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.automaticallyImplyLeading = true,
     this.shadowColor,
     this.foreColor,
+    this.bottom,
   }) : super(key: key);
 
   @override
@@ -49,6 +51,7 @@ class MyCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: backgroundColor,
       elevation: elevation ?? 4.0,
       shadowColor: shadowColor,
+      bottom: bottom,
     );
   }
 

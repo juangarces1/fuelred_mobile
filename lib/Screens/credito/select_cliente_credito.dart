@@ -45,10 +45,10 @@ class _SelectClienteCreditoState extends State<SelectClienteCredito> {
                   borderRadius: BorderRadius.circular(10),
                 ),
               // ignore: deprecated_member_use
-              child: SvgPicture.asset("assets/User Icon.svg", color:  widget.factura.formPago.clientePaid.nombre == '' ? kTextColor : kPrimaryColor,),
+              child: SvgPicture.asset("assets/User Icon.svg", color:  widget.factura.formPago!.clientePaid.nombre == '' ? kTextColor : kPrimaryColor,),
               ),
               const SizedBox(width: 10,),               
-              Expanded(child: Text(widget.factura.formPago.clientePaid.nombre == "" ? "Seleccione Un Cliente": widget.factura.formPago.clientePaid.nombre)),
+              Expanded(child: Text(widget.factura.formPago!.clientePaid.nombre == "" ? "Seleccione Un Cliente": widget.factura.formPago!.clientePaid.nombre)),
               const SizedBox(width: 10),
               const Icon(
                 Icons.arrow_forward_ios,

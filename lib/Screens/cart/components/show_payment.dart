@@ -85,7 +85,7 @@ class ShowPayment extends StatelessWidget {
                     style: const TextStyle(fontSize: 17, color: Colors.white, fontWeight: FontWeight.bold),
                     children: [
                       TextSpan(
-                        text: "¢${NumberFormat("###,000", "en_US").format(factura.cart.total.toInt())}",
+                        text: "¢${NumberFormat("###,000", "en_US").format(factura.cart!.total.toInt())}",
                         style: const TextStyle(fontSize: 21, color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ],

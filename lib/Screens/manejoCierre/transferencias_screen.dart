@@ -158,7 +158,7 @@ class _TransferenciasScreenState extends State<TransferenciasScreen> {
     });
 
     
-    Response response = await ApiHelper.getTransfesByCierre(widget.factura.cierreActivo.cierreFinal.idcierre ?? 0);
+    Response response = await ApiHelper.getTransfesByCierre(widget.factura.cierreActivo!.cierreFinal.idcierre ?? 0);
 
     setState(() {
       showLoader = false;

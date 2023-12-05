@@ -25,12 +25,12 @@ class ShowCart extends StatelessWidget {
         padding: const EdgeInsets.all(10),
        
         child: ListView.builder(
-          itemCount: factura.cart.products.length,
+          itemCount: factura.cart!.products.length,
           itemBuilder: (context, index) {
            return Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: 
-             CartCard(product: factura.cart.products[index],)
+             CartCard(product: factura.cart!.products[index],)
            );  
           },    
         ),

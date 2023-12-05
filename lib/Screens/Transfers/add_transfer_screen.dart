@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fuelred_mobile/Screens/Admin/ComponentsShared/app_bar_custom.dart';
 import 'package:fuelred_mobile/components/default_button.dart';
 import 'package:fuelred_mobile/components/loader_component.dart';
 import 'package:fuelred_mobile/constans.dart';
@@ -128,11 +129,23 @@ Widget _buildClientePopupMenu() {
     return SafeArea(
       child: Scaffold(
         backgroundColor: kContrateFondoOscuro,
-        appBar: AppBar(
-          foregroundColor: Colors.white,
-          backgroundColor: kPrimaryColor,
-          title: const Text('Agregar Transferencia', style: TextStyle(color: Colors.white)),
-        ),
+        appBar:  MyCustomAppBar(
+        title: 'Agregar Transferencia',
+        automaticallyImplyLeading: true,   
+        backgroundColor: kPrimaryColor,
+        elevation: 8.0,
+        shadowColor: const Color.fromARGB(255, 187, 201, 206),
+        foreColor: Colors.white,
+         actions: [ Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ClipOval(child:  Image.asset(
+                  'assets/splash.png',
+                  width: 30,
+                  height: 30,
+                  fit: BoxFit.cover,
+                ),), // Ícono de perfil de usuario
+            ),],
+      ),
         body: Stack(
           children: [
             Form(
@@ -142,7 +155,7 @@ Widget _buildClientePopupMenu() {
                 child: Column(
                   children: <Widget>[
                        SizedBox(height: SizeConfig.screenHeight * 0.02),
-                        Text("Complete los Datos", style: headingStyle),
+                        Text("Datos Transferencia", style: myHeadingStyleBlack),
                       _buildClientePopupMenu(),
     
                     Padding(

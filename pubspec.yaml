@@ -34,29 +34,26 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2  
-  adaptive_dialog: ^1.1.0
-  connectivity: ^3.0.6
-  font_awesome_flutter: ^10.5.0  
+  cupertino_icons: ^1.0.6  
+  adaptive_dialog: ^2.0.0  
+  font_awesome_flutter: ^10.6.0  
   cached_network_image: ^3.3.0
   intl: ^0.18.1
-  flutter_svg: ^2.0.7
-  in_app_notification: ^1.1.0
-  email_validator: ^2.0.1
-  http: ^1.1.0
-  path_provider: ^2.0.6  
-  flutter_spinkit: ^5.1.0
+  flutter_svg: ^2.0.9  
+  email_validator: ^2.1.17
+  http: ^1.1.2
+  path_provider: ^2.1.1  
+  flutter_spinkit: ^5.2.0
   flutter_launcher_icons: ^0.13.1
-  flutter_native_splash: ^2.2.16
+  flutter_native_splash: ^2.3.6
   fluttertoast: ^8.2.2
   printing: ^5.11.1
-  pdf: ^3.10.6
-  show_up_animation: ^2.0.0
-  flutter_icons_null_safety: ^1.1.0
-  fl_chart: ^0.50.1
-  connectivity_plus: ^2.0.2
-  permission_handler: ^11.0.1 
-  provider: ^6.1.1 
+  pdf: ^3.10.6  
+  flutter_icons_null_safety: ^1.1.0  
+  connectivity_plus: ^5.0.2
+  permission_handler: ^11.1.0 
+  provider: ^6.1.1  
+  fl_chart: ^0.65.0 
   
 
 flutter_icons:
@@ -78,7 +75,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-
+ 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

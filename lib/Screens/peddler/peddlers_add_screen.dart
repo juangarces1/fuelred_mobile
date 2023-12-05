@@ -307,7 +307,7 @@ class _PeddlersAddScreenState extends State<PeddlersAddScreen> {
               text: "Total:\n",
               children: [
                 TextSpan(
-                  text: "\$${NumberFormat("###,000", "en_US").format(widget.factura.cart.total.toInt())}",
+                  text: "\$${NumberFormat("###,000", "en_US").format(widget.factura.cart!.total.toInt())}",
                   style: const TextStyle(fontSize: 20, color: kPrimaryColor, ),
                 ),
               ],
@@ -336,16 +336,16 @@ class _PeddlersAddScreenState extends State<PeddlersAddScreen> {
 
     Peddler request = Peddler(              
       chofer: ch.text,
-      cliente: widget.factura.formPago.clientePaid,                      
+      cliente: widget.factura.formPago!.clientePaid,                      
       fecha: DateTime.now().toString(),
       id: 0,
-      idcierre: widget.factura.cierreActivo.cierreFinal.idcierre,                       
+      idcierre: widget.factura.cierreActivo!.cierreFinal.idcierre,                       
       km: kms.text,                       
       observaciones: obser.text,
       orden: or.text,
       placa: placa,                       
-      products:  widget.factura.cart.products,
-      pistero: widget.factura.cierreActivo.usuario,
+      products:  widget.factura.cart!.products,
+      pistero: widget.factura.cierreActivo!.usuario,
     );
 
     Response response = await ApiHelper.post('Api/Peddler/PostPeddler', request.toJson());
@@ -418,23 +418,23 @@ class _PeddlersAddScreenState extends State<PeddlersAddScreen> {
 
   resetFactura() {
     setState(() {
-      widget.factura.cart.products.clear();
-      widget.factura.formPago.totalBac=0;
-      widget.factura.formPago.totalBn=0;
-      widget.factura.formPago.totalCheques=0;
-      widget.factura.formPago.totalCupones=0;
-      widget.factura.formPago.totalDav=0;
-      widget.factura.formPago.totalDollars=0;
-      widget.factura.formPago.totalEfectivo=0;
-      widget.factura.formPago.totalPuntos=0;
-      widget.factura.formPago.totalSctia=0;
-      widget.factura.formPago.transfer.totalTransfer=0;
-      widget.factura.formPago.totalSinpe=0;
-      widget.factura.formPago.transfer= Transferencia(cliente: Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: ''), transfers: [], monto: 0, totalTransfer: 0);
+      widget.factura.cart!.products.clear();
+      widget.factura.formPago!.totalBac=0;
+      widget.factura.formPago!.totalBn=0;
+      widget.factura.formPago!.totalCheques=0;
+      widget.factura.formPago!.totalCupones=0;
+      widget.factura.formPago!.totalDav=0;
+      widget.factura.formPago!.totalDollars=0;
+      widget.factura.formPago!.totalEfectivo=0;
+      widget.factura.formPago!.totalPuntos=0;
+      widget.factura.formPago!.totalSctia=0;
+      widget.factura.formPago!.transfer.totalTransfer=0;
+      widget.factura.formPago!.totalSinpe=0;
+      widget.factura.formPago!.transfer= Transferencia(cliente: Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: ''), transfers: [], monto: 0, totalTransfer: 0);
       widget.factura.clienteFactura=Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: '');
       widget.factura.clientePuntos=Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: '');
-      widget.factura.formPago.clientePaid=Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: '');
-      widget.factura.formPago.sinpe = Sinpe(numFact: '', fecha: DateTime.now(), id: 0, idCierre: 0, activo: 0, monto: 0, nombreEmpleado: '', nota: '', numComprobante: '');
+      widget.factura.formPago!.clientePaid=Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos: 0, codigo: '', telefono: '');
+      widget.factura.formPago!.sinpe = Sinpe(numFact: '', fecha: DateTime.now(), id: 0, idCierre: 0, activo: 0, monto: 0, nombreEmpleado: '', nota: '', numComprobante: '');
       widget.factura.setSaldo(); 
       
     });

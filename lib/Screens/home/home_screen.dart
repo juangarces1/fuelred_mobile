@@ -6,7 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fuelred_mobile/Screens/Sinpes/sinpes_screen.dart';
 import 'package:fuelred_mobile/Screens/cart/cart_new.dart';
-import 'package:fuelred_mobile/Screens/clientes/clientes_screen.dart';
+import 'package:fuelred_mobile/Screens/clientes/cliestes_new_screen.dart';
 import 'package:fuelred_mobile/Screens/facturas/facturas_screen.dart';
 import 'package:fuelred_mobile/Screens/login_screen.dart';
 import 'package:fuelred_mobile/Screens/manejoCierre/cashbacks_screen.dart';
@@ -43,8 +43,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> { 
-  bool _showLoader = false;
-  bool _showLoaderProdcut = false;
+  bool _showLoader = false;  
   bool _showFilter = false;
   double width = 140;
   double alto = 140;
@@ -54,7 +53,8 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Product> backup_products = []; 
   // ignore: non_constant_identifier_names
   List<Product> backup_transacciones = [];
-  
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   // Timer _timer = Timer.periodic(const Duration(seconds: 1), (timer) {});
 
   @override
@@ -77,6 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
  Widget build(BuildContext context) {
      return SafeArea( 
        child: Scaffold(
+        key: _scaffoldKey,
         backgroundColor: kColorFondoOscuro,         
         body: content(context),
           drawer: _getAdminMenu(),
@@ -97,20 +98,21 @@ Widget content(context){
           child: Column(
             children: [
               Container(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.only(left: 20, top: 10, right: 10, bottom: 10),
                 decoration: const BoxDecoration(
                   gradient: kGradientHome,        
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Cierre: ${widget.factura.cierreActivo.cierreFinal.idcierre}', style: baseStyle),
-                        Text('User: ${widget.factura.cierreActivo.usuario.nombre} ${widget.factura.cierreActivo.usuario.apellido1}', style: baseStyle),
-                        Text('Cajero: ${widget.factura.cierreActivo.cajero.nombre} ${widget.factura.cierreActivo.cajero.apellido1}', style: baseStyle),               
+                       
+                        Text('User: ${widget.factura.cierreActivo!.usuario.nombre} ${widget.factura.cierreActivo!.usuario.apellido1}', style: baseStyle),
+                        Text('Cajero: ${widget.factura.cierreActivo!.cajero.nombre} ${widget.factura.cierreActivo!.cajero.apellido1}', style: baseStyle),               
                       ],       
                     ),
                     const Spacer(),
@@ -118,14 +120,14 @@ Widget content(context){
                     const SizedBox(width: 10,),
                     IconBtnWithCounter(
                       svgSrc: "assets/Cart Icon.svg",  
-                      numOfitem: widget.factura.cart.products.length,  
+                      numOfitem: widget.factura.cart!.products.length,  
                       press: goCart,                     
                     ), 
                   ],
                 ),
               ),
-              SizedBox(height: getProportionateScreenHeight(20)),
-              widget.factura.transacciones.isNotEmpty ? combustibles(context) : _noTr(),
+              SizedBox(height: getProportionateScreenHeight(10)),
+              combustibles(context),
               const Divider(height: 40, thickness: 2, color: kTextColor), 
               searchBarCartIcon(context),
               const Divider(height: 40, thickness: 2, color: kTextColor), 
@@ -151,11 +153,12 @@ Widget content(context){
           border: Border.all(color: Colors.white),
           borderRadius: BorderRadius.circular(10),
         ),
-        child: SvgPicture.asset(
-          "assets/User Icon.svg",
-          color: widget.factura.clienteFactura.nombre.isEmpty ? Colors.white : kPrimaryColor,
-        ),
-      ),
+        // ignore: deprecated_member_use
+                  child: SvgPicture.asset("assets/User Icon.svg",
+                  // ignore: deprecated_member_use
+                  color:  widget.factura.clienteFactura!.nombre == '' ? Colors.white : kPrimaryColor, ),
+                  ),
+     
     );
   }
 
@@ -272,7 +275,11 @@ return Padding(
  }
 
  void goCart () {
-    if (widget.factura.cart.products.isNotEmpty) {
+  setState(() {
+    widget.factura.formPago!.showTotal=true;
+     widget.factura.formPago!.showFact=false;
+  });
+    if (widget.factura.cart!.products.isNotEmpty) {
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -300,32 +307,34 @@ return Padding(
  Widget combustibles(context){
   return Column(
       children: [
-        Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Combustibles(${widget.factura.transacciones.length})",
-                style: TextStyle(
-                  fontSize: getProportionateScreenWidth(18),
-                  color: Colors.white,
-                ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+                icon: const Icon(Icons.menu, color: Colors.white),
+                onPressed: () => _scaffoldKey.currentState?.openDrawer(),
               ),
-            GestureDetector(
-              onTap: _updateTransactions,
-              child: const Text(
-                "Actualizar",
-                style: TextStyle(color: kContrateFondoOscuro),
+            Text(
+              "Combustibles(${widget.factura.transacciones.length})",
+              style: TextStyle(
+                fontSize: getProportionateScreenWidth(18),
+                color: Colors.white,
               ),
             ),
-          ],
+            const Spacer(),
+          GestureDetector(
+            onTap: _updateTransactions,
+            child: const Text(
+              "Actualizar",
+              style: TextStyle(color: kContrateFondoOscuro),
+            ),
+          ),
+          SizedBox(width: getProportionateScreenWidth(10)),
+         ],
         ),
-      ),
      SizedBox(height: getProportionateScreenWidth(10)),          
   
-          Container(
+       widget.factura.transacciones.isNotEmpty ?    Container(
             padding: EdgeInsets.only(left: getProportionateScreenWidth(20)),
             height: getProportionateScreenHeight(200),
             child: ListView.separated(
@@ -336,7 +345,7 @@ return Padding(
               itemBuilder: (context, indice) => buildCard(product: widget.factura.transacciones[indice]),
               
                   ),
-          ),
+          ): _noTr(),
         SizedBox(width: getProportionateScreenWidth(20)),
     ],
   );
@@ -603,7 +612,7 @@ return Padding(
       setState(() {
         _showLoader=true;
       });
-      Response rsponseTransacciones = await ApiHelper.getTransaccionesAsProduct(widget.factura.cierreActivo.cierreFinal.idzona);     
+      Response rsponseTransacciones = await ApiHelper.getTransaccionesAsProduct(widget.factura.cierreActivo!.cierreFinal.idzona);     
        setState(() {
         _showLoader=false;
       });
@@ -630,10 +639,10 @@ return Padding(
 
   void _updateProducts() async {
     setState(() {
-      _showLoaderProdcut=true;
+      _showLoader =true;
     });
       
-    Response response = await ApiHelper.getProducts(widget.factura.cierreActivo.cierreFinal.idzona);
+    Response response = await ApiHelper.getProducts(widget.factura.cierreActivo!.cierreFinal.idzona);
     if (!response.isSuccess) {
         if (mounted) {       
           showDialog(
@@ -664,8 +673,8 @@ return Padding(
     }
 
     
-    if (widget.factura.cart.products.isNotEmpty){
-     for (var cartProduct in widget.factura.cart.products) {
+    if (widget.factura.cart!.products.isNotEmpty){
+     for (var cartProduct in widget.factura.cart!.products) {
         for (var productitem in widget.factura.productos) {
           if (cartProduct.codigoArticulo==productitem.codigoArticulo){
               productitem.cantidad=cartProduct.cantidad;
@@ -676,13 +685,13 @@ return Padding(
     }
     setState(() {
       widget.factura.productos;
-      _showLoaderProdcut=false;
+      _showLoader=false;
     });
   }
 
   addToCart(Product product) {     
       setState(() {
-        widget.factura.cart.products.add(product);
+        widget.factura.cart!.products.add(product);
         widget.factura.transacciones.remove(product);       
       });   
       goCart();
@@ -711,7 +720,7 @@ return Padding(
   }
 
  void _showNewCliente(context) {
-   ShowAlertCliente.showAlert(context, widget.factura.clienteFactura, _goClientes);
+   ShowAlertCliente.showAlert(context, widget.factura.clienteFactura!, _goClientes);
 
 }
 
@@ -720,7 +729,7 @@ return Padding(
     Navigator.push(context,  
       MaterialPageRoute(
         builder: 
-        (context) => ClientesScreen(factura: widget.factura,ruta: 'Home',)
+        (context) => ClientesNewScreen(factura: widget.factura,ruta: 'Home',)
       )
     );
   }
@@ -728,28 +737,7 @@ return Padding(
  Widget _noTr(){
   return Column(
     children: [
-       Padding(
-         padding: const EdgeInsets.only(left: 20, right: 20),
-         child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Combustibles",
-                  style: TextStyle(
-                    fontSize: getProportionateScreenWidth(18),
-                    color: kContrateFondoOscuro,
-                  ),
-                ),
-              GestureDetector(
-                onTap: _updateTransactions,
-                child: const Text(
-                  "Actualizar",
-                  style: TextStyle(color: kContrateFondoOscuro),
-                ),
-              ),
-            ],
-          ),
-       ),
+      
       Center(
         child: Container(
           padding: EdgeInsets.all(getProportionateScreenWidth(10)),

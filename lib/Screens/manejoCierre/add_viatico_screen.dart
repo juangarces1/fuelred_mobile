@@ -262,9 +262,9 @@ class _AddViaticoScreenState extends State<AddViaticoScreen> {
     Viatico viatico =  Viatico(idviatico: 0,
      monto: int.parse(monto),
      fecha: "2023-07-11T00:00:00",
-     cedulaempleado:  widget.factura.cierreActivo.usuario.cedulaEmpleado,     
-     idcierre: widget.factura.cierreActivo.cierreFinal.idcierre,
-      idcliente:int.parse( widget.factura.formPago.clientePaid.codigo),
+     cedulaempleado:  widget.factura.cierreActivo!.usuario.cedulaEmpleado,     
+     idcierre: widget.factura.cierreActivo!.cierreFinal.idcierre,
+      idcliente:int.parse( widget.factura.formPago!.clientePaid.codigo),
       placa: placa,
       estado: 'PENDIENTE',  
 
@@ -310,7 +310,7 @@ class _AddViaticoScreenState extends State<AddViaticoScreen> {
        return;
      }
 
-    widget.factura.formPago.clientePaid= Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos:0, codigo: '',telefono: '');
+    widget.factura.formPago!.clientePaid= Cliente(nombre: '', documento: '', codigoTipoID: '', email: '', puntos:0, codigo: '',telefono: '');
 
     Fluttertoast.showToast(
             msg: "Viatico Creado Correctamente.",

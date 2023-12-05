@@ -179,7 +179,7 @@ class _ViaticosScreenState extends State<ViaticosScreen> {
     });
 
     
-    Response response = await ApiHelper.getViaticosByCierre(widget.factura.cierreActivo.cierreFinal.idcierre ?? 0);
+    Response response = await ApiHelper.getViaticosByCierre(widget.factura.cierreActivo!.cierreFinal.idcierre ?? 0);
 
     setState(() {
       showLoader = false;

@@ -37,14 +37,14 @@ class ClientPoints extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 // ignore: deprecated_member_use
-                child: SvgPicture.asset("assets/User Icon.svg", color:  factura.formPago.clientePaid.nombre == "" ? kTextColor : kPrimaryColor,),
+                child: SvgPicture.asset("assets/User Icon.svg", color:  factura.formPago!.clientePaid.nombre == "" ? kTextColor : kPrimaryColor,),
               ),
               const SizedBox(width: 10,),               
               Expanded(
                 child: Text(
-                  factura.formPago.clientePaid.nombre == "" 
+                  factura.formPago!.clientePaid.nombre == "" 
                   ? 'Seleccione Cliente Frecuente' 
-                  : '${factura.formPago.clientePaid.nombre}(${factura.formPago.clientePaid.puntos})',               
+                  : '${factura.formPago!.clientePaid.nombre}(${factura.formPago!.clientePaid.puntos})',               
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,

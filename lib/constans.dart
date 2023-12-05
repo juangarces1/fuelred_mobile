@@ -29,6 +29,20 @@ const kPrimaryText = Color(0xFFFF7643);
 
 const kAnimationDuration = Duration(milliseconds: 200);
 
+final myHeadingStyleBlack = TextStyle(
+  fontSize: getProportionateScreenWidth(22),
+  fontWeight: FontWeight.bold,
+  color: Colors.black,
+  height: 1.5,
+);
+
+final myHeadingStylePrymary = TextStyle(
+  fontSize: getProportionateScreenWidth(22),
+  fontWeight: FontWeight.bold,
+  color: kPrimaryColor,
+  height: 1.5,
+);
+
 final headingStyle = TextStyle(
   fontSize: getProportionateScreenWidth(28),
   fontWeight: FontWeight.bold,

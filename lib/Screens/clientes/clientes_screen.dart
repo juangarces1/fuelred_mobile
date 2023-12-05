@@ -43,7 +43,11 @@ class _ClientesScreenState extends State<ClientesScreen> {
   @override  
   void initState() {
     super.initState();
-    _getUsers();
+   // _getUsers();
+   setState(() {
+      _users=widget.factura.clientesFacturacion;
+      _backup=widget.factura.clientesFacturacion;
+   });
   }
 
   
@@ -391,8 +395,8 @@ class _ClientesScreenState extends State<ClientesScreen> {
   
   if(widget.ruta=='Cart'){
      setState(() {
-     widget.factura.formPago.showTotal=false;
-     widget.factura.formPago.showFact=true;
+     widget.factura.formPago!.showTotal=false;
+     widget.factura.formPago!.showFact=true;
    });
     Navigator.push(context,  
         MaterialPageRoute(

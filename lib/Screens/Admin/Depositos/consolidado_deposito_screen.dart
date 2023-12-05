@@ -37,13 +37,22 @@ class _ConsolidadoDepositoScreenState extends State<ConsolidadoDepositoScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: const MyCustomAppBar(
-        title: 'Depositos Consolidados',
+        appBar:  MyCustomAppBar(
+        title: 'Cierres dia ${widget.dia.substring(0,10)}',
         automaticallyImplyLeading: true,   
-        backgroundColor: kBlueColorLogo,
+        backgroundColor: kPrimaryColor,
         elevation: 8.0,
         shadowColor: Colors.blueGrey,
         foreColor: Colors.white,
+         actions: [ Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ClipOval(child:  Image.asset(
+                  'assets/splash.png',
+                  width: 30,
+                  height: 30,
+                  fit: BoxFit.cover,
+                ),), // Ícono de perfil de usuario
+            ),],
       ),
         body: consolidado.idConsolidado == 0 ? const MyNoContent(text: 'No hay Resumen Dia',) : Container(
           color: const Color.fromARGB(255, 226, 225, 223),
@@ -107,6 +116,7 @@ class _ConsolidadoDepositoScreenState extends State<ConsolidadoDepositoScreen> {
                                     style: const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
                                     maxLines: 2,
                                   ),
+                               
                                 
                                   Text(
                                     
