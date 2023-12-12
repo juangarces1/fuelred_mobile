@@ -8,10 +8,10 @@ class ShowProcessMenu extends StatelessWidget {
   final Function onBack;
 
   const ShowProcessMenu({
-    Key? key,
+    super.key,
     required this.onProcessSelected,
     required this.onBack,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

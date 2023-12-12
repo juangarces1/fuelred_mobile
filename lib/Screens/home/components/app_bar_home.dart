@@ -4,11 +4,11 @@ import 'package:fuelred_mobile/models/all_fact.dart';
 
 class AppBarHome extends StatelessWidget {
   const AppBarHome({
-    Key? key,
+    super.key,
    
     required this.factura, 
    
-  }) : super(key: key);
+  });
  
   final AllFact factura;
   Size get preferredSize => Size.fromHeight(AppBar().preferredSize.height);

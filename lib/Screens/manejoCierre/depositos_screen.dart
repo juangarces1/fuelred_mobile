@@ -16,7 +16,7 @@ import '../../models/response.dart';
 
 class DepositosScreen extends StatefulWidget {
   final AllFact factura;
-  const DepositosScreen({ Key? key, required this.factura }) : super(key: key);
+  const DepositosScreen({ super.key, required this.factura });
   @override
   State<DepositosScreen> createState() => _DepositosScreenState();
 }

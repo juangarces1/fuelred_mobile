@@ -427,7 +427,7 @@ class _CierreScreenState extends State<CierreScreen>  with SingleTickerProviderS
 
      setState(() {
         cierresDia = response.result;   
-        print(cierresDia.length);    
+       // print(cierresDia.length);    
         //navegate to secondf tab
         
      });

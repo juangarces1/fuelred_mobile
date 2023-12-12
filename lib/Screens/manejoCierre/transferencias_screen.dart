@@ -14,7 +14,7 @@ import '../../sizeconfig.dart';
 
 class TransferenciasScreen extends StatefulWidget {
    final AllFact factura;
-  const TransferenciasScreen({ Key? key, required this.factura }) : super(key: key);
+  const TransferenciasScreen({ super.key, required this.factura });
 
   @override
   State<TransferenciasScreen> createState() => _TransferenciasScreenState();

@@ -7,12 +7,12 @@ import '../sizeconfig.dart';
 
 class RoundedIconBtn extends StatelessWidget {
   const RoundedIconBtn({
-    Key? key,
+    super.key,
     required this.icon,
     required this.press,
     required this.color,
     this.showShadow = false,
-  }) : super(key: key);
+  });
 
   final IconData icon;
   final GestureTapCancelCallback press;

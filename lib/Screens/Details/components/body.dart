@@ -19,11 +19,11 @@ class Body extends StatefulWidget {
   final Product product;
   
 
-  const Body({Key? key,
+  const Body({super.key,
    required this.product,
     required this.factura,
    
-   }) : super(key: key);
+   });
 
   @override
   State<Body> createState() => _BodyState();

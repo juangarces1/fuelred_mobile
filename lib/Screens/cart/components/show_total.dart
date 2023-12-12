@@ -10,11 +10,11 @@ class ShowTotal extends StatelessWidget {
   final Function onProcesarPressed;
 
   const ShowTotal({
-    Key? key,
+    super.key,
     required this.factura,
     required this.onFacturarPressed,
     required this.onProcesarPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

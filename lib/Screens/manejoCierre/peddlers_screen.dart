@@ -15,7 +15,7 @@ import '../../sizeconfig.dart';
 
 class PeddlersScreen extends StatefulWidget {
   final AllFact factura;
-  const PeddlersScreen({ Key? key, required this.factura }) : super(key: key);
+  const PeddlersScreen({ super.key, required this.factura });
 
   @override
   State<PeddlersScreen> createState() => _PeddlersScreenState();

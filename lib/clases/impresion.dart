@@ -331,7 +331,7 @@ class Impresion {
                         } else {
                           return pw.Container(); // Devuelve un contenedor vacío para 'cierres'
                         }
-                      }).where((child) => child is! pw.Container).toList(), // Opcional: añade un divisor para una mejor separación visual
+                      }).where((child) => child is! pw.Container), // Opcional: añade un divisor para una mejor separación visual
                       ],
                     ),
                   ),
@@ -362,7 +362,7 @@ class Impresion {
                           } else {
                             return pw.Container(); // Devuelve un contenedor vacío para 'cierres'
                           }
-                        }).where((child) => child is! pw.Container).toList(), // Opcional: añade un divisor para una mejor separación visual
+                        }).where((child) => child is! pw.Container), // Opcional: añade un divisor para una mejor separación visual
                       ], // Eliminar contenedores vacíos de la lista
                     ),
                   ),
@@ -394,7 +394,7 @@ class Impresion {
                           } else {
                             return pw.Container(); // Devuelve un contenedor vacío para 'cierres'
                           }
-                        }).where((child) => child is! pw.Container).toList(), // Opcional: añade un divisor para una mejor separación visual
+                        }).where((child) => child is! pw.Container), // Opcional: añade un divisor para una mejor separación visual
                       ], // Eliminar contenedores vacíos de la lista
                     ),
                   ),
@@ -430,7 +430,7 @@ class Impresion {
                           } else {
                             return pw.Container(); // Devuelve un contenedor vacío para 'cierres'
                           }
-                        }).where((child) => child is! pw.Container).toList(), // Opcional: añade un divisor para una mejor separación visual
+                        }).where((child) => child is! pw.Container), // Opcional: añade un divisor para una mejor separación visual
                       ], // Eliminar contenedores vacíos de la lista
                     ),
                   ),
@@ -461,7 +461,7 @@ class Impresion {
                           } else {
                             return pw.Container(); // Devuelve un contenedor vacío para 'cierres'
                           }
-                        }).where((child) => child is! pw.Container).toList(), // Opcional: añade un divisor para una mejor separación visual
+                        }).where((child) => child is! pw.Container), // Opcional: añade un divisor para una mejor separación visual
                       ], // Eliminar contenedores vacíos de la lista
                     ),
                   ),

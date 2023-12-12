@@ -15,11 +15,11 @@ class CustomBottomNavBar extends StatelessWidget {
   final AllFact factura;
   final Paid paid;
   const CustomBottomNavBar({
-    Key? key,
+    super.key,
     required this.selectedMenu,   
     required this.factura, 
     required this.paid,   
-  }) : super(key: key);
+  });
 
   final MenuState selectedMenu;
 

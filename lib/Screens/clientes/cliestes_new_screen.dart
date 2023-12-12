@@ -14,10 +14,10 @@ class ClientesNewScreen extends StatefulWidget {
   final String ruta;
 
   const ClientesNewScreen({   
-    Key? key,
+    super.key,
     required this.factura,
     required this.ruta,
-  }) : super(key: key);
+  });
 
   @override
   ClientesNewScreenState createState() => ClientesNewScreenState();

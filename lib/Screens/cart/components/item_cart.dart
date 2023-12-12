@@ -14,12 +14,12 @@ class CardCartItem extends StatelessWidget {
   final Function(Product) onDismissed;
 
   const CardCartItem({
-    Key? key,
+    super.key,
     required this.product,
     required this.onIncreaseQuantity,
     required this.onDecreaseQuantity,
     required this.onDismissed,
-  }) : super(key: key);
+  });
 
   static String imagenesUrlRemoto = 'http://200.91.130.215:9091/photos'; 
     static String imagenesUrlLocal = 'http://192.168.1.3:9091/photos';   

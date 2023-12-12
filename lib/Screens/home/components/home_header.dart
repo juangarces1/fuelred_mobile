@@ -10,9 +10,9 @@ import 'icon_btn_with_counter.dart';
 class HomeHeader extends StatelessWidget {  
   final AllFact factura;  
   const HomeHeader({
-    Key? key,   
+    super.key,   
     required this.factura 
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

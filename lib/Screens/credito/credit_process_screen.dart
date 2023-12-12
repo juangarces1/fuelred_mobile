@@ -7,7 +7,7 @@ import 'package:fuelred_mobile/Screens/cart/cart_new.dart';
 import 'package:fuelred_mobile/Screens/cart/components/custom_appBar_cart.dart';
 import 'package:fuelred_mobile/Screens/credito/select_cliente_credito.dart';
 import 'package:fuelred_mobile/Screens/home/home_screen.dart';
-import 'package:fuelred_mobile/clases/impresion.dart';
+import 'package:fuelred_mobile/Screens/test_print/testprint.dart';
 import 'package:fuelred_mobile/components/boton_flotante.dart';
 import 'package:fuelred_mobile/components/loader_component.dart';
 import 'package:fuelred_mobile/constans.dart';
@@ -44,6 +44,7 @@ class _ProceeeCreditScreen extends State<ProceeeCreditScreen> {
   var obser = TextEditingController(); 
   final String _codigoError = '';
   final bool _codigoShowError = false;
+  TestPrint testPrint = TestPrint();
   
   @override
   Widget build(BuildContext context) {
@@ -311,7 +312,8 @@ class _ProceeeCreditScreen extends State<ProceeeCreditScreen> {
                     child: const Text('Si'),
                     onPressed: () {
                       Navigator.of(context).pop();
-                     Impresion.printFactura(resdocFactura, 'FACTURA', 'CREDITO');
+                   //  Impresion.printFactura(resdocFactura, 'FACTURA', 'CREDITO');
+                      testPrint.ptrintFactura(resdocFactura, 'FACTURA', 'CREDITO');
                       _goHomeSuccess();
                     },
                   ),

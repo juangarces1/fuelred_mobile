@@ -8,9 +8,9 @@ import '../../../sizeconfig.dart';
 
 class CartCard extends StatefulWidget {
   const CartCard({
-    Key? key,
+    super.key,
     required this.product,   
-  }) : super(key: key);
+  });
   final Product product;  
   @override
   State<CartCard> createState() => _CartCardState();

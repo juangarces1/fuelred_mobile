@@ -10,13 +10,13 @@ import '../sizeconfig.dart';
 
 class TransactionCard extends StatefulWidget {
   const TransactionCard({
-    Key? key,
+    super.key,
     this.width = 140,
     this.aspectRetio = 1.02,
     required this.product,
     required this.factura,    
     
-  }) : super(key: key);
+  });
 
   final double width, aspectRetio;
   final Product product;

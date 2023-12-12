@@ -18,10 +18,10 @@ class CheckoutCard extends StatefulWidget {
  
   final AllFact factura;   
   const CheckoutCard({    
-    Key? key,  
+    super.key,  
     required this.factura,  
  
-  }) : super(key: key);
+  });
 
   @override
   State<CheckoutCard> createState() => _CheckoutCardState();

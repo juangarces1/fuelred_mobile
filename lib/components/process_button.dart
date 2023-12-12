@@ -7,10 +7,10 @@ import '../sizeconfig.dart';
 
 class ProcessButton extends StatelessWidget {
   const ProcessButton({
-    Key? key,
+    super.key,
     this.text,
     this.press,
-  }) : super(key: key);
+  });
   final String? text;
   final Function? press;
 

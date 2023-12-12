@@ -9,10 +9,10 @@ import '../constans.dart';
 
 class NewButton extends StatelessWidget {
   const NewButton({
-    Key? key,
+    super.key,
     this.text,
     this.press,
-  }) : super(key: key);
+  });
   final String? text;
   final Function? press;
 

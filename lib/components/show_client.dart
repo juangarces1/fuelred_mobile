@@ -11,11 +11,11 @@ class ShowClient extends StatefulWidget {
   final String ruta;
   final EdgeInsets? padding;
   const ShowClient({
-       Key? key,
+       super.key,
       required this.factura,
       required this.ruta,
       this.padding,
-     }) : super(key: key);
+     });
 
   @override
   State<ShowClient> createState() => _ShowClientState();

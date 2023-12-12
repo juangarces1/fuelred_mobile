@@ -5,13 +5,13 @@ import '../sizeconfig.dart';
 
 class ColorButton extends StatelessWidget {
   const ColorButton({
-    Key? key,
+    super.key,
     this.text,
     this.press,
    required this.color,
    required this.ancho,
 
-  }) : super(key: key);
+  });
   final String? text;
   final Function? press;
   final Color color;

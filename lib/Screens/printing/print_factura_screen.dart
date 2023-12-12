@@ -9,12 +9,12 @@ import 'package:printing/printing.dart';
 
 class PrintFacturaScreen extends StatefulWidget {
   const PrintFacturaScreen({ 
-    Key? key, 
+    super.key, 
     required this.factura,
     required this.tipoDocumento,
     required this.tipoCliente,
      
-  }) : super(key: key);
+  });
 
   final Factura factura;
   final String tipoDocumento;

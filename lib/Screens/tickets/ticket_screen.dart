@@ -5,7 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fuelred_mobile/Screens/cart/cart_new.dart';
 import 'package:fuelred_mobile/Screens/home/home_screen.dart';
-import 'package:fuelred_mobile/clases/impresion.dart';
+import 'package:fuelred_mobile/Screens/test_print/testprint.dart';
 import 'package:fuelred_mobile/components/boton_flotante.dart';
 import 'package:fuelred_mobile/components/client_points.dart';
 import 'package:fuelred_mobile/components/color_button.dart';
@@ -42,6 +42,7 @@ class _TicketScreenState extends State<TicketScreen> {
   double _saldo = 0;
   final GlobalKey<FormPagoState> formPagoKey = GlobalKey();
   final ScrollController _scrollController = ScrollController();
+  TestPrint testPrint = TestPrint();
 
   void callGoRefresh() {
     formPagoKey.currentState?.goRefresh();
@@ -175,7 +176,7 @@ class _TicketScreenState extends State<TicketScreen> {
        return;
      }
 
-     var decodedJson = jsonDecode(response.result);
+      var decodedJson = jsonDecode(response.result);
       Factura resdocFactura = Factura.fromJson(decodedJson);   
       resdocFactura.usuario = '${widget.factura.cierreActivo!.usuario.nombre} ${widget.factura.cierreActivo!.usuario.apellido1}';
        
@@ -193,7 +194,8 @@ class _TicketScreenState extends State<TicketScreen> {
                     child: const Text('Si'),
                     onPressed: () {
                       Navigator.of(context).pop();
-                      Impresion.printFactura(resdocFactura, 'CONTADO', 'TICKET');
+                     // Impresion.printFactura(resdocFactura, 'CONTADO', 'TICKET');
+                     testPrint.ptrintFactura(resdocFactura, 'CONTADO', 'TICKET');
                       _goHomeSuccess();
                     },
                   ),

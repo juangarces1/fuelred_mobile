@@ -25,12 +25,12 @@ class ClietesAddScreen extends StatefulWidget {
   final String ruta; 
   
   const ClietesAddScreen({ 
-    Key? key, 
+    super.key, 
     required this.factura,
     required this.ruta,
     
   
-  }) : super(key: key);
+  });
    
   @override
   State<ClietesAddScreen> createState() => _ClietesAddScreenState();

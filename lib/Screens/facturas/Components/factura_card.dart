@@ -11,13 +11,13 @@ class FacturaCard extends StatelessWidget {
       final VoidCallback onPrintPressed;
       final VoidCallback onConfirmPressed;
      const FacturaCard({
-    Key? key,
+    super.key,
        required this.factura,
        required this.index,
        required this.onInfoPressed,
        required this.onPrintPressed,
        required this.onConfirmPressed,
-  }) : super(key: key);
+  });
        
 
     

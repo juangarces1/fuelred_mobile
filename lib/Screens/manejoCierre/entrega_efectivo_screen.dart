@@ -18,7 +18,7 @@ import '../../sizeconfig.dart';
 
 class EntregaEfectivoScreen extends StatefulWidget {
   final AllFact factura;
-  const EntregaEfectivoScreen({ Key? key, required this.factura }) : super(key: key);
+  const EntregaEfectivoScreen({ super.key, required this.factura });
 
   @override
   State<EntregaEfectivoScreen> createState() => _EntregaEfectivoScreenState();

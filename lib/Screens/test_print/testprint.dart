@@ -123,13 +123,15 @@ class TestPrint {
             Size.medium.val,
             Align.left.val
            );
-      
+        bluetooth.printNewLine();
     
          if (tipoCliente =="CREDITO"){
-            bluetooth.printCustom('Firma Cliente:', Size.boldMedium.val, Align.center.val);
+            bluetooth.printCustom('Firma Cliente:', Size.bold.val, Align.left.val);
              bluetooth.printNewLine();
              bluetooth.printNewLine();
              bluetooth.printNewLine();
+             bluetooth.printNewLine();
+
          }
         bluetooth.paperCut();
 

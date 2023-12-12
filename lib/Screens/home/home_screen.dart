@@ -15,6 +15,7 @@ import 'package:fuelred_mobile/Screens/manejoCierre/depositos_screen.dart';
 import 'package:fuelred_mobile/Screens/manejoCierre/peddlers_screen.dart';
 import 'package:fuelred_mobile/Screens/manejoCierre/transferencias_screen.dart';
 import 'package:fuelred_mobile/Screens/manejoCierre/viaticos_screen.dart';
+import 'package:fuelred_mobile/Screens/test_print/print_screen.dart';
 import 'package:fuelred_mobile/Screens/transacciones/transacciones_screen.dart';
 import 'package:fuelred_mobile/clases/show_alert_cliente.dart';
 import 'package:fuelred_mobile/components/my_loader.dart';
@@ -31,10 +32,10 @@ import 'components/icon_btn_with_counter.dart';
 
 class HomeScreen extends StatefulWidget {  
   const HomeScreen({ 
-    Key? key, 
+    super.key, 
     required this.factura,
      
-  }) : super(key: key);
+  });
 
   final AllFact factura; 
   
@@ -627,6 +628,31 @@ return Padding(
                  ).then((value) {
                       _orderTransactions();
                   });
+              },
+            ),
+
+             ListTile(
+                 textColor: kColorMenu,
+              leading: Container(
+                  width: 35,
+                  padding: EdgeInsets.all(getProportionateScreenWidth(2)),
+                  decoration: BoxDecoration(
+                    color: kContrateFondoOscuro,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child:  const Image(
+                              image: AssetImage('assets/printer.png'),
+                              fit: BoxFit.contain,
+                          ),
+                ),   
+              title: const Text('Config Impresora'),
+              onTap: () => { 
+                 Navigator.push(
+                   context, 
+                   MaterialPageRoute(
+                     builder: (context) => const PrinterScreen()
+                   )
+                 ),
               },
             ),
 

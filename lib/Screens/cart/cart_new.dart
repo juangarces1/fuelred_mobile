@@ -21,9 +21,9 @@ import '../checkout/checkount.dart';
 class CartNew extends StatefulWidget { 
   final AllFact factura; 
   const CartNew({
-    Key? key,
+    super.key,
     required this.factura, 
-    }) : super(key: key);
+    });
 
   @override
   State<CartNew> createState() => _CartScreenState();

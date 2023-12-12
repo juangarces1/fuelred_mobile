@@ -7,10 +7,10 @@ class NotificationBody extends StatelessWidget {
   final double minHeight;
   final String text;
   const NotificationBody({
-    Key? key,   
+    super.key,   
     this.minHeight = 0.0,
     this.text ="",
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

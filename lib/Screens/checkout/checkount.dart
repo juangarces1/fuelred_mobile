@@ -339,7 +339,7 @@ class _CheaOutScreenState extends State<CheaOutScreen> {
         'sinpe': widget.factura.formPago!.sinpe.toJson(),
         'observaciones' : obser.text.isEmpty ? '' : obser.text,
       };
-      print(request);
+     /// print(request);
       Response response = await ApiHelper.post("Api/Facturacion/PostFactura", request);  
       // ignore: avoid_print
      print(response.message);

@@ -9,9 +9,9 @@ import '../../../sizeconfig.dart';
 
 class ColorDots extends StatefulWidget {
   const ColorDots({
-    Key? key,
+    super.key,
     required this.product,
-  }) : super(key: key);
+  });
 
   final Product product;
 
@@ -113,10 +113,10 @@ class _ColorDotsState extends State<ColorDots> {
 
 class ColorDot extends StatelessWidget {
   const ColorDot({
-    Key? key,
+    super.key,
     required this.color,
     this.isSelected = false,
-  }) : super(key: key);
+  });
 
   final Color color;
   final bool isSelected;

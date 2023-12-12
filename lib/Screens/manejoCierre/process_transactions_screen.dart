@@ -11,9 +11,9 @@ import '../cart/components/cart_card.dart';
 class ProcessScreen extends StatefulWidget {
  final AllFact factura; 
   const ProcessScreen({
-    Key? key,
+    super.key,
     required this.factura,   
-    }) : super(key: key);
+    });
 
   @override
   State<ProcessScreen> createState() => _ProcessScreenState();

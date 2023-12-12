@@ -14,13 +14,13 @@ class ShowPayment extends StatelessWidget {
   final Function onBackPressed;
 
   const ShowPayment({
-    Key? key,
+    super.key,
     required this.factura,
     required this.onCreditoPressed,
     required this.onContadoPressed,
     required this.onTicketPressed,
     required this.onBackPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

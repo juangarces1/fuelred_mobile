@@ -17,7 +17,7 @@ import 'home/home_screen.dart';
 
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({ Key? key }) : super(key: key);
+  const LoginScreen({ super.key });
 
   @override
   // ignore: library_private_types_in_public_api

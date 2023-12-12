@@ -17,6 +17,7 @@ class AnimatedListSampleState extends State<AnimatedListSample> {
     _listKey.currentState?.insertItem(index);
   }
 
+  // ignore: unused_element
   void _removeItem(int index) {
     final String removedItem = _items.removeAt(index);
     _listKey.currentState?.removeItem(
