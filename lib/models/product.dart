@@ -59,50 +59,41 @@ class Product{
 
      });
 
-     Product.fromJson(Map<String, dynamic> json) {
-        codigoArticulo = json['codigo_articulo'];
-        numero = json['numero'];
-        cantidad = json['cantidad'].toDouble();
-        tipoArticulo = json['tipo_articulo'];
-        unidad = json['unidad'];
-        detalle = json['detalle'];
-        precioUnit = json['precio_unit'].toDouble();
-        montoTotal = json['monto_total'].toDouble();
-        descuento = json['descuento'];
-        nDescuento = json['n_descuento'];
-        subtotal = json['subtotal'].toDouble();
-        tasaImp = json['tasa_imp'].toDouble();
-        impMonto = json['imp_monto'].toDouble();
-        total = json['total'].toDouble();
-        rateid = json['rateid'];
-        taxid = json['taxid'];
-        precioCompra = json['precio_compra'].toDouble();
-        if (json['codigoCabys'] != null){
-          codigoCabys = json['codigoCabys'];
+    
+
+      Product.fromJson(Map<String, dynamic> json) {
+          codigoArticulo = json['codigo_articulo'] ?? '';
+          numero = json['numero'] ?? 0;
+          cantidad = (json['cantidad'] ?? 0).toDouble();
+          tipoArticulo = json['tipo_articulo'] ?? '';
+          unidad = json['unidad'] ?? '';
+          detalle = json['detalle'] ?? '';
+          precioUnit = (json['precio_unit'] ?? 0).toDouble();
+          montoTotal = (json['monto_total'] ?? 0).toDouble();
+          descuento = json['descuento'] ?? 0;
+          nDescuento = json['n_descuento'] ?? 0;
+          subtotal = (json['subtotal'] ?? 0).toDouble();
+          tasaImp = (json['tasa_imp'] ?? 0).toDouble();
+          impMonto = (json['imp_monto'] ?? 0).toDouble();
+          total = (json['total'] ?? 0).toDouble();
+          rateid = json['rateid'] ?? 0;
+          taxid = json['taxid'] ?? 0;
+          precioCompra = (json['precio_compra'] ?? 0).toDouble();
+          codigoCabys = json['codigoCabys'] ?? '';
+          transaccion = json['transaccion'] ?? 0;
+          factor = (json['factor'] ?? 1).toDouble();
+          dispensador = json['dispensador'] ?? 0;
+          imageUrl = json['imageUrl'] ?? 'NoImage.jpg';
+          inventario = json['inventario'] ?? 0;
         }
-        else{
-          codigoCabys = "";
-        }
-        
-        transaccion = json['transaccion'];
-        factor = json['factor'].toDouble();
-        dispensador = json['dispensador'];
-        if (json['imageUrl'] != null) {
-          imageUrl = json['imageUrl'];
-        }
-        else{
-          imageUrl = "NoImage.jpg";
-        }
-       
-        inventario=json['inventario'];        
-      }
+
 
   get numeroLinea => null;
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['codigo_articulo'] = codigoArticulo;
-    data['numero'] = numero;
+    data['numero'] = '';
     data['cantidad'] = cantidad;
     data['tipo_articulo'] = tipoArticulo;
     data['unidad'] = unidad;
@@ -131,7 +122,7 @@ class Product{
   Map<String, dynamic> toApiProducJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['codigo_articulo'] = codigoArticulo;
-    data['numero'] = numero;
+    data['numero'] = '1';
     data['cantidad'] = cantidad;
     data['tipo_articulo'] = tipoArticulo;
     data['unidad'] = unidad;
@@ -160,5 +151,7 @@ class Product{
    
       montoTotal = total * cantidad;
     }
+
+    
 
 }

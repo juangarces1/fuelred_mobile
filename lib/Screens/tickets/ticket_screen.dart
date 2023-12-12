@@ -13,7 +13,7 @@ import 'package:fuelred_mobile/components/form_pago.dart';
 import 'package:fuelred_mobile/components/loader_component.dart';
 import 'package:fuelred_mobile/helpers/factura_helper.dart';
 import 'package:fuelred_mobile/models/all_fact.dart';
-import 'package:fuelred_mobile/models/resdoc_facturas.dart';
+import 'package:fuelred_mobile/models/factura.dart';
 import 'package:intl/intl.dart';
 
 import '../../constans.dart';
@@ -176,7 +176,7 @@ class _TicketScreenState extends State<TicketScreen> {
      }
 
      var decodedJson = jsonDecode(response.result);
-      resdoc_facturas resdocFactura = resdoc_facturas.fromJson(decodedJson);   
+      Factura resdocFactura = Factura.fromJson(decodedJson);   
       resdocFactura.usuario = '${widget.factura.cierreActivo!.usuario.nombre} ${widget.factura.cierreActivo!.usuario.apellido1}';
        
       resetFactura(widget.factura);

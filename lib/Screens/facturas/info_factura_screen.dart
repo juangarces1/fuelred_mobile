@@ -5,7 +5,7 @@ import 'package:fuelred_mobile/components/my_loader.dart';
 import 'package:fuelred_mobile/components/no_contetnt.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/helpers/api_helper.dart';
-import 'package:fuelred_mobile/models/resdoc_facturas.dart';
+import 'package:fuelred_mobile/models/factura.dart';
 import 'package:fuelred_mobile/models/response.dart';
 import 'package:intl/intl.dart';
 
@@ -19,7 +19,7 @@ class InfoFacturaScreen extends StatefulWidget {
 
 class _InfoFacturaScreenState extends State<InfoFacturaScreen> {
  bool showLoader = false;  
- resdoc_facturas factura= resdoc_facturas(
+ Factura factura= Factura(
   //plazo:0,
   cliente: '',
   nFactura: '',

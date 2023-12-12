@@ -1,5 +1,8 @@
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fuelred_mobile/Screens/Admin/ComponentsShared/app_bar_custom.dart';
 import 'package:fuelred_mobile/Screens/credito/credit_process_screen.dart';
 import 'package:fuelred_mobile/Screens/manejoCierre/add_viatico_screen.dart';
 import 'package:fuelred_mobile/Screens/peddler/peddlers_add_screen.dart';
@@ -9,15 +12,10 @@ import 'package:fuelred_mobile/components/loader_component.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/helpers/api_helper.dart';
 import 'package:fuelred_mobile/models/all_fact.dart';
-
 import 'package:fuelred_mobile/models/clientecredito.dart';
-
 import 'package:fuelred_mobile/models/response.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../../components/custom_surfix_icon.dart';
-import '../../components/default_button.dart';
 import '../../models/cliente.dart';
 import '../../sizeconfig.dart';
 
@@ -46,10 +44,25 @@ class _ClientesCreditoScreen extends State<ClientesCreditoScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: kColorFondoOscuro,
-        appBar: AppBar(
+        backgroundColor: kContrateFondoOscuro,
+        appBar:  MyCustomAppBar(
+          title: 'Cliente Credito',
+          elevation: 6,
+          shadowColor: kColorFondoOscuro,
+          automaticallyImplyLeading: true,
+          foreColor: Colors.white,
           backgroundColor: kPrimaryColor,
-          title: const Text(" Cliente Credito", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),),
+          actions: <Widget>[
+            Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ClipOval(child:  Image.asset(
+                  'assets/splash.png',
+                  width: 30,
+                  height: 30,
+                  fit: BoxFit.cover,
+                ),), // Ícono de perfil de usuario
+            ),
+          ],      
         ),
         body: _body(),
       ),
@@ -99,15 +112,10 @@ class _ClientesCreditoScreen extends State<ClientesCreditoScreen> {
              SizedBox(height: SizeConfig.screenHeight * 0.04),
 
           widget.factura.formPago!.clientePaid.nombre.isEmpty ? Container() 
-          : ClientCard(client: widget.factura.formPago!.clientePaid,),
+          : InkWell(
+             onTap: _goBack,
+            child: ClientCard(client: widget.factura.formPago!.clientePaid,)),
         
-                  
-           widget.factura.formPago!.clientePaid.nombre.isEmpty ? Container() 
-          :  DefaultButton(text: 'Select',press: () => _goBack()),
-          
-        
-         
-         
         ],
       ),
     );
@@ -121,7 +129,7 @@ class _ClientesCreditoScreen extends State<ClientesCreditoScreen> {
              color: kContrateFondoOscuro,
              borderRadius: BorderRadius.circular(20)
            ),
-          child: TextField( 
+          child: TextFormField( 
             maxLength: 4,       
             keyboardType: TextInputType.number,
             inputFormatters: <TextInputFormatter>[
@@ -136,9 +144,17 @@ class _ClientesCreditoScreen extends State<ClientesCreditoScreen> {
                 borderRadius: BorderRadius.circular(10)
               ),
             ),
+            
             onChanged: (value) {
               codigoController.text = value;
             },
+            validator: (value) {
+                if (value == null || value.length != 4) {
+                  return 'Introduce 4 dígitos';
+                }
+                return null;
+              },
+           
           ),
         );
  }

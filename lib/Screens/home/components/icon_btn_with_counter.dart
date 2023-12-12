@@ -29,14 +29,18 @@ class IconBtnWithCounter extends StatelessWidget {
             padding: EdgeInsets.all(getProportionateScreenWidth(12)),
             height: getProportionateScreenWidth(40),
             width: getProportionateScreenWidth(40),
-            decoration:  BoxDecoration(
-             
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(width: 1.5, color: Colors.white),
+            decoration:  const BoxDecoration(
+             color: Colors.white,
+              shape: BoxShape.circle,
+             // borderRadius: BorderRadius.circular(10),
+             //  border: Border.all(width: 1.5, color: Colors.white),
             ),
             // ignore: deprecated_member_use
-            child: SvgPicture.asset(svgSrc, color: Colors.white,),
+            child: SvgPicture.asset(svgSrc,
+             // ignore: deprecated_member_use
+             color: Colors.black,
+             fit: BoxFit.contain,
+             ),
           ),
           if (numOfitem != 0)
             Positioned(

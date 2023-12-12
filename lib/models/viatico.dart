@@ -8,7 +8,7 @@ class Viatico {
   String? placa;
   String? estado;
   int? idpagoviatico;
-   String? clienteNombre;
+  String? clienteNombre;
   
 
   Viatico(

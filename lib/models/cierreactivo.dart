@@ -14,6 +14,7 @@ class CierreActivo {
    idzona: 0,
    estado: "",
    turno: "",   
+   
  );
 
   Empleado cajero = Empleado(

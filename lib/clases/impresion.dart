@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:fuelred_mobile/helpers/varios_helpers.dart';
+import 'package:fuelred_mobile/models/factura.dart';
 import 'package:fuelred_mobile/models/peddler.dart';
-import 'package:fuelred_mobile/models/resdoc_facturas.dart';
 import 'package:fuelred_mobile/modelsAdmin/Consolidados/resumen_dia.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
@@ -11,7 +11,7 @@ import 'package:printing/printing.dart';
 
 
 class Impresion {
-  static Future<void> printFactura(resdoc_facturas factura, String tipoDocumento, String tipoCliente) async {
+  static Future<void> printFactura(Factura factura, String tipoDocumento, String tipoCliente) async {
      final pdf = pw.Document(version: PdfVersion.pdf_1_5, compress: true);
     
       DateFormat formateador = DateFormat('yyyy-MM-dd HH:mm');

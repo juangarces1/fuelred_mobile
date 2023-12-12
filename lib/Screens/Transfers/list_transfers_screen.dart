@@ -113,7 +113,7 @@ class ListTransferScreen extends StatefulWidget {
         appBar: MyCustomAppBar(
         title: 'Transferencias',
         automaticallyImplyLeading: true,   
-        backgroundColor: kPrimaryColor,
+        backgroundColor: kBlueColorLogo,
         elevation: 8.0,
         shadowColor: const Color.fromARGB(255, 216, 223, 226),
         foreColor: Colors.white,
@@ -133,7 +133,7 @@ class ListTransferScreen extends StatefulWidget {
             ),],
       ),
         body: Container(
-          color:   const Color.fromARGB(255, 70, 72, 77),
+          color:   kContrateFondoOscuro,
           child: Center(
             child: _showLoader ? const LoaderComponent(text: 'Por favor espere...') 
             : Padding(

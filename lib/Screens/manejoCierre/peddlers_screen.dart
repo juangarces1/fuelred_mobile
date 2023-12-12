@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fuelred_mobile/Screens/Admin/ComponentsShared/app_bar_custom.dart';
 import 'package:fuelred_mobile/clases/impresion.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/models/all_fact.dart';
@@ -39,14 +40,27 @@ class _PeddlersScreenState extends State<PeddlersScreen> {
   Widget build(BuildContext context) {
      return SafeArea(
        child: Scaffold(     
-        appBar: AppBar(
-           foregroundColor: Colors.white,
+        appBar: MyCustomAppBar(
+          title: 'Peddliers',
+          elevation: 6,
+          shadowColor: kColorFondoOscuro,
+          automaticallyImplyLeading: true,
+          foreColor: Colors.white,
           backgroundColor: kBlueColorLogo,
-          title: const Text('Peddlers', style: TextStyle(color: Colors.white),),
-          
+          actions: <Widget>[
+            Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ClipOval(child:  Image.asset(
+                  'assets/splash.png',
+                  width: 30,
+                  height: 30,
+                  fit: BoxFit.cover,
+                ),), // Ícono de perfil de usuario
+            ),
+          ],      
         ),
         body: showLoader ? const LoaderComponent(text: 'Cargando...',) : Container(
-          color: kColorFondoOscuro,
+          color: kContrateFondoOscuro,
           child: Padding(
           padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10), vertical: getProportionateScreenHeight(10)),
           child: ListView.builder(

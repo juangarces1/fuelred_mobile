@@ -68,30 +68,32 @@ class _ResumenDiaScreenState extends State<ResumenDiaScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        backgroundColor: kColorFondoOscuro,
-        appBar:   MyCustomAppBar(
-        title: 'Resumen Dia ${widget.date.substring(0,10)}',
-        automaticallyImplyLeading: true,   
-        backgroundColor: kPrimaryColor,
-        elevation: 8.0,
-        shadowColor: const Color.fromARGB(255, 187, 201, 206),
-        foreColor: Colors.white,
-         actions: [ Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: ClipOval(child:  Image.asset(
-                  'assets/splash.png',
-                  width: 30,
-                  height: 30,
-                  fit: BoxFit.cover,
-                ),), // Ícono de perfil de usuario
-            ),],
-      ),
-        body: Stack(
-          children: [
-            resumen.numeroConsolidado != 0 ? getContent() : const MyNoContent(text: 'No hay Resumen',),
-            showLoader ?  const CustomActivityIndicator(loadingText: 'Por favor espere...') : Container(),
-          ],
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: kColorFondoOscuro,
+          appBar:   MyCustomAppBar(
+          title: 'Resumen Dia ${widget.date.substring(0,10)}',
+          automaticallyImplyLeading: true,   
+          backgroundColor: kPrimaryColor,
+          elevation: 8.0,
+          shadowColor: const Color.fromARGB(255, 187, 201, 206),
+          foreColor: Colors.white,
+           actions: [ Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: ClipOval(child:  Image.asset(
+                    'assets/splash.png',
+                    width: 30,
+                    height: 30,
+                    fit: BoxFit.cover,
+                  ),), // Ícono de perfil de usuario
+              ),],
+        ),
+          body: Stack(
+            children: [
+              resumen.numeroConsolidado != 0 ? getContent() : const MyNoContent(text: 'No hay Resumen',),
+              showLoader ?  const CustomActivityIndicator(loadingText: 'Por favor espere...') : Container(),
+            ],
+          ),
         ),
       ),
     );

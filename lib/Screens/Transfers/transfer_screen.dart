@@ -1,15 +1,15 @@
 
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fuelred_mobile/Screens/tickets/ticket_screen.dart';
+import 'package:fuelred_mobile/components/my_loader.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/models/all_fact.dart';
 import 'package:fuelred_mobile/models/tranferview.dart';
 import 'package:fuelred_mobile/models/transparcial.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
-import '../../components/loader_component.dart';
 import '../../helpers/api_helper.dart';
 import '../../models/response.dart';
 import '../../sizeconfig.dart';
@@ -30,10 +30,10 @@ class TransferScreen extends StatefulWidget {
   State<TransferScreen> createState() => _TransferScreenState();
 }
 
- class _TransferScreenState extends State<TransferScreen> {
+ class _TransferScreenState extends State<TransferScreen> with SingleTickerProviderStateMixin {
   List<Transferview> _transfers =[];
   final List<Transferview> _transferenciasAux =[];
- 
+  late TabController _tabController;
   bool _showLoader = false;
   final bool _isFiltered = false;
   bool showTransfer = true;
@@ -42,125 +42,135 @@ class TransferScreen extends StatefulWidget {
   @override
   void initState() {
     super.initState();
+      _tabController = TabController(length: 2, vsync: this);
     _getTransfers();
    // setUpTransfer();
+  }
+
+   @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
   
   @override
  Widget build(BuildContext context) {  
     return SafeArea(
       child: Scaffold(
+        backgroundColor: kContrateFondoOscuro,
         appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(75),
+          preferredSize: const Size.fromHeight(120),
           child: appBar1(),
         ),
-        body: Container(
-          color:   const Color.fromARGB(255, 70, 72, 77),
-          child: Center(
-            child: _showLoader ? const LoaderComponent(text: 'Por favor espere...') 
-            : _getContent(),
-          ),
+        body:  TabBarView(
+          controller: _tabController,
+          children: [            
+            _getContent(),
+            _getSelected(),
+          ],
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: kPrimaryColor,
-          child: const Icon(Icons.arrow_forward_ios),
+          backgroundColor: kContrateFondoOscuro,
+          child:  Container(
+            padding: const EdgeInsets.all(4),
+            child: Image.asset('assets/backToCheck.png')),
           onPressed: () => _goAdd(),
         ),    
-        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-         bottomNavigationBar: Container(
-          height: 80,
-          color: Colors.black,          
-          child: Padding(
-            padding: const EdgeInsets.only(left: 20, top: 5, bottom: 5),
-            child: Row(
-              children: [               
-                  SizedBox(
-                    width: 70,
-                    child: GestureDetector(
-                      onTap: () {
-                      setState(() {
-                        showTransfer = !showTransfer;
-                      });
-                    },    
-                      child: AspectRatio(
-                        aspectRatio: 1,
-                        child: Container(
-                          padding: const EdgeInsets.all(2),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.3),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const Image(
-                              image: AssetImage('assets/transferencia.png'),
-                          
-                          )
-                        ),
-                      )
-                      ),
-                    ),
-              ],
-            )
-          ),
-         ),       
+       
+              
       ),
     );
   }
  
  Widget appBar1() {
-   return Container(
-     padding:
-       EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20), vertical: getProportionateScreenHeight(10)),
+  return Center(
+  child: Container(
     width: double.infinity,
-    color: Colors.black,
-     child: Row(          
-       children: [
-         SizedBox(
-           height: getProportionateScreenWidth(40),
-           width: getProportionateScreenWidth(40),
-           child: TextButton(
-             style: TextButton.styleFrom(
-               shape: RoundedRectangleBorder(
-                 borderRadius: BorderRadius.circular(60),
-               ),
-              
-               backgroundColor: const Color.fromARGB(255, 231, 225, 225),
-               padding: EdgeInsets.zero,
-             ),
-            
-             onPressed: () => _goBack(),  
-             child: SvgPicture.asset(
-               "assets/Back ICon.svg",
-               height: 15,
-               // ignore: deprecated_member_use
-               color: kPrimaryColor,
-             ),
-           ),
-         ),
-         const Spacer(),
-         Container(
-           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
-           decoration: BoxDecoration(
-             color: Colors.black,
-             borderRadius: BorderRadius.circular(14),
-           ),
-           child:   Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.end,
-             children: [          
-   
-             Text('Transferencias(${widget.factura.formPago!.transfer.transfers.length})',
-              style: const TextStyle(color: kPrimaryColor, fontSize: 14, fontWeight: FontWeight.bold),),
-              
-             Text('Saldo: ${NumberFormat("###,000", "en_US").format(widget.factura.formPago!.saldo)}',
-              style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),),
-                             
-             ],
-           ),
-         )
-       ],
-     ),
-   );
+    color: kBlueColorLogo,
+    child: Column(
+    
+      children: [
+         const SizedBox(height: 10,),
+        Row(          
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const SizedBox(width: 10,),
+            _buildBackButton(),
+            const Spacer(),
+            _buildTransferInfo(),
+          ],
+        ),
+        _buildTabBar(),
+      ],
+    ),
+  ),
+  );
  }
+
+ Widget _buildBackButton() {
+  return SizedBox(
+    height: getProportionateScreenWidth(40),
+    width: getProportionateScreenWidth(40),
+    child: TextButton(
+      style: TextButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(60),
+        ),
+        backgroundColor: const Color.fromARGB(255, 231, 225, 225),
+        padding: EdgeInsets.zero,
+      ),
+      onPressed: () => _goBack(),  
+      child: SvgPicture.asset(
+        "assets/Back ICon.svg",
+        height: 15,
+        // ignore: deprecated_member_use
+        color: kPrimaryColor,
+      ),
+    ),
+  );
+}
+
+Widget _buildTransferInfo() {
+  return Container(
+    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
+    decoration: BoxDecoration(
+      color: kBlueColorLogo,
+      borderRadius: BorderRadius.circular(14),
+    ),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [          
+        Text(
+          'Transferencias(${widget.factura.formPago!.transfer.transfers.length})',
+          style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+        ),
+        Text(
+          'Saldo: ${NumberFormat("#,##0", "en_US").format(widget.factura.formPago!.saldo)}',
+          style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+        ),                                   
+      ],
+    ),
+  );
+}
+
+Widget _buildTabBar() {
+  return Container(
+    color: const Color.fromARGB(255, 6, 66, 114),
+    margin: const EdgeInsets.only(top: 10),
+    width: double.infinity,
+    child: TabBar(
+      indicatorColor: Colors.white,
+      controller: _tabController,
+      labelColor: Colors.white,
+      unselectedLabelColor: Colors.grey,
+      tabs: const [
+        Tab(text: 'Transferencias'),
+        Tab(text: 'Seleccionadas'),
+      ],
+    ),
+  );
+}
 
  void _goBack() async {
     widget.factura.formPago!.transfer.totalTransfer=0;
@@ -284,10 +294,10 @@ class TransferScreen extends StatefulWidget {
       child: ListView(
         children: _transfers.map((e) {
           return Padding(
-            padding: const EdgeInsets.only(right: 5, left: 5),
+            padding: const EdgeInsets.only(right: 5, left: 5, bottom: 5),
             child: Card(
 
-               color:  const Color.fromARGB(255, 198, 201, 209),
+               color:  const Color.fromARGB(255, 222, 225, 233),
                     shadowColor: const Color.fromARGB(255, 16, 38, 54),
                     elevation: 7,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)), 
@@ -318,27 +328,27 @@ class TransferScreen extends StatefulWidget {
                                         fontWeight: FontWeight.bold
                                       ),
                                     ),
-                                    const SizedBox(height: 5,),
+                                 
                                     Text(
                                       'Deposito: ${e.numeroDeposito}', 
                                       style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
-                                        color: kTextColor
+                                        color: Colors.black54
                                       ),
                                     ),
-                                    const SizedBox(height: 5,),
+                                 
                                     Text(
-                                     'Monto: ¢ ${NumberFormat("###,000", "en_US").format(e.monto)}', 
+                                     'Monto: ¢ ${NumberFormat("#,##0", "en_US").format(e.monto)}', 
                                       style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
-                                         color: kTextColor
+                                         color:  Colors.black54
                                       ),
                                     ),
-                                    const SizedBox(height: 5,),
+                                  
                                     Text(
-                                        'Saldo: ¢ ${NumberFormat("###,000", "en_US").format(e.saldo)}', 
+                                        'Saldo: ¢ ${NumberFormat("#,##0", "en_US").format(e.saldo)}', 
                                       style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
@@ -366,7 +376,7 @@ class TransferScreen extends StatefulWidget {
  
  Widget cardTranser(TransParcial tr) {
     return Card( 
-      color:  const Color.fromARGB(255, 198, 201, 209),
+      color:  const Color.fromARGB(255, 222, 225, 233),
       shadowColor: const Color.fromARGB(255, 16, 38, 54),
       elevation: 7,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)), 
@@ -395,27 +405,27 @@ class TransferScreen extends StatefulWidget {
                               fontWeight: FontWeight.bold
                             ),
                           ),
-                          const SizedBox(height: 5,),
+                        
                           Text(
                             'Deposito: ${tr.numeroDeposito}', 
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: kTextColor
+                              color: Colors.black54
                             ),
                           ),
-                          const SizedBox(height: 5,),
+                        
                           Text(
-                           'Aplicado: ¢ ${NumberFormat("###,000", "en_US").format(tr.aplicado)}', 
+                           'Aplicado: ¢ ${NumberFormat("#,##0", "en_US").format(tr.aplicado)}', 
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                               color: kTextColor
+                               color: Colors.black54
                             ),
                           ),
-                          const SizedBox(height: 5,),
+                       
                           Text(
-                              'Saldo: ¢ ${NumberFormat("###,000", "en_US").format(tr.saldo)}', 
+                              'Saldo: ¢ ${NumberFormat("#,##0", "en_US").format(tr.saldo)}', 
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -458,6 +468,8 @@ class TransferScreen extends StatefulWidget {
                   _transferenciasAux.removeAt(index);
                   orderTransfer();
                   widget.factura.setSaldo();
+                  //navigate to the second tab
+                  _tabController.animateTo(0);
                 });             
               },
               background: Container(              
@@ -512,7 +524,8 @@ class TransferScreen extends StatefulWidget {
     setState(() {
       _transferenciasAux.add(e);
       _transfers.remove(e);
-      showTransfer = !showTransfer;
+       //navigate to the second tab
+      _tabController.animateTo(1);
     });
     
   }
@@ -588,8 +601,14 @@ class TransferScreen extends StatefulWidget {
   }
   
  Widget newContent() {   
-    return Container(
-      child: showTransfer ? _getListView() : _getContentTP(),
+    return Stack(
+      children: [
+        Container(
+          child:  _getListView(),
+        ),
+
+        _showLoader ? const CustomActivityIndicator(loadingText: 'Cargando...') : Container(),
+      ],
     );
   }
  
@@ -618,6 +637,12 @@ class TransferScreen extends StatefulWidget {
      }
     
    }
+  }
+  
+  _getSelected() {
+    return Container(
+      child: _getContentTP(),
+    );
   }
 
 }

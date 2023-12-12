@@ -54,6 +54,24 @@ class AllFact {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'cart': cart,
+      'transacciones': transacciones.map((i) => i.toJson()).toList(),
+      'productos': productos.map((i) => i.toJson()).toList(),
+      'placa': placa,
+      'kms': kms,
+      'lasTr': lasTr,
+      'observaciones': observaciones,
+      'placas': placas,
+      'cierreActivo': cierreActivo?.toJson(),
+      'clienteFactura': clienteFactura,
+      'clientePuntos': clientePuntos,
+      'formPago': formPago,
+      'clientesFacturacion': clientesFacturacion.map((i) => i.toJson()).toList(),
+    };
+  }
+
   // You might also want to add a toJson method, just in case!
    void setSaldo(){    
      formPago!.saldo =

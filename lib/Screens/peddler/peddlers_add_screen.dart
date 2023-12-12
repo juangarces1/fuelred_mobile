@@ -56,16 +56,19 @@ class _PeddlersAddScreenState extends State<PeddlersAddScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar:  PreferredSize(
-        preferredSize: Size.fromHeight(AppBar().preferredSize.height),
-        child:  CustomAppBarCart(                 
-          factura: widget.factura,
-          press: () => goCart(),
+    return SafeArea(
+      child: Scaffold(
+        appBar:  PreferredSize(
+          preferredSize: Size.fromHeight(AppBar().preferredSize.height),
+          child:  CustomAppBarCart( 
+            title: 'Peddler',                
+            factura: widget.factura,
+            press: () => goCart(),
+          ),
         ),
+        body: _body(),
+        floatingActionButton: FloatingButtonWithModal(factura: widget.factura,)
       ),
-      body: _body(),
-      floatingActionButton: FloatingButtonWithModal(factura: widget.factura,)
     );
   }
 
@@ -83,7 +86,7 @@ class _PeddlersAddScreenState extends State<PeddlersAddScreen> {
                     // SizedBox(height: SizeConfig.screenHeight * 0.04), // 4%
                     // Text("Digite Codigo Cliente", style: headingStyle),                
                     SizedBox(height: SizeConfig.screenHeight * 0.02),
-                    Text("Peddlers", style: headingStyle),
+                    Text("Cliente", style: myHeadingStyleBlack),
                          
                           
                      signUpForm(),  

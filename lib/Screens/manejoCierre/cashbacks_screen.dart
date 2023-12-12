@@ -1,12 +1,13 @@
 
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:fuelred_mobile/Screens/Admin/ComponentsShared/app_bar_custom.dart';
 import 'package:fuelred_mobile/Screens/manejoCierre/add_cashback_sceen.dart';
 import 'package:fuelred_mobile/components/loader_component.dart';
 import 'package:fuelred_mobile/constans.dart';
+import 'package:fuelred_mobile/helpers/varios_helpers.dart';
 import 'package:fuelred_mobile/models/all_fact.dart';
 import 'package:fuelred_mobile/models/cashback.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:intl/intl.dart';
 
 import '../../helpers/api_helper.dart';
 import '../../models/response.dart';
@@ -38,14 +39,27 @@ class _CashbarksScreenState extends State<CashbarksScreen> {
     return SafeArea(
       child: Scaffold(
     
-        appBar: AppBar(
-           foregroundColor: Colors.white,
+        appBar:  MyCustomAppBar(
+          title: 'Cashbacks',
+          elevation: 6,
+          shadowColor: kColorFondoOscuro,
+          automaticallyImplyLeading: true,
+          foreColor: Colors.white,
           backgroundColor: kBlueColorLogo,
-          title: const Text('CashBacks', style: TextStyle(color: Colors.white),),
-          
+          actions: <Widget>[
+            Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ClipOval(child:  Image.asset(
+                  'assets/splash.png',
+                  width: 30,
+                  height: 30,
+                  fit: BoxFit.cover,
+                ),), // Ícono de perfil de usuario
+            ),
+          ],      
         ),
         body: showLoader ? const LoaderComponent(text: 'Cargando...',) : Container(
-          color: kColorFondoOscuro,
+          color: kContrateFondoOscuro,
           child: Padding(
           padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10), vertical: getProportionateScreenHeight(10)),
           child: ListView.builder(
@@ -118,7 +132,7 @@ class _CashbarksScreenState extends State<CashbarksScreen> {
                             const SizedBox(height: 10),
                             Text.rich(
                               TextSpan(
-                                text: 'Monto : ¢  ${NumberFormat("###,000", "en_US").format(cashs[index].monto)}',
+                                text: 'Monto: ${VariosHelpers.formattedToCurrencyValue(cashs[index].monto.toString())}',
                                 style: const TextStyle(
                                     fontWeight: FontWeight.w600, color: kPrimaryColor),
                                                           
@@ -152,12 +166,8 @@ class _CashbarksScreenState extends State<CashbarksScreen> {
                 icon: const Icon(Icons.menu),
                 onPressed: () {},
               ),
-              Text('Total: ${ NumberFormat.currency(symbol: '¢').format(total)}', 
-                  style: const TextStyle(
-                    color: Colors.white,
-                     fontWeight: FontWeight.bold,
-                     fontSize: 20,
-                     ),),
+               const Text('Total: ', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),),
+                  Text(VariosHelpers.formattedToCurrencyValue(total.toString()), style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),),
     
                ],          
              ),

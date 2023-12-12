@@ -1,9 +1,11 @@
 
+import 'package:flutter/material.dart';
+import 'package:fuelred_mobile/Screens/Admin/ComponentsShared/app_bar_custom.dart';
+import 'package:fuelred_mobile/Screens/manejoCierre/Components/transerencia_card.dart';
 import 'package:fuelred_mobile/constans.dart';
+import 'package:fuelred_mobile/helpers/varios_helpers.dart';
 import 'package:fuelred_mobile/models/all_fact.dart';
 import 'package:fuelred_mobile/models/transparcial.dart';
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../../components/loader_component.dart';
 import '../../helpers/api_helper.dart';
@@ -37,14 +39,27 @@ class _TransferenciasScreenState extends State<TransferenciasScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-           foregroundColor: Colors.white,
+        appBar:  MyCustomAppBar(
+          title: 'Transferencias',
+          elevation: 6,
+          shadowColor: kColorFondoOscuro,
+          automaticallyImplyLeading: true,
+          foreColor: Colors.white,
           backgroundColor: kBlueColorLogo,
-          title: const Text('Transferencias', style: TextStyle(color: Colors.white),),
-         
+          actions: <Widget>[
+            Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ClipOval(child:  Image.asset(
+                  'assets/splash.png',
+                  width: 30,
+                  height: 30,
+                  fit: BoxFit.cover,
+                ),), // Ícono de perfil de usuario
+            ),
+          ],      
         ),
         body:  Container(
-          color: kColorFondoOscuro,
+          color: kContrateFondoOscuro,
           child: Stack(
             children: [ Padding(
             padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10), vertical: getProportionateScreenHeight(10)),
@@ -54,73 +69,8 @@ class _TransferenciasScreenState extends State<TransferenciasScreen> {
               itemBuilder: (context, index)  
               { 
                 
-                return 
-                Card(
-                  color: kContrateFondoOscuro,
-                   shadowColor: kPrimaryColor,
-                    elevation: 8,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 88,
-                        child: AspectRatio(
-                          aspectRatio: 0.80,
-                          child: Container(
-                            padding: EdgeInsets.all(getProportionateScreenWidth(5)),
-                            decoration: const BoxDecoration(
-                              color: kTextColor,
-                               borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(24),
-                                 bottomLeft: Radius.circular(24))
-                            ),
-                            child:  const Image(
-                                        image: AssetImage('assets/tr9.png'),
-                                    ),
-                          ),
-                        ),
-                      ),                         
-                      const SizedBox(width: 20),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                             transfers[index].cliente.toString(),
-                              style: const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
-                              maxLines: 2,
-                            ),
-                         
-                            Text.rich(
-                              TextSpan(
-                                text: 'Aplicado: ¢${NumberFormat("###,000", "en_US").format(transfers[index].aplicado)}',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w700, color: kPrimaryColor),
-                                                          
-                              ),
-                            ),
-                             Text.rich(
-                              TextSpan(
-                                text: 'Deposito #:${transfers[index].numeroDeposito}',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w700, color: kTextColor),
-                                                          
-                              ),
-                            ),
-                             Text.rich(
-                              TextSpan(
-                                text: 'Saldo: ¢${NumberFormat("###,000", "en_US").format(transfers[index].saldo)}',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w700, color: kTextColor),
-                                                          
-                              ),
-                            )                                
-                          ],
-                        ),
-                      )                
-                    ],
-                  ),
-                );
+                return TransferenciaCard(transfer: transfers[index],);
+                
               }        
             ),
           ),
@@ -142,7 +92,8 @@ class _TransferenciasScreenState extends State<TransferenciasScreen> {
                 icon: const Icon(Icons.menu),
                 onPressed: () {},
               ),
-              Text('Total: ¢${NumberFormat("###,000", "en_US").format(total)}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),),
+                const Text('Total: ', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),),
+                  Text(VariosHelpers.formattedToCurrencyValue(total.toString()), style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),),
     
                ],          
              ),

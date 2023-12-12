@@ -59,6 +59,8 @@ class _CartScreenState extends State<CartNew> {
           child:  CustomAppBarCart(
             factura: widget.factura,          
             press: () => goHome(),
+            title: 'Carrito',
+            backgroundColor: kPrimaryColor,
           ),
         ),
         body: Stack(

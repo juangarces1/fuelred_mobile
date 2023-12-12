@@ -20,11 +20,10 @@ class _CardTransferState extends State<CardTransfer> {
     return Padding(
             padding: const EdgeInsets.only(right: 5, left: 5),
             child: Card(
-
-               color:  Colors.white,
-                    shadowColor: const Color.fromARGB(255, 147, 192, 224),
-                    elevation: 7,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)), 
+                color:  Colors.white,
+                shadowColor: const Color.fromARGB(255, 147, 192, 224),
+                elevation: 7,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)), 
               child: InkWell(
                 onTap: () => goDetails1(widget.transfer),
                 child: Container(

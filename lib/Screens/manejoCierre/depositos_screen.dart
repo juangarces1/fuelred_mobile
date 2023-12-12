@@ -1,13 +1,13 @@
 
 
-import 'package:fuelred_mobile/Screens/manejoCierre/entrega_efectivo_screen.dart';
-import 'package:fuelred_mobile/models/all_fact.dart';
-
-import 'package:fuelred_mobile/models/deposito.dart';
-import 'package:fuelred_mobile/sizeconfig.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:intl/intl.dart';
+import 'package:fuelred_mobile/Screens/Admin/ComponentsShared/app_bar_custom.dart';
+import 'package:fuelred_mobile/Screens/manejoCierre/entrega_efectivo_screen.dart';
+import 'package:fuelred_mobile/helpers/varios_helpers.dart';
+import 'package:fuelred_mobile/models/all_fact.dart';
+import 'package:fuelred_mobile/models/deposito.dart';
+import 'package:fuelred_mobile/sizeconfig.dart';
 
 import '../../components/loader_component.dart';
 import '../../constans.dart';
@@ -37,14 +37,27 @@ class _DepositosScreenState extends State<DepositosScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-           foregroundColor: Colors.white,
+        appBar:  MyCustomAppBar(
+          title: 'Depositos',
+          elevation: 6,
+          shadowColor: kColorFondoOscuro,
+          automaticallyImplyLeading: true,
+          foreColor: Colors.white,
           backgroundColor: kBlueColorLogo,
-          title: const Text('Depositos', style: TextStyle(color: Colors.white),),
-         
+          actions: <Widget>[
+            Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ClipOval(child:  Image.asset(
+                  'assets/splash.png',
+                  width: 30,
+                  height: 30,
+                  fit: BoxFit.cover,
+                ),), // Ícono de perfil de usuario
+            ),
+          ],      
         ),
         body:  Container(
-          color: kColorFondoOscuro,
+          color: kContrateFondoOscuro,
           child: Stack(
             children: [ Padding(
             padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10), vertical: getProportionateScreenHeight(10)),
@@ -120,7 +133,7 @@ class _DepositosScreenState extends State<DepositosScreen> {
                                 const SizedBox(height: 10),
                                 Text.rich(
                                   TextSpan(
-                                    text: 'Monto : ¢  ${NumberFormat("###,000", "en_US").format(depositos[index].monto)}',
+                                    text: 'Monto: ${VariosHelpers.formattedToCurrencyValue(depositos[index].monto.toString())}',
                                     style: const TextStyle(
                                         fontWeight: FontWeight.w700, color: kPrimaryColor),
                                                               
@@ -155,12 +168,9 @@ class _DepositosScreenState extends State<DepositosScreen> {
                 icon: const Icon(Icons.menu),
                 onPressed: () {},
               ),
-              Text('Total: ¢${NumberFormat("###,000", "en_US").format(total)}', 
-              style: const TextStyle(color: Colors.white,
-               fontWeight: FontWeight.bold,
-               fontSize: 20
-               ),),
-    
+               const Text('Total: ', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),),
+                  Text(VariosHelpers.formattedToCurrencyValue(total.toString()), style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),),
+                
                ],          
              ),
           ),

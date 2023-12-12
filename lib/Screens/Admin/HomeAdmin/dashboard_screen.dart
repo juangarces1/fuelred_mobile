@@ -3,14 +3,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons_null_safety/flutter_icons_null_safety.dart';
 import 'package:fuelred_mobile/Screens/Admin/Cartera/cartera_screen.dart';
+import 'package:fuelred_mobile/Screens/Admin/Cierres/cierre_sscreen.dart';
 import 'package:fuelred_mobile/Screens/Admin/Depositos/consolidado_deposito_screen.dart';
 import 'package:fuelred_mobile/Screens/Admin/HomeAdmin/Components/animated_list.dart';
 import 'package:fuelred_mobile/Screens/Admin/HomeAdmin/Components/summary_card.dart';
 import 'package:fuelred_mobile/Screens/Admin/Inventario/invent_form_screen.dart';
+import 'package:fuelred_mobile/Screens/Admin/ReumenDia/new_resumen_dia_screen.dart';
 import 'package:fuelred_mobile/Screens/Admin/ReumenDia/resumen_dia_screen.dart';
-import 'package:fuelred_mobile/Screens/Transfers/list_transfers_screen.dart';
+import 'package:fuelred_mobile/Screens/Transfers/new_transfer_screen.dart';
 import 'package:fuelred_mobile/Screens/facturas/info_factura_screen.dart';
 import 'package:fuelred_mobile/Screens/login_screen.dart';
+import 'package:fuelred_mobile/Screens/test_print/print_screen.dart';
 import 'package:fuelred_mobile/clases/show_alert_factura.dart';
 import 'package:fuelred_mobile/components/my_loader.dart';
 import 'package:fuelred_mobile/components/no_contetnt.dart';
@@ -96,35 +99,41 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           color: Colors.blue,
                         ),
                   // ... other SummaryCard widgets ...
-                   const SizedBox(height: 10),
+                   const SizedBox(height: 20),
                  
                    Text(
-                    'Ventas Ultimos 7 dias',
+                    'Ventas Ultimos 30 dias',
                     style: myHeadingStylePrymary,
                   ),
-                    const SizedBox(height: 10),
+                  
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black12,
-                            offset: Offset(0, 2),
-                            blurRadius: 4,
-                          ),
-                        ],
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: kContrateFondoOscuro,
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black12,
+                              offset: Offset(0, 2),
+                              blurRadius: 4,
+                            ),
+                          ],
+                        ),
+                         width: double.infinity, 
+                         height: 400,
+                        padding: const EdgeInsets.all(16),
+                        child: dash != null 
+                          ? SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: SizedBox(
+                                width: 1000, // Define el ancho del gráfico
+                                child: MyLineChart(lista: dash!.dates!, salesData: dash!.salesData!),
+                              ),
+                            )
+                          : const MyNoContent(text: 'No Data'),
                       ),
-                      width: double.infinity,
-                      height: 300,
-                      padding: const EdgeInsets.all(16),
-                      child: dash != null 
-                        ? MyLineChart(salesData: dash!.salesData!)
-                        : const MyNoContent(text: 'No Data'), // Display a message or spinner while salesData is null
                     ),
-                  ),
                   // Add more widgets as needed
                 ],
               ),
@@ -222,15 +231,71 @@ class _DashboardScreenState extends State<DashboardScreen> {
               textColor: kColorMenu,
               leading: const Icon(Icons.money , color: kColorMenu,),
               title: const Text('Depositos'),
-              onTap: () => showDatePickerDialog(context, 'deposito'),
+               onTap: () { 
+                 Navigator.push(
+                   context, 
+                   MaterialPageRoute(
+                     builder: (context) => const  ConsolidadoDepositoScreen()
+                   )
+                 );
+              },
             ),
 
-           ListTile(
+             ListTile(
               textColor: kColorMenu,
-              leading: const Icon(Icons.reset_tv , color: kColorMenu,),
-              title: const Text('Resumen del dia'),
-              onTap: () => showDatePickerDialog(context, 'resumen'),
+              leading: const Icon(Icons.money , color: kColorMenu,),
+              title: const Text('test'),
+               onTap: () { 
+                 Navigator.push(
+                   context, 
+                   MaterialPageRoute(
+                     builder: (context) => const  PrinterScreen()
+                   )
+                 );
+              },
             ),
+
+             ListTile(
+              textColor: kColorMenu,
+              leading: const Icon(Icons.money , color: kColorMenu,),
+              title: const Text('Resumen Dia'),
+               onTap: () { 
+                 Navigator.push(
+                   context, 
+                   MaterialPageRoute(
+                     builder: (context) => const  NewResumenDiaScreen()
+                   )
+                 );
+              },
+            ),
+
+             ListTile(
+              textColor: kColorMenu,
+              leading: const Icon(Icons.list , color: kColorMenu,),
+              title: const Text('Consultar Cierre'),
+               onTap: () { 
+                 Navigator.push(
+                   context, 
+                   MaterialPageRoute(
+                     builder: (context) => const  CierreScreen()
+                   )
+                 );
+              },
+            ),
+
+          //  ListTile(
+          //     textColor: kColorMenu,
+          //     leading: const Icon(Icons.reset_tv , color: kColorMenu,),
+          //     title: const Text('Resumen del dia'),
+          //     onTap: () { 
+          //        Navigator.push(
+          //          context, 
+          //          MaterialPageRoute(
+          //            builder: (context) => const  ConsolidadoDepositoScreen()
+          //          )
+          //        );
+          //     },
+          //   ),
       
            ListTile(
                 textColor: kColorMenu,
@@ -240,7 +305,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                  Navigator.push(
                    context, 
                    MaterialPageRoute(
-                     builder: (context) => const  ListTransferScreen()
+                     builder: (context) => const  NewTransferenciaScreen()
                    )
                  );
               },
@@ -305,7 +370,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     else{
       Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => ConsolidadoDepositoScreen(dia: selectedDate.toString()),
+            builder: (context) => const ConsolidadoDepositoScreen(),
           ),
         );
     }

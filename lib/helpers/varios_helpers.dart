@@ -67,7 +67,20 @@ class VariosHelpers {
       }
   }
 
-  
+  static String formatYYYYmmDDhhMMss(DateTime date) {
+    final DateFormat formatter = DateFormat('yyyy-MM-dd hh:mm:ss');
+    return formatter.format(date);
+  }
+
+   static String formatYYYYmmDDhhMM(DateTime date) {
+    final DateFormat formatter = DateFormat('yyyy-MM-dd hh:mm');
+    return formatter.format(date);
+  }
+
+   static String formatToHour(DateTime date) {
+    final DateFormat formatter = DateFormat('hh:mm:ss');
+    return formatter.format(date);
+  }
 
               
   

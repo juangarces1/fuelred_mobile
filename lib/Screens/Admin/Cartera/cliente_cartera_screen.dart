@@ -7,7 +7,7 @@ import 'package:fuelred_mobile/components/my_loader.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/helpers/api_helper.dart';
 import 'package:fuelred_mobile/models/clientecredito.dart';
-import 'package:fuelred_mobile/models/resdoc_facturas.dart';
+import 'package:fuelred_mobile/models/factura.dart';
 import 'package:fuelred_mobile/models/response.dart';
 import 'package:intl/intl.dart';
 
@@ -20,8 +20,8 @@ class ClienteCarteraScreen extends StatefulWidget {
 }
 
 class _ClienteCarteraScreenState extends State<ClienteCarteraScreen> {
-  List<resdoc_facturas> _facturas = [];
-  List<resdoc_facturas> _backupLits= [];
+  List<Factura> _facturas = [];
+  List<Factura> _backupLits= [];
   bool _showLoader = false;
   bool _isFiltered = false;
   String _search = '';
@@ -341,7 +341,7 @@ class _ClienteCarteraScreenState extends State<ClienteCarteraScreen> {
       return;
     }
 
-    List<resdoc_facturas> filteredList = [];
+    List<Factura> filteredList = [];
     for (var procedure in _facturas) {
       if (procedure.nFactura.toLowerCase().contains(_search.toLowerCase())) {
         filteredList.add(procedure);
@@ -356,7 +356,7 @@ class _ClienteCarteraScreenState extends State<ClienteCarteraScreen> {
     Navigator.of(context).pop();
   }
 
-  _goInfoFactura(resdoc_facturas e) {
+  _goInfoFactura(Factura e) {
      Navigator.push(
         context, 
         MaterialPageRoute(
@@ -367,7 +367,7 @@ class _ClienteCarteraScreenState extends State<ClienteCarteraScreen> {
 
  
   
-  _printFactura(resdoc_facturas e) {
+  _printFactura(Factura e) {
     e.usuario =''; 
     String tipoDocumento = e.isFactura ? 'FACTURA' : 'TICKET';
     e.isDevolucion ? tipoDocumento = 'NOTA DE CREDITO' : tipoDocumento = tipoDocumento;

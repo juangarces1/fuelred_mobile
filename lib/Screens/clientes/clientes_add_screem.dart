@@ -62,8 +62,20 @@ class _ClietesAddScreenState extends State<ClietesAddScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          foregroundColor: Colors.white,
           backgroundColor: kPrimaryColor,
-          title: const Text("Nuevo Cliente", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 24),),
+          title: const Text("Nuevo Cliente", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 22),),
+          actions: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: ClipOval(child:  Image.asset(
+                    'assets/splash.png',
+                    width: 30,
+                    height: 30,
+                    fit: BoxFit.cover,
+                  ),), // Ícono de perfil de usuario
+              ),
+            ],
         ),
         body: _body(),
       ),
@@ -82,7 +94,7 @@ class _ClietesAddScreenState extends State<ClietesAddScreen> {
               child: Column(
                 children: [
                   SizedBox(height: SizeConfig.screenHeight * 0.04), // 4%
-                  Text("Consultar Cliente", style: headingStyle),
+                  Text("Consultar Cliente", style: myHeadingStyleBlack),
                   const Text(
                     "desde la BD de Hacienda.",
                     textAlign: TextAlign.center,
@@ -117,10 +129,10 @@ class _ClietesAddScreenState extends State<ClietesAddScreen> {
          
           SizedBox(height: getProportionateScreenHeight(10)),
          _cliente.nombre.isNotEmpty ? ClientCard(client: _cliente) : Container(),
-          SizedBox(height: getProportionateScreenHeight(20)),
-          _cliente.nombre.isNotEmpty ?  const Text(
-                    "Complete los Siguientes Datos.",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+          SizedBox(height: getProportionateScreenHeight(30)),
+          _cliente.nombre.isNotEmpty ?   Text(
+                    "Complete los Datos",
+                    style: myHeadingStyleBlack,
                     textAlign: TextAlign.center,
                   ):Container(),
         _cliente.nombre.isNotEmpty ?  _showEmail() : Container(),         
@@ -234,18 +246,29 @@ class _ClietesAddScreenState extends State<ClietesAddScreen> {
       _showLoader = false;
     });
 
-    if(!response.isSuccess){     
-      Fluttertoast.showToast(
-            msg: "Error al consultar el cliente, No se encontro el cliente en hacienda",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.CENTER,
-            timeInSecForIosWeb: 4,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0
-          );  
-      return;
-    }      
+     if (!response.isSuccess) {
+        if (mounted) {         
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text('Error'),
+                content:  Text(response.message),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text('Aceptar'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        }        
+        return;
+     }
+
     _cliente= response.result;
    
     setState(() {

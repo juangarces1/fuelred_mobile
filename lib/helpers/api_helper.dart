@@ -1,16 +1,19 @@
 import 'dart:convert';
 
+import 'package:fuelred_mobile/helpers/varios_helpers.dart';
 import 'package:fuelred_mobile/models/ad,min/dash.dart';
 import 'package:fuelred_mobile/models/ad,min/transferfull.dart';
 import 'package:fuelred_mobile/models/all_fact.dart';
 import 'package:fuelred_mobile/models/bank.dart';
 import 'package:fuelred_mobile/models/cashback.dart';
+import 'package:fuelred_mobile/models/cierreactivo.dart';
 import 'package:fuelred_mobile/models/cierredatafono.dart';
 import 'package:fuelred_mobile/models/cliente.dart';
 import 'package:fuelred_mobile/models/clientecredito.dart';
 import 'package:fuelred_mobile/models/datafono.dart';
 import 'package:fuelred_mobile/models/deposito.dart';
 import 'package:fuelred_mobile/models/empleado.dart';
+import 'package:fuelred_mobile/models/factura.dart';
 import 'package:fuelred_mobile/models/money.dart';
 import 'package:fuelred_mobile/models/peddler.dart';
 import 'package:fuelred_mobile/models/product.dart';
@@ -20,15 +23,45 @@ import 'package:fuelred_mobile/models/tranferview.dart';
 import 'package:fuelred_mobile/models/transaccion.dart';
 import 'package:fuelred_mobile/models/transparcial.dart';
 import 'package:fuelred_mobile/models/viatico.dart';
+import 'package:fuelred_mobile/modelsAdmin/Consolidados/cierre_general.dart';
 import 'package:fuelred_mobile/modelsAdmin/Consolidados/resumen_dia.dart';
 import 'package:fuelred_mobile/modelsAdmin/DepostosConsolidado/consolidado_deposito.dart';
 import 'package:fuelred_mobile/modelsAdmin/cuenta_banco.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/resdoc_facturas.dart';
 import 'constans.dart';
 
 class ApiHelper {
+
+ static Future<Response> getCierre(String cierre) async {  
+
+    var url = Uri.parse('${Constans.getAPIUrl()}/api/Caja/$cierre');
+    // try {
+        var response = await http.get(
+          url,
+          headers: {
+            'content-type': 'application/json',
+            'accept': 'application/json',
+          },
+        );
+      
+        // Check for 200 OK response
+        if (response.statusCode == 200) {
+
+          var decodedJson = jsonDecode(response.body);
+          return Response(isSuccess: true, result: CierreCajaGeneral.fromJson(decodedJson));
+        } else if (response.statusCode == 204) {
+          // No content
+          return Response(isSuccess: true, message: '', result: []);
+        } else {
+          // Handle other statuses, maybe something went wrong
+          return Response(isSuccess: false, message: "Error: ${response.body}");
+        }
+      //  } catch (e) {
+      //    // Catch any other errors, like JSON parsing errors
+      //          return Response(isSuccess: false, message: "Exception: ${e.toString()}");
+      //  }
+ } 
 
 static Future<Response> getLogIn(int? zona, int? cedula) async {  
 
@@ -107,7 +140,7 @@ static Future<Response> getLogIn(int? zona, int? cedula) async {
     // Check for 200 OK response
     if (response.statusCode == 200) {
       var decodedJson = jsonDecode(response.body);
-      return Response(isSuccess: true, result: ConsolidadoDeposito.fromJson(decodedJson));
+      return Response(message: 'Ok', isSuccess: true, result: ConsolidadoDeposito.fromJson(decodedJson));
     } else if (response.statusCode == 204) {
       // No content
       return Response(isSuccess: true, message: '', result: []);
@@ -193,7 +226,7 @@ static Future<Response> getClienteCredito(String id) async {
     if (response.statusCode == 200) {
       var decodedJson = jsonDecode(response.body);
      
-      return Response(isSuccess: true, message: 'Ok', result: resdoc_facturas.fromJson(decodedJson));
+      return Response(isSuccess: true, message: 'Ok', result: Factura.fromJson(decodedJson));
     } else if (response.statusCode == 404) {
       
       // No content
@@ -234,6 +267,46 @@ static Future<Response> getClienteCredito(String id) async {
      
      }
      return Response(isSuccess: true, result: clientes);    
+ }
+
+ 
+ static Future<Response> getCierresByDia(DateTime dia) async {      
+   var url = Uri.parse('${Constans.getAPIUrl()}/api/Caja/GetCierreByDia/${VariosHelpers.formatYYYYmmDD(dia)}');
+   
+     
+      try {
+        var response = await http.get(
+          url,
+          headers: {
+            'content-type': 'application/json',
+            'accept': 'application/json',
+          },
+        );
+      
+        // Check for 200 OK response
+        if (response.statusCode == 200) {
+         var body = response.body;
+         List<CierreActivo> cierres =[];
+          var decodedJson = jsonDecode(body);
+          if(decodedJson != null){      
+
+            for (var item in decodedJson){
+              cierres.add(CierreActivo.fromJson(item));
+            }
+          
+     }
+     return Response(isSuccess: true, result: cierres); 
+        } else if (response.statusCode == 204) {
+          // No content
+          return Response(isSuccess: true, message: '', result: []);
+        } else {
+          // Handle other statuses, maybe something went wrong
+          return Response(isSuccess: false, message: "Error: ${response.body}");
+        }
+       } catch (e) {
+         // Catch any other errors, like JSON parsing errors
+               return Response(isSuccess: false, message: "Exception: ${e.toString()}");
+       }   
  }
 
 static Future<Response> getTransacciones(int? zona) async {
@@ -295,11 +368,11 @@ static Future<Response> getTransacciones(int? zona) async {
     if (response.statusCode >= 400) {
       return Response(isSuccess: false, message: body);
     }
-    List<resdoc_facturas> facturas =[];
+    List<Factura> facturas =[];
     var decodedJson = jsonDecode(body);
      if(decodedJson != null){
       for (var item in decodedJson){
-        facturas.add(resdoc_facturas.fromJson(item));
+        facturas.add(Factura.fromJson(item));
       }
      }
 
@@ -326,11 +399,11 @@ static Future<Response> getTransacciones(int? zona) async {
     if (response.statusCode >= 400) {
       return Response(isSuccess: false, message: body);
     }
-    List<resdoc_facturas> facturas =[];
+    List<Factura> facturas =[];
     var decodedJson = jsonDecode(body);
      if(decodedJson != null){
       for (var item in decodedJson){
-        facturas.add(resdoc_facturas.fromJson(item));
+        facturas.add(Factura.fromJson(item));
       }
      }
 
@@ -357,11 +430,11 @@ static Future<Response> getTransacciones(int? zona) async {
     if (response.statusCode >= 400) {
       return Response(isSuccess: false, message: body);
     }
-    List<resdoc_facturas> facturas =[];
+    List<Factura> facturas =[];
     var decodedJson = jsonDecode(body);
      if(decodedJson != null){
       for (var item in decodedJson){
-        facturas.add(resdoc_facturas.fromJson(item));
+        facturas.add(Factura.fromJson(item));
       }
      }
      return Response(isSuccess: true, result: facturas);    

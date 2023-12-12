@@ -1,5 +1,6 @@
 
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fuelred_mobile/Screens/Admin/ComponentsShared/app_bar_custom.dart';
 import 'package:fuelred_mobile/components/default_button.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/models/all_fact.dart';
@@ -48,10 +49,24 @@ class _DatafonoScreenState extends State<DatafonoScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-           foregroundColor: Colors.white,
+        appBar:  MyCustomAppBar(
+           elevation: 6,
+          shadowColor: kColorFondoOscuro,
+          title: 'Nuevo Cierre Datafono',
+          automaticallyImplyLeading: true,
+          foreColor: Colors.white,
           backgroundColor: kPrimaryColor,
-          title: const Text('Nuevo Cierre de Datafono', style: TextStyle(color: Colors.white),),
+          actions: <Widget>[
+            Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ClipOval(child:  Image.asset(
+                  'assets/splash.png',
+                  width: 30,
+                  height: 30,
+                  fit: BoxFit.cover,
+                ),), // Ícono de perfil de usuario
+            ),
+          ],      
         ),
         body: Container(
           color: kContrateFondoOscuro,
@@ -61,7 +76,7 @@ class _DatafonoScreenState extends State<DatafonoScreen> {
                 child: Column(
                   children: <Widget>[
                     SizedBox(height: SizeConfig.screenHeight * 0.04), // 4%
-                    Text("Llene el formulario", style: headingStyle),  
+                    Text("Llene el formulario", style: myHeadingStyleBlack),  
                      SizedBox(height: SizeConfig.screenHeight * 0.04), 
                    _showDatafonos(),
                     SizedBox(height: SizeConfig.screenHeight * 0.04),

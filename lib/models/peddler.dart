@@ -33,6 +33,14 @@ class Peddler {
       this.orden,
       });
 
+    double get total {
+    if (products == null) {
+      return 0.0;
+    }
+    return products!.fold(0.0, (total, p) => total + (p.total));
+  }
+
+
   Peddler.fromJson(Map<String, dynamic> json) {
     id = json['id'];    
     fecha = json['fecha'];

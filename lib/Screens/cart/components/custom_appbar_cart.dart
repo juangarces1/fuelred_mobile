@@ -11,13 +11,15 @@ class CustomAppBarCart extends StatefulWidget {
   
   final AllFact factura;  
   final Function? press;
-
+  final String? title;
+  final Color? backgroundColor;
   // ignore: use_key_in_widget_constructors
   const CustomAppBarCart({  
    
     required this.factura,   
     this.press,
-   
+    this.title,
+    this.backgroundColor,
   });
 
   @override
@@ -33,7 +35,19 @@ class _CustomAppBarCartState extends State<CustomAppBarCart> {
   @override
   Widget build(BuildContext context) {
     return Container(
-       color: Colors.black38,// const Color.fromARGB(255, 144, 144, 145),
+      //add elevation and shadow
+      decoration: BoxDecoration(
+        color: widget.backgroundColor ?? kBlueColorLogo,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: const Offset(0, 3), // changes position of shadow
+          ),
+        ],
+      ),
+     
 
       child: Padding(
         padding:
@@ -62,6 +76,12 @@ class _CustomAppBarCartState extends State<CustomAppBarCart> {
                 ),
               ),
             ),
+                const SizedBox(width: 10),
+              widget.title != null ?  Text(
+              widget.title!,
+              style: mySubHeadingStyleWhite
+              ) : Container(),
+            
             const Spacer(),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),

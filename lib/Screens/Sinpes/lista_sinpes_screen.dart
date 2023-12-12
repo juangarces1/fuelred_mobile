@@ -5,6 +5,7 @@ import 'package:fuelred_mobile/Screens/tickets/ticket_screen.dart';
 import 'package:fuelred_mobile/components/loader_component.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/helpers/api_helper.dart';
+import 'package:fuelred_mobile/helpers/varios_helpers.dart';
 import 'package:fuelred_mobile/models/all_fact.dart';
 import 'package:fuelred_mobile/models/response.dart';
 import 'package:fuelred_mobile/models/sinpe.dart';
@@ -64,10 +65,21 @@ class _ListaSinpesScreenState extends State<ListaSinpesScreen> {
   
   Widget appBar1() {
    return Container(
+    
      padding:
        EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20), vertical: getProportionateScreenHeight(10)),
     width: double.infinity,
-    color: Colors.black,
+   decoration: BoxDecoration(
+      color: kBlueColorLogo,
+     
+      boxShadow: [
+        BoxShadow(
+          offset: const Offset(0, 10),
+          blurRadius: 50,
+          color: const Color(0xFFDADADA).withOpacity(0.15),
+        )
+      ],
+   ),
      child: Row(          
        children: [
          SizedBox(
@@ -96,20 +108,11 @@ class _ListaSinpesScreenState extends State<ListaSinpesScreen> {
          Container(
            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
            decoration: BoxDecoration(
-             color: Colors.black,
+             color: kBlueColorLogo,
              borderRadius: BorderRadius.circular(14),
            ),
-           child:   Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.end,
-             children: [          
-   
-           
-             Text('Saldo: ${NumberFormat("###,000", "en_US").format(widget.factura.formPago!.saldo)}',
-              style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),),
-                             
-             ],
-           ),
+                  child:   Text('Saldo: ${VariosHelpers.formattedToCurrencyValue(widget.factura.formPago!.saldo.toString())}',
+            style: const TextStyle(color: Colors.white, fontSize: 19, fontWeight: FontWeight.bold),),
          )
        ],
      ),
@@ -249,7 +252,7 @@ class _ListaSinpesScreenState extends State<ListaSinpesScreen> {
   
   _listSinpes() {
     return Container(
-          color: kColorFondoOscuro,
+          color: kContrateFondoOscuro,
           child: Padding(
           padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10), vertical: getProportionateScreenHeight(10)),
           child: ListView.builder(

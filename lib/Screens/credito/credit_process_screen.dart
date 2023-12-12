@@ -13,7 +13,7 @@ import 'package:fuelred_mobile/components/loader_component.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/models/all_fact.dart';
 import 'package:fuelred_mobile/models/cliente.dart';
-import 'package:fuelred_mobile/models/resdoc_facturas.dart';
+import 'package:fuelred_mobile/models/factura.dart';
 import 'package:fuelred_mobile/models/sinpe.dart';
 import 'package:fuelred_mobile/models/transferencia.dart';
 import 'package:intl/intl.dart';
@@ -293,7 +293,7 @@ class _ProceeeCreditScreen extends State<ProceeeCreditScreen> {
      }
 
      var decodedJson = jsonDecode(response.result);
-       resdoc_facturas resdocFactura = resdoc_facturas.fromJson(decodedJson);   
+       Factura resdocFactura = Factura.fromJson(decodedJson);   
        resdocFactura.usuario = '${widget.factura.cierreActivo!.usuario.nombre} ${widget.factura.cierreActivo!.usuario.apellido1}';
     
    

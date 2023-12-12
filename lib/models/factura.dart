@@ -2,7 +2,7 @@
 import 'package:fuelred_mobile/models/product.dart';
 
 // ignore: camel_case_types
-class resdoc_facturas {
+class Factura {
   String cliente='';
   String nFactura='';
   String? codigoCliente;
@@ -33,7 +33,8 @@ class resdoc_facturas {
   bool isCredito = false;
   double? saldo; 
   int? diasEnMora;
-  resdoc_facturas(
+  
+  Factura(
   {    
     required this.cliente,
     required this.nFactura,
@@ -78,7 +79,7 @@ class resdoc_facturas {
   
   
 
-  resdoc_facturas.fromJson(Map<String, dynamic> json) {
+  Factura.fromJson(Map<String, dynamic> json) {
     cliente = json['descripCliente'];
     nFactura = json['nFactura'];
     codigoCliente = json['codigoCliente'];

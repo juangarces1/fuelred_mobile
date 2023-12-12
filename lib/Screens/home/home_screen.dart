@@ -85,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
      );
 }
 
-Widget content(context){
+ Widget content(context){
    TextStyle baseStyle = const TextStyle(
       fontStyle: FontStyle.normal, 
       fontSize: 16,
@@ -99,8 +99,16 @@ Widget content(context){
             children: [
               Container(
                 padding: const EdgeInsets.only(left: 20, top: 10, right: 10, bottom: 10),
-                decoration: const BoxDecoration(
-                  gradient: kGradientHome,        
+                decoration:  BoxDecoration(
+                  gradient: kGradientHome, 
+                   boxShadow: [
+                      BoxShadow(
+                        color: const Color.fromARGB(255, 148, 143, 143).withOpacity(0.5),
+                        spreadRadius: 3,
+                        blurRadius: 5,
+                        offset: const Offset(0, 3), // Cambios de posición de la sombra
+                      ),
+                    ],       
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -116,7 +124,29 @@ Widget content(context){
                       ],       
                     ),
                     const Spacer(),
-                    _buildUserIcon(context),
+                   
+                    SizedBox(
+                      height: getProportionateScreenHeight(40),
+                      width: getProportionateScreenWidth(40),
+                      child: TextButton(
+                          style: TextButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(60),
+                            ),
+                          
+                            backgroundColor:  Colors.white,
+                            padding: EdgeInsets.zero,
+                          ),
+                          onPressed:  () => _showNewCliente(context),        
+                                                    
+                          child:  SvgPicture.asset("assets/User Icon.svg",
+                          // ignore: deprecated_member_use
+                          color:  widget.factura.clienteFactura!.nombre == '' 
+                            ? Colors.black
+                              : kPrimaryColor, 
+                          ),
+                        ),
+                    ),
                     const SizedBox(width: 10,),
                     IconBtnWithCounter(
                       svgSrc: "assets/Cart Icon.svg",  
@@ -141,26 +171,6 @@ Widget content(context){
     );
 
 }
-
- Widget _buildUserIcon(BuildContext context) {
-    return InkWell(
-      onTap: () => _showNewCliente(context),
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        height: getProportionateScreenWidth(40),
-        width: getProportionateScreenWidth(40),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.white),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        // ignore: deprecated_member_use
-                  child: SvgPicture.asset("assets/User Icon.svg",
-                  // ignore: deprecated_member_use
-                  color:  widget.factura.clienteFactura!.nombre == '' ? Colors.white : kPrimaryColor, ),
-                  ),
-     
-    );
-  }
 
  Widget aceitesProductos(context){
   return  Column( 
@@ -354,7 +364,7 @@ return Padding(
  Widget _getAdminMenu() {
     return SafeArea(
       child: Drawer(        
-        backgroundColor: const Color(0xff212529),
+        backgroundColor: kColorFondoOscuro,
         child: ListView(
          itemExtent: 50,
           padding: EdgeInsets.zero,
@@ -373,7 +383,18 @@ return Padding(
           ),           
             ListTile(
                 textColor: kColorMenu,
-              leading: const Icon(Icons.arrow_circle_left_outlined, color: kColorMenu,),
+              leading:   Container(
+                width: 35,
+                padding: EdgeInsets.all(getProportionateScreenWidth(4)),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF5F6F9),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child:  const Image(
+                            image: AssetImage('assets/cbs.png'),
+                            fit: BoxFit.contain,
+                        ),
+              ),  
               title: const Text('CashBacks'),
               onTap: () { 
                  Navigator.push(
@@ -387,7 +408,17 @@ return Padding(
 
              ListTile(
                 textColor: kColorMenu,
-              leading: const Icon(Icons.wallet_travel_outlined, color: kColorMenu,),
+              leading:  Container(
+                width: 35,
+                padding: EdgeInsets.all(getProportionateScreenWidth(3)),
+                decoration:  BoxDecoration(
+                  color: kContrateFondoOscuro,
+                    borderRadius: BorderRadius.circular(8),
+                ),
+                child:  const Image(
+                            image: AssetImage('assets/deposito.png'),
+                        ),
+              ),  
               title: const Text('Depositos'),
               onTap: () { 
                  Navigator.push(
@@ -401,7 +432,17 @@ return Padding(
 
              ListTile(
              textColor:kColorMenu,
-              leading: const Icon(Icons.payment_outlined, color:kColorMenu,),
+              leading:  Container(
+                width: 35,
+                padding: EdgeInsets.all(getProportionateScreenWidth(4)),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF5F6F9),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child:  const Image(
+                            image: AssetImage('assets/data.png'),
+                        ),
+              ),     
               title: const Text('Cierre Datafonos'),
               onTap: () { 
                  Navigator.push(
@@ -415,7 +456,17 @@ return Padding(
 
              ListTile(
                 textColor: kColorMenu,
-              leading: const Icon(Icons.wallet_travel_outlined, color:  kColorMenu,),
+                leading:  Container(
+                width: 35,
+                padding: EdgeInsets.all(getProportionateScreenWidth(1)),
+                decoration: BoxDecoration(
+                  color: kContrateFondoOscuro,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child:  const Image(
+                            image: AssetImage('assets/viaticos.png'),
+                        ),
+              ),   
               title: const Text('Viaticos'),
               onTap: () { 
                  Navigator.push(
@@ -429,7 +480,17 @@ return Padding(
 
               ListTile(
                 textColor: kColorMenu,
-              leading: const Icon(Icons.wallet_travel_outlined, color: kColorMenu,),
+                leading: Container(
+                  width: 35,
+                  padding: EdgeInsets.all(getProportionateScreenWidth(2)),
+                  decoration: BoxDecoration(
+                    color: kContrateFondoOscuro,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child:  const Image(
+                              image: AssetImage('assets/peddler.png'),
+                          ),
+                ),   
               title: const Text('Peddlers'),
               onTap: () { 
                  Navigator.push(
@@ -446,7 +507,17 @@ return Padding(
 
            ListTile(
                 textColor: kColorMenu,
-              leading: const Icon(Icons.post_add, color:  kColorMenu,),
+              leading: Container(
+                  width: 35,
+                  padding: EdgeInsets.all(getProportionateScreenWidth(2)),
+                  decoration: BoxDecoration(
+                    color: kContrateFondoOscuro,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child:  const Image(
+                              image: AssetImage('assets/NoTr.png'),
+                          ),
+                ),   
               title: const Text('Transacciones'),
               onTap: () { 
                  Navigator.push(
@@ -460,7 +531,17 @@ return Padding(
 
              ListTile(
                 textColor:kColorMenu,
-              leading: const Icon(Icons.autorenew, color:  kColorMenu,),
+              leading:  Container(
+                  width: 35,
+                  padding: EdgeInsets.all(getProportionateScreenWidth(2)),
+                  decoration: BoxDecoration(
+                    color: kContrateFondoOscuro,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child:  const Image(
+                              image: AssetImage('assets/tr9.png'),
+                          ),
+                ),   
               title: const Text('Transferencias'),
               onTap: () { 
                  Navigator.push(
@@ -474,7 +555,17 @@ return Padding(
 
               ListTile(
               textColor:kColorMenu,
-              leading: const Icon(Icons.arrow_back_ios_new, color:  kColorMenu,),
+              leading: Container(
+                  width: 35,
+                  padding: EdgeInsets.all(getProportionateScreenWidth(4)),
+                  decoration: BoxDecoration(
+                    color: kContrateFondoOscuro,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child:  const Image(
+                              image: AssetImage('assets/sinpe.png'),
+                          ),
+                ),   
               title: const Text('Sinpes'),
               onTap: () { 
                  Navigator.push(
@@ -488,7 +579,17 @@ return Padding(
 
             ListTile(
                  textColor:kColorMenu,
-              leading: const Icon(Icons.list_alt_outlined, color: kColorMenu,),
+              leading: Container(
+                  width: 35,
+                  padding: EdgeInsets.all(getProportionateScreenWidth(2)),
+                  decoration: BoxDecoration(
+                    color: kContrateFondoOscuro,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child:  const Image(
+                              image: AssetImage('assets/factura.png'),
+                          ),
+                ),   
               title: const Text('Facturas Contado'),
               onTap: () { 
                  Navigator.push(
@@ -505,7 +606,17 @@ return Padding(
 
               ListTile(
                   textColor: kColorMenu,
-              leading: const Icon(Icons.list_alt_outlined, color: kColorMenu,),
+              leading:  Container(
+                  width: 35,
+                  padding: EdgeInsets.all(getProportionateScreenWidth(2)),
+                  decoration: BoxDecoration(
+                    color: kContrateFondoOscuro,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child:  const Image(
+                              image: AssetImage('assets/factura.png'),
+                          ),
+                ),   
               title: const Text('Facturas Credito'),
               onTap: () { 
                  Navigator.push(
@@ -521,7 +632,18 @@ return Padding(
 
              ListTile(
                  textColor: kColorMenu,
-              leading: const Icon(Icons.logout, color: kColorMenu,),
+              leading: Container(
+                  width: 35,
+                  padding: EdgeInsets.all(getProportionateScreenWidth(2)),
+                  decoration: BoxDecoration(
+                    color: kContrateFondoOscuro,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child:  const Image(
+                              image: AssetImage('assets/salir.png'),
+                              fit: BoxFit.contain,
+                          ),
+                ),   
               title: const Text('Cerrar Sesión'),
               onTap: () => { 
                  Navigator.pushReplacement(
@@ -608,7 +730,36 @@ return Padding(
   ),
   );
 
-  Future<void> _updateTransactions() async {
+  // Future<void> _updateTransactions() async {
+  //     setState(() {
+  //       _showLoader=true;
+  //     });
+  //     Response rsponseTransacciones = await ApiHelper.getTransaccionesAsProduct(widget.factura.cierreActivo!.cierreFinal.idzona);     
+  //      setState(() {
+  //       _showLoader=false;
+  //     });
+  //     if (rsponseTransacciones.isSuccess){
+  //       backup_transacciones.clear();
+  //       backup_transacciones = rsponseTransacciones.result;
+  //       if (backup_transacciones.isEmpty) return;
+  //       backup_transacciones.sort(((b, a) => a.transaccion.compareTo(b.transaccion)));
+  //      if(backup_transacciones.first.transaccion > widget.factura.lasTr){
+  //        setState(() {
+  //         for (var item in backup_transacciones) {
+  //             if(item.transaccion > widget.factura.lasTr){
+  //               widget.factura.transacciones.add(item);
+  //             }
+  //         }
+           
+  //         widget.factura.lasTr = backup_transacciones.first.transaccion;
+  //         _orderTransactions();
+  //        });         
+  //       }
+  //     } 
+        
+  //   }
+
+     Future<void> _updateTransactions() async {
       setState(() {
         _showLoader=true;
       });
@@ -617,22 +768,13 @@ return Padding(
         _showLoader=false;
       });
       if (rsponseTransacciones.isSuccess){
-        backup_transacciones.clear();
-        backup_transacciones = rsponseTransacciones.result;
-        if (backup_transacciones.isEmpty) return;
-        backup_transacciones.sort(((b, a) => a.transaccion.compareTo(b.transaccion)));
-       if(backup_transacciones.first.transaccion > widget.factura.lasTr){
          setState(() {
-          for (var item in backup_transacciones) {
-              if(item.transaccion > widget.factura.lasTr){
-                widget.factura.transacciones.add(item);
-              }
-          }
-           
-          widget.factura.lasTr = backup_transacciones.first.transaccion;
+          widget.factura.transacciones = rsponseTransacciones.result; 
+          backup_transacciones = rsponseTransacciones.result;
           _orderTransactions();
-         });         
-        }
+          widget.factura.lasTr = backup_transacciones.first.transaccion;
+         
+         });   
       } 
         
     }

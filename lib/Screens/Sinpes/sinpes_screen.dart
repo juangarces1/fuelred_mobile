@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fuelred_mobile/Screens/Admin/ComponentsShared/app_bar_custom.dart';
 import 'package:fuelred_mobile/Screens/Sinpes/add_sinpe_screen.dart';
 import 'package:fuelred_mobile/components/loader_component.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/helpers/api_helper.dart';
+import 'package:fuelred_mobile/helpers/varios_helpers.dart';
 import 'package:fuelred_mobile/models/all_fact.dart';
 import 'package:fuelred_mobile/models/response.dart';
 import 'package:fuelred_mobile/models/sinpe.dart';
@@ -35,15 +37,28 @@ class _SinpesScreenState extends State<SinpesScreen> {
     return SafeArea(
       child: Scaffold(
     
-        appBar: AppBar(
-           foregroundColor: Colors.white,
+        appBar: MyCustomAppBar(
+          title: 'Sinpes',
+          elevation: 6,
+          shadowColor: kColorFondoOscuro,
+          automaticallyImplyLeading: true,
+          foreColor: Colors.white,
           backgroundColor: kBlueColorLogo,
-          title: const Text('Sinpes', style: TextStyle(color: Colors.white),),
-          
+          actions: <Widget>[
+            Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ClipOval(child:  Image.asset(
+                  'assets/splash.png',
+                  width: 30,
+                  height: 30,
+                  fit: BoxFit.cover,
+                ),), // Ícono de perfil de usuario
+            ),
+          ],      
         ),
         body: showLoader ? const LoaderComponent(text: 'Cargando...',) : 
         Container(
-          color: kColorFondoOscuro,
+          color: kContrateFondoOscuro,
           child: Padding(
           padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10), vertical: getProportionateScreenHeight(10)),
           child: ListView.builder(
@@ -67,7 +82,7 @@ class _SinpesScreenState extends State<SinpesScreen> {
                  
                   },
                   background: Container(              
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     decoration: BoxDecoration(
                       color: const Color(0xFFFFE6E6),
                       borderRadius: BorderRadius.circular(15),
@@ -105,23 +120,23 @@ class _SinpesScreenState extends State<SinpesScreen> {
                           children: [
                              Text(
                               sinpes[index].activo == 1 ? 'Estado: Aplicado' : 'Estado: Disponible',
-                              style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w700),
+                              style: const TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w700),
                               maxLines:1,
                             ),
                             Text(
                               'Fecha: ${DateFormat('dd/MM/yyyy').format(sinpes[index].fecha)}',
-                              style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w700),
+                              style: const TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w700),
                               maxLines:1,
                             ),
                             Text(
                               'Pistero: ${sinpes[index].nombreEmpleado}',
-                              style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w700),
+                              style: const TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w700),
                               maxLines:1,
                             ),
                          
                             Text.rich(
                               TextSpan(
-                                text: 'Monto : ¢  ${NumberFormat("###,000", "en_US").format(sinpes[index].monto)}',
+                                  text: 'Monto: ${VariosHelpers.formattedToCurrencyValue(sinpes[index].monto.toString())}',
                                 style: const TextStyle(
                                     fontWeight: FontWeight.w700, color: kPrimaryColor),
                                                           
@@ -129,7 +144,7 @@ class _SinpesScreenState extends State<SinpesScreen> {
                             ),
                                Text(
                               'Nota: ${sinpes[index].nota}',
-                              style: const TextStyle(color: Colors.black, fontSize: 16),
+                              style: const TextStyle(color: Colors.black, fontSize: 14),
                               maxLines: 3,
                             ),
                           ],
@@ -160,12 +175,9 @@ class _SinpesScreenState extends State<SinpesScreen> {
                 icon: const Icon(Icons.menu),
                 onPressed: () {},
               ),
-              Text('Total: ${ NumberFormat.currency(symbol: '¢').format(total)}', 
-                  style: const TextStyle(
-                    color: Colors.white,
-                     fontWeight: FontWeight.bold,
-                     fontSize: 20,
-                     ),),
+                 const Text('Total: ', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),),
+                  Text(VariosHelpers.formattedToCurrencyValue(total.toString()), style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),),
+    
     
                ],          
              ),

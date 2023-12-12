@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/helpers/varios_helpers.dart';
-import 'package:fuelred_mobile/sizeconfig.dart';
 
 class SummaryCard extends StatelessWidget {
   final String title;
@@ -26,22 +24,15 @@ class SummaryCard extends StatelessWidget {
         leading: Padding(
           padding: const EdgeInsets.all(2.0),
           child: AspectRatio(
-                  aspectRatio: 1.02,
-                  child: Container(
-                    padding: EdgeInsets.all(getProportionateScreenWidth(3)),
-                    decoration: BoxDecoration(
-                      color: kTextColor,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Image(
-                          image: title =='Inv Super' ?  const AssetImage('assets/super.png') : 
-                                title =='Inv Regular' ? const AssetImage('assets/regular.png') : 
-                                title =='Inv Exonerado' ? const AssetImage('assets/exonerado.png') :
-                                const AssetImage('assets/diesel.png'),
-                                fit: BoxFit.cover,
-                      ),
-                  ),
-                ),
+            aspectRatio: 1.02,
+            child: Image(
+              image: title =='Inv Super' ?  const AssetImage('assets/super.png') : 
+                    title =='Inv Regular' ? const AssetImage('assets/regular.png') : 
+                    title =='Inv Exonerado' ? const AssetImage('assets/exonerado.png') :
+                    const AssetImage('assets/diesel.png'),
+                    fit: BoxFit.cover,
+              ),
+          ),
         ),
         title: Text(
           title,

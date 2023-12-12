@@ -1,17 +1,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fuelred_mobile/Screens/Admin/ComponentsShared/app_bar_custom.dart';
+import 'package:fuelred_mobile/Screens/facturas/Components/factura_card.dart';
 import 'package:fuelred_mobile/Screens/facturas/detale_factura_screen.dart';
-import 'package:fuelred_mobile/clases/impresion.dart';
+import 'package:fuelred_mobile/Screens/test_print/testprint.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/helpers/api_helper.dart';
+import 'package:fuelred_mobile/helpers/varios_helpers.dart';
 import 'package:fuelred_mobile/models/all_fact.dart';
+import 'package:fuelred_mobile/models/factura.dart';
 import 'package:fuelred_mobile/models/product.dart';
-import 'package:intl/intl.dart';
 
-import '../../components/appbarbottom.dart';
 import '../../components/loader_component.dart';
-import '../../models/resdoc_facturas.dart';
 import '../../models/response.dart';
 
 class FacturasScreen extends StatefulWidget {
@@ -30,14 +31,14 @@ class FacturasScreen extends StatefulWidget {
 }
 
 class _FacturasScreenState extends State<FacturasScreen> {
-  List<resdoc_facturas> _facturas = [];
+  List<Factura> _facturas = [];
+  List<Factura> _backupFacturas = [];
   bool _showLoader = false;
   bool _isFiltered = false;
   String _search = '';
   double _saldo = 0;  
-  final bool _showNotch = true;
-  final FloatingActionButtonLocation _fabLocation = FloatingActionButtonLocation.endDocked;
-  
+   TestPrint testPrint = TestPrint();
+
 
   @override
    void initState() {
@@ -50,10 +51,12 @@ class _FacturasScreenState extends State<FacturasScreen> {
   Widget build(BuildContext context) {
      return SafeArea(
        child: Scaffold(
-        appBar: AppBar(
-           foregroundColor: Colors.white,
+        
+        appBar: MyCustomAppBar(
+          title: 'Facturas ${widget.tipo}',
+          automaticallyImplyLeading: true,
+          foreColor: Colors.white,
           backgroundColor: kBlueColorLogo,
-          title:  Text('Facturas ${widget.tipo}', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
           actions: <Widget>[
             _isFiltered
             ?  IconButton(
@@ -67,7 +70,7 @@ class _FacturasScreenState extends State<FacturasScreen> {
           ],      
         ),
         body: Container(
-          color: const Color.fromARGB(255, 70, 72, 77),
+          color: kContrateFondoOscuro,
           child: Center(
             child: _showLoader ? const LoaderComponent(text: 'Por favor espere...') : Padding(
               padding: const EdgeInsets.all(8.0),
@@ -78,11 +81,18 @@ class _FacturasScreenState extends State<FacturasScreen> {
      
          
        
-        bottomNavigationBar: DemoBottomAppBar(
-            fabLocation: _fabLocation,
-            shape: _showNotch ? const CircularNotchedRectangle() : null, 
-            total: _saldo,
-          ),    
+        bottomNavigationBar: Container(
+             height: 60,
+             color: kBlueColorLogo,
+             child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+              
+                
+                const Text('Total: ', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),),
+                  Text(VariosHelpers.formattedToCurrencyValue(_saldo.toString()), style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),),
+             ]), 
+        ),
          ),
      );
   }
@@ -131,6 +141,7 @@ class _FacturasScreenState extends State<FacturasScreen> {
    
     setState(() {
       _facturas = response.result;
+      _backupFacturas = _facturas;
       
     });  
     double aux=0;
@@ -144,6 +155,7 @@ class _FacturasScreenState extends State<FacturasScreen> {
       _saldo = aux;      
     }); 
   }
+
 
    Widget _getContent() {
     return _facturas.isEmpty 
@@ -170,172 +182,27 @@ class _FacturasScreenState extends State<FacturasScreen> {
    }
 
   _getListView() {
-      return RefreshIndicator(
+     return RefreshIndicator(
       onRefresh: _getFacturas,
       child: ListView.builder(
-       
-      
-         scrollDirection: Axis.vertical,      
-       
-          itemCount: _facturas.length,
-          itemBuilder:  (context, index) => buildCard(index)
-         
-          
+        scrollDirection: Axis.vertical,
+        itemCount: _facturas.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FacturaCard(
+              factura: _facturas[index],
+              index: index,
+              onInfoPressed: () => _goInfoFactura(_facturas[index]),
+              onPrintPressed: () => _printFactura(_facturas[index]),
+              onConfirmPressed: () => _showConfirm(_facturas[index]),
+            ),
+          );
+        },
       ),
     );
   }
-
-  Widget buildCard(int index){
-    return Card(              
-        shadowColor: const Color.fromARGB(255, 0, 2, 3),
-        elevation: 8,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        child: Container(
-        
-          padding:  const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 204, 202, 219),
-            borderRadius: BorderRadius.circular(20), 
-          
-          ),
-          child: Column(
-            children: [                                     
-            Container(
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-
-                          _facturas[index].isFactura ?  const Text(
-                            'Factura Electrónica', 
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: kPrimaryColor,
-                            ),
-                          ) 
-                          
-                          : _facturas[index].isTicket ?  const Text(
-                            'Ticket Electrónico', 
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: kPrimaryColor,
-                            ),
-                          ) :
-                          _facturas[index].isDevolucion ?  const Text(
-                            'Nota de Credito', 
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: kPrimaryColor,
-                            ),
-                          ) 
-                          
-                          : const SizedBox(height: 0,),
-                      
-                        _facturas[index].isTicket == false ?   Text(
-                           _facturas[index].cliente, 
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: kBlueColorLogo,
-                            ),
-                          ) : const SizedBox(height: 0,),
-                          const SizedBox(height: 5,),
-                          Text(
-                            'Numero: ${_facturas[index].nFactura}', 
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color:kTextColorBlack,
-                            ),
-                          ),
-                          const SizedBox(height: 5,),
-                          Text(
-                            'Fecha: ${_facturas[index].fechaHoraTrans}', 
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color:kTextColorBlack,
-                            ),
-                          ),
-                        
-                          const SizedBox(height: 5,),
-                          Text(
-                            'Productos: ${_facturas[index].detalles.length}', 
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color:kTextColorBlack,
-                            ),
-                          ),
-                          const SizedBox(height: 5,),
-                          Text(
-                            'Total: ${NumberFormat.currency(symbol: '¢').format(_facturas[index].totalFactura)}', 
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: kPrimaryColor,
-                            ),
-                          ),
-                          const SizedBox(height: 5,),
-                          Container(
-                            margin: const EdgeInsets.only(left: 10, right: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[                                       
-                                
-                              MaterialButton( 
-                                onPressed: () => _goInfoFactura(_facturas[index]),                                    
-                                color: kBlueColorLogo,
-                                padding: const EdgeInsets.all(5),
-                                shape: const CircleBorder(),
-                                child:    const Icon( 
-                                  Icons.list_outlined,
-                                  size: 20,
-                                  color: Colors.white,),
-                                ),
-                              MaterialButton( 
-                                onPressed: () => _printFactura(_facturas[index]),                                    
-                                color: Colors.blueGrey,
-                                padding: const EdgeInsets.all(5),
-                                shape: const CircleBorder(),
-                                child:    const Icon( 
-                                  Icons.print_outlined,
-                                  size: 20,
-                                  color: Colors.white,),
-                                ),
-                                  MaterialButton( 
-                                onPressed: () => _showConfirm(_facturas[index]),                                    
-                                color: kPrimaryColor,
-                                padding: const EdgeInsets.all(5),
-                                shape: const CircleBorder(),
-                                child:    const Icon( 
-                                  Icons.arrow_back,
-                                  size: 20,
-                                  color: Colors.white,),
-                                ),                                   
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),                    
-          ],
-        ),
-        ),
-    );
-  }
-  
+    
   void _showFilter() {
     showDialog(
       context: context, 
@@ -353,7 +220,7 @@ class _FacturasScreenState extends State<FacturasScreen> {
               TextField(
                 autofocus: true,
                 decoration: const InputDecoration(
-                  hintText: 'Criterio de búsqueda...',
+                  hintText: 'Numero Factura',
                   labelText: 'Buscar',
                   suffixIcon: Icon(Icons.search)
                 ),
@@ -377,7 +244,7 @@ class _FacturasScreenState extends State<FacturasScreen> {
       });
   }
 
-  void _showConfirm(resdoc_facturas fact) async {
+  void _showConfirm(Factura fact) async {
    
     final confirmed = await showDialog(
       context: context,
@@ -405,8 +272,9 @@ class _FacturasScreenState extends State<FacturasScreen> {
   void _removeFilter() {
     setState(() {
       _isFiltered = false;
+      _facturas = _backupFacturas;
     });
-    _getFacturas();
+    
   }
 
   void _filter() {
@@ -414,7 +282,7 @@ class _FacturasScreenState extends State<FacturasScreen> {
       return;
     }
 
-    List<resdoc_facturas> filteredList = [];
+    List<Factura> filteredList = [];
     for (var procedure in _facturas) {
       if (procedure.nFactura.toLowerCase().contains(_search.toLowerCase())) {
         filteredList.add(procedure);
@@ -429,7 +297,7 @@ class _FacturasScreenState extends State<FacturasScreen> {
     Navigator.of(context).pop();
   }
 
-  _goInfoFactura(resdoc_facturas e) {
+  _goInfoFactura(Factura e) {
      Navigator.push(
         context, 
         MaterialPageRoute(
@@ -438,7 +306,7 @@ class _FacturasScreenState extends State<FacturasScreen> {
       );
   }
 
-  Future<void> _goDevolucion(resdoc_facturas fact) async {    
+  Future<void> _goDevolucion(Factura fact) async {    
    
     if(fact.isDevolucion){       
         if (mounted) {         
@@ -555,7 +423,7 @@ class _FacturasScreenState extends State<FacturasScreen> {
 
   }
   
-  _printFactura(resdoc_facturas e) {
+  _printFactura(Factura e) {
     e.usuario ='${widget.factura.cierreActivo!.usuario.nombre} ${widget.factura.cierreActivo!.usuario.apellido1}'; 
     String tipoDocumento = e.isFactura ? 'FACTURA' : 'TICKET';
     e.isDevolucion ? tipoDocumento = 'NOTA DE CREDITO' : tipoDocumento = tipoDocumento;
@@ -569,7 +437,8 @@ class _FacturasScreenState extends State<FacturasScreen> {
     //     tipoCliente: tipoPago,
     //   )),
     // );
+      testPrint.ptrintFactura(e, tipoDocumento , tipoPago);
 
-   Impresion.printFactura(e, tipoDocumento , tipoPago);
+    // Impresion.printFactura(e, tipoDocumento , tipoPago);
   }
 }

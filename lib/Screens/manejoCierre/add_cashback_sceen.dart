@@ -1,5 +1,6 @@
 
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fuelred_mobile/Screens/Admin/ComponentsShared/app_bar_custom.dart';
 import 'package:fuelred_mobile/components/default_button.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/models/all_fact.dart';
@@ -46,10 +47,24 @@ class _CashbackScreenState extends State<CashbackScreen> {
     return SafeArea(
       child: Scaffold(     
     
-        appBar: AppBar(
-           foregroundColor: Colors.white,
+        appBar:  MyCustomAppBar(
+           elevation: 6,
+          shadowColor: kColorFondoOscuro,
+          title: 'Nuevo Cashback',
+          automaticallyImplyLeading: true,
+          foreColor: Colors.white,
           backgroundColor: kPrimaryColor,
-          title: const Text('Nuevo Cashback', style: TextStyle(color: Colors.white),),
+          actions: <Widget>[
+            Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ClipOval(child:  Image.asset(
+                  'assets/splash.png',
+                  width: 30,
+                  height: 30,
+                  fit: BoxFit.cover,
+                ),), // Ícono de perfil de usuario
+            ),
+          ],      
         ),
         body: Container(
           color: kContrateFondoOscuro,
@@ -59,7 +74,7 @@ class _CashbackScreenState extends State<CashbackScreen> {
                 child: Column(
                   children: <Widget>[
                     SizedBox(height: SizeConfig.screenHeight * 0.04), // 4%
-                    Text("Llene el formulario", style: headingStyle),  
+                    Text("Llene el formulario", style: myHeadingStyleBlack),  
                      SizedBox(height: SizeConfig.screenHeight * 0.04), 
                    _showBanks(),
                     SizedBox(height: SizeConfig.screenHeight * 0.04),

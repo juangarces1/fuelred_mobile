@@ -43,6 +43,27 @@ final myHeadingStylePrymary = TextStyle(
   height: 1.5,
 );
 
+final mySubHeadingStyleWhite = TextStyle(
+  fontSize: getProportionateScreenWidth(20),
+  fontWeight: FontWeight.bold,
+  color: Colors.white,
+  height: 1.5,
+);
+
+final mySubHeadingStyleBlacb = TextStyle(
+  fontSize: getProportionateScreenWidth(18),
+  fontWeight: FontWeight.bold,
+  color: Colors.black,
+  height: 1.5,
+);
+
+final myEnfasisBlack = TextStyle(
+  fontSize: getProportionateScreenWidth(16),
+  fontWeight: FontWeight.bold,
+  color: Colors.black,
+  height: 1.5,
+);
+
 final headingStyle = TextStyle(
   fontSize: getProportionateScreenWidth(28),
   fontWeight: FontWeight.bold,

@@ -1,13 +1,13 @@
 
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:fuelred_mobile/Screens/Admin/ComponentsShared/app_bar_custom.dart';
 import 'package:fuelred_mobile/Screens/manejoCierre/add_viatico_screen.dart';
 import 'package:fuelred_mobile/components/loader_component.dart';
 import 'package:fuelred_mobile/constans.dart';
-
+import 'package:fuelred_mobile/helpers/varios_helpers.dart';
 import 'package:fuelred_mobile/models/all_fact.dart';
 import 'package:fuelred_mobile/models/viatico.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:intl/intl.dart';
 
 import '../../helpers/api_helper.dart';
 import '../../models/response.dart';
@@ -38,14 +38,27 @@ class _ViaticosScreenState extends State<ViaticosScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-           foregroundColor: Colors.white,
+        appBar: MyCustomAppBar(
+          title: 'Viaticos',
+          elevation: 6,
+          shadowColor: kColorFondoOscuro,
+          automaticallyImplyLeading: true,
+          foreColor: Colors.white,
           backgroundColor: kBlueColorLogo,
-          title: const Text('Viaticos', style: TextStyle(color: Colors.white),),
-          
+          actions: <Widget>[
+            Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ClipOval(child:  Image.asset(
+                  'assets/splash.png',
+                  width: 30,
+                  height: 30,
+                  fit: BoxFit.cover,
+                ),), // Ícono de perfil de usuario
+            ),
+          ],      
         ),
         body: showLoader ? const LoaderComponent(text: 'Cargando...',) : Container(
-          color: kColorFondoOscuro,
+          color: kContrateFondoOscuro,
           child: Padding(
           padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10), vertical:  getProportionateScreenHeight(10)),
           child: ListView.builder(
@@ -124,7 +137,7 @@ class _ViaticosScreenState extends State<ViaticosScreen> {
                             const SizedBox(height: 10),
                             Text.rich(
                               TextSpan(
-                                text: 'Monto : ¢  ${NumberFormat("###,###", "en_US").format(viaticos[index].monto)}',
+                                text: 'Monto: ${VariosHelpers.formattedToCurrencyValue(viaticos[index].monto.toString())}',
                                 style: const TextStyle(
                                     fontWeight: FontWeight.w600, color: kPrimaryColor),
                                                           
@@ -157,7 +170,8 @@ class _ViaticosScreenState extends State<ViaticosScreen> {
                 icon: const Icon(Icons.menu),
                 onPressed: () {},
               ),
-              Text('Total: ¢${NumberFormat("###,###", "en_US").format(total)}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),),
+               const Text('Total: ', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),),
+                  Text(VariosHelpers.formattedToCurrencyValue(total.toString()), style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),),
     
                ],          
              ),

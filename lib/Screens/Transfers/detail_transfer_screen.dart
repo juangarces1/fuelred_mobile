@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fuelred_mobile/Screens/Admin/ComponentsShared/app_bar_custom.dart';
 import 'package:fuelred_mobile/Screens/Transfers/ciompoents/card_detail_transfer.dart';
 import 'package:fuelred_mobile/Screens/Transfers/ciompoents/card_transfer.dart';
 import 'package:fuelred_mobile/constans.dart';
@@ -11,15 +12,24 @@ class DetailTransferScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 70, 72, 77),
-        appBar: AppBar(
-          foregroundColor: kPrimaryColor,
-          title: const Text('Detalle de transferencia', style:  TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: kPrimaryColor
-                ),),
-        ),
+        backgroundColor: kContrateFondoOscuro,
+        appBar:  MyCustomAppBar(
+        title: 'Cartera San Gerardo',
+        automaticallyImplyLeading: true,   
+        backgroundColor: kPrimaryColor,
+        elevation: 8.0,
+        shadowColor: const Color.fromARGB(255, 207, 214, 218),
+        foreColor: Colors.white,
+         actions: [ Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ClipOval(child:  Image.asset(
+                  'assets/splash.png',
+                  width: 30,
+                  height: 30,
+                  fit: BoxFit.cover,
+                ),), // Ícono de perfil de usuario
+            ),],
+      ),
         body: Column(
           children: <Widget>[
            Expanded(
@@ -29,16 +39,12 @@ class DetailTransferScreen extends StatelessWidget {
                 child: CardTransfer(transfer: transfer, showDetail: false,),
               ),
             ),
-             const Padding(
-              padding: EdgeInsets.all(8.0),
+              Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Align(
                 alignment: Alignment.center,
                 child: Text('Movimientos de la transferencia',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    )),
+                    style: myHeadingStyleBlack),
               ),
             ),
             Expanded(

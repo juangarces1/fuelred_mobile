@@ -1,14 +1,14 @@
 
-import 'package:fuelred_mobile/constans.dart';
 import 'package:flutter/material.dart';
+import 'package:fuelred_mobile/constans.dart';
+import 'package:fuelred_mobile/models/factura.dart';
 import 'package:intl/intl.dart';
 
 import '../../components/loader_component.dart';
-import '../../models/resdoc_facturas.dart';
 import '../cart/components/cart_card.dart';
 
 class DetalleFacturaScreen extends StatefulWidget {
-   final resdoc_facturas factura;
+   final Factura factura;
  
    // ignore: use_key_in_widget_constructors
    const DetalleFacturaScreen({required this.factura});

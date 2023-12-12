@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fuelred_mobile/Screens/clientes/clientes_screen.dart';
+import 'package:fuelred_mobile/Screens/clientes/cliestes_new_screen.dart';
 import 'package:fuelred_mobile/clases/show_alert_cliente.dart';
 import 'package:fuelred_mobile/constans.dart';
 import 'package:fuelred_mobile/models/all_fact.dart';
@@ -91,7 +91,7 @@ void _showNewCliente(context) async {
     Navigator.push(context,  
       MaterialPageRoute(
         builder: 
-        (context) => ClientesScreen(factura: widget.factura,ruta: widget.ruta,)
+        (context) => ClientesNewScreen(factura: widget.factura,ruta: widget.ruta,)
       )
     );
   }

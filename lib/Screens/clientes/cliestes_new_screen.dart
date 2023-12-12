@@ -30,15 +30,14 @@ class ClientesNewScreenState extends State<ClientesNewScreen> with SingleTickerP
   
   String _searchNombre = '';
   String _searchDocument = '';
-  bool _isFiltered = false;
+  bool _isFiltered = false; 
  
- 
-    TextStyle baseStyle = const TextStyle(
-      fontStyle: FontStyle.normal, 
-      fontSize: 20,
-      fontWeight: FontWeight.bold, 
-      color: Colors.white
-    );
+  TextStyle baseStyle = const TextStyle(
+    fontStyle: FontStyle.normal, 
+    fontSize: 20,
+    fontWeight: FontWeight.bold, 
+    color: Colors.white
+  );
 
   @override
   void initState() {
@@ -136,7 +135,7 @@ class ClientesNewScreenState extends State<ClientesNewScreen> with SingleTickerP
     );
   } 
  
-Widget _buildFilterTab() {
+  Widget _buildFilterTab() {
   return SizedBox(
     width: double.infinity, // Ocupa todo el ancho disponible
     child: Padding(
@@ -288,7 +287,7 @@ Widget _buildFilterTab() {
        
           scrollDirection: Axis.vertical,                  
           itemCount: _filterUsers.length,
-          separatorBuilder: (context, _) => const SizedBox(height: 5,),
+          separatorBuilder: (context, _) => const SizedBox(height: 8,),
           itemBuilder: (context, indice) => cardCLiente(_filterUsers[indice]),
           
       );
@@ -363,7 +362,7 @@ Widget _buildFilterTab() {
   
  }
 
-   Widget cardCLiente(Cliente e) {
+  Widget cardCLiente(Cliente e) {
     return  Card(
               color: kContrateFondoOscuro,
                shadowColor: kPrimaryColor,
@@ -387,25 +386,26 @@ Widget _buildFilterTab() {
                                   Text(
                                     e.nombre, 
                                     style: const TextStyle(
-                                      fontSize: 20,
+                                      fontSize: 19,
                                       fontWeight: FontWeight.bold,
                                        color: kTextColorBlack,
                                     ),
+                                    textAlign: TextAlign.center,
                                   ),
-                                  const SizedBox(height: 5,),
+                                 
                                   Text(
                                     e.email, 
                                     style: const TextStyle(
-                                      fontSize: 14,
+                                      fontSize: 15,
                                        fontWeight: FontWeight.bold,
                                        color: kColorFondoOscuro,
                                     ),
                                   ),
-                                  const SizedBox(height: 5,),
+                                 
                                   Text(
                                     e.documento, 
                                     style: const TextStyle(
-                                      fontSize: 14,
+                                      fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                        color: kColorFondoOscuro,
                                     ),

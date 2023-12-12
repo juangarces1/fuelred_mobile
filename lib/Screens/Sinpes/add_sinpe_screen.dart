@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fuelred_mobile/Screens/Admin/ComponentsShared/app_bar_custom.dart';
 import 'package:fuelred_mobile/components/custom_surfix_icon.dart';
 import 'package:fuelred_mobile/components/default_button.dart';
 import 'package:fuelred_mobile/components/loader_component.dart';
@@ -42,10 +43,24 @@ class _AddSinpeScreenState extends State<AddSinpeScreen> {
     return SafeArea(
       child: Scaffold(     
     
-        appBar: AppBar(
-           foregroundColor: Colors.white,
+        appBar:  MyCustomAppBar(
+           elevation: 6,
+          shadowColor: kColorFondoOscuro,
+          title: 'Nuevo Sinpe',
+          automaticallyImplyLeading: true,
+          foreColor: Colors.white,
           backgroundColor: kPrimaryColor,
-          title: const Text('Nuevo Sinpe', style: TextStyle(color: Colors.white),),
+          actions: <Widget>[
+            Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ClipOval(child:  Image.asset(
+                  'assets/splash.png',
+                  width: 30,
+                  height: 30,
+                  fit: BoxFit.cover,
+                ),), // Ícono de perfil de usuario
+            ),
+          ],      
         ),
         body: Container(
           color: kContrateFondoOscuro,
@@ -75,7 +90,7 @@ class _AddSinpeScreenState extends State<AddSinpeScreen> {
       child: Column(
         children: [
            SizedBox(height: getProportionateScreenHeight(10)),
-          Text("Complete los Datos", style: headingStyle),
+          Text("Complete los Datos", style: myHeadingStyleBlack),
           showNumComprabante(),
           SizedBox(height: getProportionateScreenHeight(10)),
           showMonto(),

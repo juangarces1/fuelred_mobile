@@ -66,23 +66,18 @@ class _CarteraScreenState extends State<CarteraScreen> {
           ),
         ), 
 
-        bottomNavigationBar: BottomAppBar(
-      
-          
-         child: Container(
-              height: 50,
-              color: const Color.fromARGB(255, 17, 52, 85),
-              child: Center(
-                child: Text('Total: ${NumberFormat.currency(symbol: '¢').format(total)}', 
-                    style: const TextStyle(
-                      color:kPrimaryText,
-                       fontWeight: FontWeight.bold,
-                       fontSize: 20,
-                       ),),
-              ),
-            ),
-        
-         ), 
+        bottomNavigationBar: Container(
+             height: 50,
+             color: kBlueColorLogo,
+             child: Center(
+               child: Text('Total: ${NumberFormat.currency(symbol: '¢').format(total)}', 
+                   style: const TextStyle(
+                     color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      ),),
+             ),
+           ), 
     ),
     );
   }

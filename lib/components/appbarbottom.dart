@@ -1,6 +1,6 @@
-import 'package:fuelred_mobile/constans.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:fuelred_mobile/constans.dart';
+import 'package:fuelred_mobile/helpers/varios_helpers.dart';
 
 class DemoBottomAppBar extends StatelessWidget {
   // ignore: use_key_in_widget_constructors
@@ -26,32 +26,37 @@ class DemoBottomAppBar extends StatelessWidget {
        color: kBlueColorLogo,
       child: IconTheme(
         data: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
-        child: Row(
-          children: <Widget>[
-            IconButton(
-              tooltip: 'Open navigation menu',
-              icon: const Icon(Icons.menu),
-              onPressed: () {},
-            ),
-            if (centerLocations.contains(fabLocation)) const Spacer(),
-            const Text(
-              'Total: ', 
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                fontSize: 18
-              ),              
-            ),
-            Text(
-               NumberFormat.currency(symbol: '¢').format(total), 
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                fontSize: 18
+        child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+          child: Row(
+            children: <Widget>[
+              IconButton(
+                tooltip: 'Open navigation menu',
+                icon: const Icon(Icons.menu),
+                
+                onPressed: () {},
               ),
-              
-            )
-          ],
+              if (centerLocations.contains(fabLocation)) const Spacer(),
+              const Text(
+                'Total: ', 
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: 18
+                ),              
+              ),
+              Text(
+                 
+                  VariosHelpers.formattedToCurrencyValue(total.toString()), 
+                   style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: 18
+                ),
+                
+              )
+            ],
+          ),
         ),
       ),
     );

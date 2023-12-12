@@ -4,30 +4,40 @@
  import 'package:fuelred_mobile/modelsAdmin/SalesModels/sales_data.dart';
  class MyLineChart extends StatefulWidget {
    final SalesData salesData;
-   const MyLineChart({super.key, required this.salesData});
+   final List<String> lista;
+   const MyLineChart({super.key, required this.salesData, required this.lista});
    @override
    State<MyLineChart> createState() => _MyLineChartState();
  }
  class _MyLineChartState extends State<MyLineChart> {
+   
 
    @override
    Widget build(BuildContext context) {
      return LineChart(
        LineChartData(
-         gridData: const FlGridData(show: true),
+         gridData: const FlGridData(show: true,),
          titlesData:  FlTitlesData(
            // Configuración de títulos para los ejes
-           leftTitles: const AxisTitles(
-             sideTitles: SideTitles(showTitles: true),
+           leftTitles:  AxisTitles(
+             sideTitles: SideTitles(
+              showTitles: true,
+                getTitlesWidget: (value, meta) {
+                  int rounded = (value / 1000).ceil(); 
+                  return Text('${rounded}k',  style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold));                },
+                reservedSize: 30,
+                
+              ),
            ),
            bottomTitles: AxisTitles(
              sideTitles: SideTitles(
                showTitles: true,
-               getTitlesWidget: (value, meta) {
-            
-                 return Text(' ${value.toInt()}');
+               getTitlesWidget: (value, meta) {            
+              //   return const Text('28/12');
+                   return Text(widget.lista[value.toInt()-1], style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold));                 
                },
-               reservedSize: 30,
+               reservedSize: 20,
+               interval:1,
              ),
              ),
            ),
@@ -39,7 +49,7 @@
                },
                handleBuiltInTouches: true,
              ),
-         borderData: FlBorderData(show: true, border:  Border.all(color: Colors.blueAccent, width: 2)),
+         borderData: FlBorderData(show: true, border:  Border.all(color:Colors.black, width: 1)),
          lineBarsData: [
            // Datos para el Producto 1
            LineChartBarData(

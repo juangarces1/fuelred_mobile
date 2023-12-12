@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fuelred_mobile/Screens/Admin/ComponentsShared/app_bar_custom.dart';
 import 'package:fuelred_mobile/Screens/credito/select_cliente_credito.dart';
 import 'package:fuelred_mobile/Screens/manejoCierre/viaticos_screen.dart';
 import 'package:fuelred_mobile/components/default_button.dart';
@@ -49,11 +50,25 @@ class _AddViaticoScreenState extends State<AddViaticoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-         foregroundColor: Colors.white,
-        backgroundColor: kPrimaryColor,
-        title: const Text('Nuevo Viatico', style: TextStyle(color: Colors.white),),
-      ),
+      appBar:  MyCustomAppBar(
+           elevation: 6,
+          shadowColor: kColorFondoOscuro,
+          title: 'Nuevo Viatico',
+          automaticallyImplyLeading: true,
+          foreColor: Colors.white,
+          backgroundColor: kPrimaryColor,
+          actions: <Widget>[
+            Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ClipOval(child:  Image.asset(
+                  'assets/splash.png',
+                  width: 30,
+                  height: 30,
+                  fit: BoxFit.cover,
+                ),), // Ícono de perfil de usuario
+            ),
+          ],      
+        ),
       body: Container(
         color: kContrateFondoOscuro,
         child: Stack(
@@ -62,12 +77,17 @@ class _AddViaticoScreenState extends State<AddViaticoScreen> {
               child: Column(
                 children: <Widget>[
               
-                   SizedBox(height: SizeConfig.screenHeight * 0.04), 
-                 SelectClienteCredito(
-                  factura: widget.factura, 
-                  ruta: 'Viatico',
-                  padding: const EdgeInsets.only(left: 30 , right: 30),
-                   ),
+                   SizedBox(height: SizeConfig.screenHeight * 0.04), // 4%
+                    Text("Llene el formulario", style: myHeadingStyleBlack),  
+                     SizedBox(height: SizeConfig.screenHeight * 0.04),  
+                 Padding(
+                   padding: const EdgeInsets.only(right: 20 ),
+                   child: SelectClienteCredito(
+                    factura: widget.factura, 
+                    ruta: 'Viatico',
+                    padding: const EdgeInsets.only(left: 30 , right: 30),
+                     ),
+                 ),
                       SizedBox(height: SizeConfig.screenHeight * 0.04), 
                  showPlaca(),
                   SizedBox(height: SizeConfig.screenHeight * 0.04),

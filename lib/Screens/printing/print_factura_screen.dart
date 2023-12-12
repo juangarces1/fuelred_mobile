@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:fuelred_mobile/models/resdoc_facturas.dart';
+import 'package:fuelred_mobile/models/factura.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -16,7 +16,7 @@ class PrintFacturaScreen extends StatefulWidget {
      
   }) : super(key: key);
 
-  final resdoc_facturas factura;
+  final Factura factura;
   final String tipoDocumento;
   final String tipoCliente;
 

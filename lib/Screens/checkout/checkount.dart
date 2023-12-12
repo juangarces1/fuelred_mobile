@@ -6,7 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fuelred_mobile/Screens/cart/cart_new.dart';
 import 'package:fuelred_mobile/Screens/home/home_screen.dart';
-import 'package:fuelred_mobile/clases/impresion.dart';
+import 'package:fuelred_mobile/Screens/test_print/testprint.dart';
 import 'package:fuelred_mobile/components/boton_flotante.dart';
 import 'package:fuelred_mobile/components/client_points.dart';
 import 'package:fuelred_mobile/components/form_pago.dart';
@@ -14,8 +14,8 @@ import 'package:fuelred_mobile/components/loader_component.dart';
 import 'package:fuelred_mobile/components/show_client.dart';
 import 'package:fuelred_mobile/helpers/factura_helper.dart';
 import 'package:fuelred_mobile/models/all_fact.dart';
+import 'package:fuelred_mobile/models/factura.dart';
 import 'package:fuelred_mobile/models/product.dart';
-import 'package:fuelred_mobile/models/resdoc_facturas.dart';
 import 'package:intl/intl.dart';
 
 import '../../components/default_button.dart';
@@ -46,6 +46,7 @@ class _CheaOutScreenState extends State<CheaOutScreen> {
   double _saldo = 0;
   final GlobalKey<FormPagoState> formPagoKey = GlobalKey();
   final ScrollController _scrollController = ScrollController();
+  TestPrint testPrint = TestPrint();
  
   void callGoRefresh() {
     formPagoKey.currentState?.goRefresh();
@@ -239,12 +240,17 @@ class _CheaOutScreenState extends State<CheaOutScreen> {
                   ),
                 ),
               ),
-              const SizedBox(width: 10,),
-               const Text('Facturar', style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: kPrimaryColor,
-              ),),
+              const SizedBox(width: 10,),            
+              const Text.rich(
+                TextSpan(
+                  text: "Contado",
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: kPrimaryColor,
+                  ),
+                ),
+              ),
               const Spacer(),
               Container(
                
@@ -302,7 +308,11 @@ class _CheaOutScreenState extends State<CheaOutScreen> {
     setState(() {
       _showLoader = true;
     });    
-  
+      // int i=1;
+      // for (var elemnt in widget.factura.cart!.products){
+      //     elemnt.numero =i;
+      //     i++;
+      // }
       
       Map<String, dynamic> request = 
       {
@@ -324,13 +334,13 @@ class _CheaOutScreenState extends State<CheaOutScreen> {
         'saldo' : widget.factura.formPago!.saldo,
         'clientePaid' : widget.factura.formPago!.clientePaid.toJson(),
         'Transferencia' : widget.factura.formPago!.transfer.toJson(), 
-        'kms': kms.text.isEmpty ? '0' : kms.text,
-       
+        'kms': kms.text.isEmpty ? '0' : kms.text,       
         'placa': placa.text.isEmpty ? '' : placa.text,  
         'sinpe': widget.factura.formPago!.sinpe.toJson(),
-         'observaciones' : obser.text.isEmpty ? '' : obser.text,
+        'observaciones' : obser.text.isEmpty ? '' : obser.text,
       };
-      Response response = await ApiHelper.post("Api/Facturacion/PostLinqFactura", request);  
+      print(request);
+      Response response = await ApiHelper.post("Api/Facturacion/PostFactura", request);  
       // ignore: avoid_print
      print(response.message);
       setState(() {
@@ -400,7 +410,7 @@ class _CheaOutScreenState extends State<CheaOutScreen> {
      });
       
       var decodedJson = jsonDecode(response.result);
-      resdoc_facturas resdocFactura = resdoc_facturas.fromJson(decodedJson);   
+      Factura resdocFactura = Factura.fromJson(decodedJson);   
       resdocFactura.usuario = '${widget.factura.cierreActivo!.usuario.nombre} ${widget.factura.cierreActivo!.usuario.apellido1}';
        
       resetFactura(widget.factura);
@@ -417,7 +427,7 @@ class _CheaOutScreenState extends State<CheaOutScreen> {
                     child: const Text('Si'),
                     onPressed: () {
                       Navigator.of(context).pop();
-                      Impresion.printFactura(resdocFactura,'FACTURA','CONTADO');
+                      testPrint.ptrintFactura(resdocFactura,'FACTURA','CONTADO');
                       _goHomeSuccess();
                     },
                   ),
